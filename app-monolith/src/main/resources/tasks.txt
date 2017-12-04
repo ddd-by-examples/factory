@@ -1,0 +1,37 @@
+
+Rest:
+1) crud for json document
+2) query calculated
+2') query for pre-calculated projection
+3) naive REST aggregate commands
+4) command based rest
+5) application domain
+
+6) Eventual consistency
+   Read your own writes (E-tag, Expect, Retry-After)
+
+
+Aggregate Persistence:
+1) optimistic force increment
+2) normalisation of aggregate entities (Daily Demand)
+3) mapper (Daily Demand)
+4) wrapper (Product Demand)
+5) event sourcing (Product Demand)
+
+http://pillopl.github.io/eventual-consistency-and-rest/
+https://github.com/pilloPl/orders-manager
+http://groovy-lang.org/json.html
+
+
+
+
+
+vattenfall:
+
+why status is active when card is EXPIRED?
+rfid: 04938C9AF74D80, point: EVB-P1552169 2 (EVB-P1552169_2) EXPIRED Revoked(authId=04938C9AF74D80, status=ACTIVE)
+
+exceptions:
+null pointer
+more results for query single card
+
