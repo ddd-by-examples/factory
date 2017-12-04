@@ -5,9 +5,9 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.annotation.Commit
 import pl.com.bottega.factory.demand.forecasting.persistence.DemandDao
 import pl.com.bottega.factory.demand.forecasting.persistence.ProductDemandDao
-import spock.lang.PendingFeature
 import spock.lang.Specification
 
+import javax.persistence.EntityManager
 import javax.transaction.Transactional
 import java.time.Clock
 import java.time.Instant
@@ -22,6 +22,8 @@ class DemandRepositoryTest extends Specification {
     def clock = Clock.fixed(Instant.now(), ZoneId.systemDefault())
     def events = Mock(DemandEventsMapping)
     @Autowired
+    EntityManager em
+    @Autowired
     ProductDemandDao rootDao
     @Autowired
     DemandDao demandDao
@@ -33,10 +35,9 @@ class DemandRepositoryTest extends Specification {
     def setup() {
         demandDao.deleteAllInBatch()
         rootDao.deleteAllInBatch()
-        repository = new DemandRepository(clock, events, rootDao, demandDao)
+        repository = new DemandRepository(clock, events, em, rootDao, demandDao)
     }
 
-    @PendingFeature
     def "persists new demand"() {
         given:
         rootDao.save(new ProductDemandEntity("3009000"))
@@ -52,7 +53,6 @@ class DemandRepositoryTest extends Specification {
         demandDao.findAll().size() == 1
     }
 
-    @PendingFeature
     def "updates existing demand"() {
         given:
         def root = rootDao.save(new ProductDemandEntity("3009000"))
@@ -73,7 +73,6 @@ class DemandRepositoryTest extends Specification {
         demand.every { it.getAdjustmentLevel() == 2000 }
     }
 
-    @PendingFeature
     def "doesn't fetch historical data"() {
         given:
         def root = rootDao.save(new ProductDemandEntity("3009000"))
