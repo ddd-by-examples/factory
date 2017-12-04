@@ -1,0 +1,13 @@
+version: "2"
+
+volumes:
+  data:
+    driver: local
+
+services:
+  db:
+    build: ./database/
+    volumes:
+      - data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"

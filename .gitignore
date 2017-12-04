@@ -1,0 +1,88 @@
+
+## maven
+target/
+target-test/
+
+
+## linux
+.*
+!.git*
+*~
+
+
+## windows
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+# Folder config file
+Desktop.ini
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+
+## osx
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+# Thumbnails
+._*
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+
+## eclipse
+*.pydevproject
+.project
+.metadata
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.classpath
+.settings/
+.loadpath
+# External tool builders
+.externalToolBuilders/
+# Locally stored "Eclipse launch configurations"
+*.launch
+# CDT-specific
+.cproject
+# PDT-specific
+.buildpath
+
+
+## intelij
+*.iml
+*.ipr
+*.iws
+.idea/
+
+
+## netbeans
+nbactions.xml
+nb-configuration.xml
+
+
+## emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+.elc
+auto-save-list
+tramp
+.\#*
+# Org-mode
+.org-id-locations
+*_archive
+
+
+## vim
+.*.s[a-w][a-z]
+*.un~
+Session.vim
+.netrwhist
+*~

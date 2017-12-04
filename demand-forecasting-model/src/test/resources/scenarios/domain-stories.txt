@@ -1,0 +1,81 @@
+
+Production plan schedule new production on line, using form, at time for duration. 
+        >> productionPlan.scheduleNewProduction(line, form, time, duration) 
+        Only if form will be available at the time for whole duration, production may by planned. 
+        Production includes retooling time, parts output of used form and utilization of human resources 
+        on that production stage. 
+        If production on given line overlaps with other: preceding must shrink,
+        succeeding one must start later. 
+        If consecutive productions use same from, retooling time between is zero. [not mentioned prev.]
+           Production forecasts (parts output * production duration) changes new and changed productions.
+           Overall utilization of human resources increases. 
+        Shortage may arise if insufficient production was planned.
+
+
+Production plan adjust production to time and duration.
+         >> productionPlan.adjust(production, time, duration) 
+        If production on given line overlaps with other: preceding must shrink, 
+        succeeding one must start later. 
+        If consecutive productions use same from, retooling time between is zero. 
+        Production forecasts (parts output * production duration) changes for changed productions. 
+        Overall utilization of human resources may change. 
+        Shortage may arise if insufficient production was planned.
+
+
+Daily processing of callof document:
+        >> callofProcess.process(document) 
+        for all products included in callof document 
+        New demand are stored for further reference 
+        If new demand is not fulfilled by product stock and production forecast
+        there is a shortage in particular days and we need to rise an alert. 
+        planner should be notified in that case,
+        if there are locked parts on stock,
+        QA task for recovering them should have high priority.
+
+
+Adjust demand at day to amount, delivered.
+        >> demand.require(productRefNo, atDay, amount) 
+        New demand is stored for further reference 
+        If new demand is not fulfilled by 
+        current product stock and production forecast 
+        there is a shortage in particular days and we need to rise an alert. 
+        planner should be notified,   if there are locked parts on stock, 
+        QA task for recovering them should have high priority.
+
+          ADDED:  We can change only Demands for today and future. 
+        Data from callof document should be preserved in database (DON’T OVERRIDE THEM).
+         Should be possible to adjust demand even
+        if there was no callof document for that product.
+          Logistician note should be kept along with adjustment.
+
+
+Lock all parts from storage unit on stock.
+         >> stock.lock(storageUnit) 
+        parts from storage unit are locked on stock
+        If locking parts can lead to insufficient stock for next deliveries,
+        parts recovery should have high priority. 
+        If there is a potential shortage in particular days,
+        we need to rise an soft notification to planner.
+
+
+Unlock storage unit, recover X parts, Y parts was scrapped.
+         >> stock.unlock(storageUnit, recovered, scrapped) 
+        Recovered parts are back on stock. 
+        Scrapped parts are removed from stock. 
+        If demand is not fulfilled by current product stock and production forecast
+        there is a shortage in particular days and we need to rise an alert.
+
+
+Register newly produced parts on stock. 
+        >> stock.registerNew(storageUnit) 
+        new parts are available on stock. 
+        If output from production is smaller than planned 
+        it may lead to shortage in next days.
+
+
+Remove delivered parts from stock.
+         >> stock.delivered(deliveryNote)
+           If parts delivered during day exceed registered customer demand, 
+        demand for next day will be probably corrected with upcoming callof document,
+        but in rare cases it may be caused by not registered additional delivery 
+        (lack of manual adjustments of demand in system).
