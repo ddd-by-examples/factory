@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import javax.persistence.AttributeConverter;
 import java.io.IOException;
@@ -17,7 +18,8 @@ public abstract class JsonConverter<T> implements AttributeConverter<T, String> 
             .setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY)
             .setVisibility(PropertyAccessor.CREATOR, JsonAutoDetect.Visibility.ANY)
             .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-            .enable(SerializationFeature.WRITE_DATES_WITH_ZONE_ID);
+            .enable(SerializationFeature.WRITE_DATES_WITH_ZONE_ID)
+            .registerModule(new JavaTimeModule());
 
     private final Class<T> type;
 

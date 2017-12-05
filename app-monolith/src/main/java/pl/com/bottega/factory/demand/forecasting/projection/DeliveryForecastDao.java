@@ -9,4 +9,6 @@ import java.time.LocalDate;
 public interface DeliveryForecastDao extends JpaRepository<DeliveryForecastEntity, Long> {
 
     void deleteByRefNoAndDate(String refNo, LocalDate date);
+
+    void deleteByRefNo(String refNo);
 }
