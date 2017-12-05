@@ -1,14 +1,12 @@
 package pl.com.bottega.factory.demand.forecasting.projection;
 
-import java.time.Instant;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
 import java.time.LocalDate;
-import java.util.List;
 
-public interface DeliveryForecastDao {
+@Repository
+public interface DeliveryForecastDao extends JpaRepository<DeliveryForecastEntity, Long> {
 
-    void save(DeliveryForecastEntity entity);
-
-    List<DeliveryForecastEntity> findRefNoFrom(String refNo, Instant instant, int daysAhead);
-
-    void delete(String refNo, LocalDate date);
+    void deleteByRefNoAndDate(String refNo, LocalDate date);
 }

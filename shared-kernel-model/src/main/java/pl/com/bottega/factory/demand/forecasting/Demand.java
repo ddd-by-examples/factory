@@ -8,7 +8,7 @@ public class Demand {
     Schema schema;
 
     public enum Schema {
-        AtDayStart, Every3hours, TillDayEnd
+        AtDayStart, Every3hours, TillDayEnd, Twice
     }
 
     public static Demand nothingDemanded() {
