@@ -50,7 +50,7 @@ public class Shortages {
         private final LocalDateTime found;
         private final SortedMap<LocalDateTime, Long> gaps = new TreeMap<>();
 
-        public Builder add(LocalDateTime time, long level) {
+        public Builder missing(LocalDateTime time, long level) {
             gaps.put(time, Math.abs(level));
             return this;
         }

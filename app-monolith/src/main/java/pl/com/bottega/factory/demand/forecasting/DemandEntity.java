@@ -8,6 +8,7 @@ import pl.com.bottega.tools.TechnicalId;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Data
 @Entity(name = "Demand")
@@ -41,19 +42,17 @@ public class DemandEntity {
         this.date = date;
     }
 
-    static Demand getDemand(DemandEntity entity) {
-        return entity == null || entity.level == null
-                ? null
-                : Demand.of(entity.level, entity.schema);
+    Demand getDemand() {
+        return Demand.ofNullable(level, schema);
     }
 
-    static Adjustment getAdjustment(DemandEntity entity) {
-        return entity == null || entity.adjustmentLevel == null
-                ? null
-                : new Adjustment(
-                Demand.of(entity.adjustmentLevel, entity.adjustmentSchema),
-                entity.adjustmentStrong
-        );
+    Adjustment getAdjustment() {
+        return Optional.ofNullable(adjustmentLevel)
+                .map(level -> new Adjustment(
+                        Demand.of(level, adjustmentSchema),
+                        adjustmentStrong
+                ))
+                .orElse(null);
     }
 
     void setDemand(Demand demand) {

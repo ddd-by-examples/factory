@@ -129,7 +129,7 @@ class NotificationOfShortageSpec extends Specification {
             Duration firstShortageIn = Duration.ofDays(4),
             long lockedStock = 0) {
         Shortages.builder(refNo, lockedStock, now)
-                .add(now.plus(firstShortageIn), 500L)
+                .missing(now.plus(firstShortageIn), 500L)
                 .build().get()
     }
 }

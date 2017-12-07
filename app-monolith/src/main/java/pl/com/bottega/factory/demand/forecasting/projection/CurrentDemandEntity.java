@@ -1,15 +1,13 @@
 package pl.com.bottega.factory.demand.forecasting.projection;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import pl.com.bottega.factory.demand.forecasting.Demand;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
-@Data
 @Entity(name = "CurrentDemand")
+@Getter
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class CurrentDemandEntity {
@@ -25,7 +23,7 @@ public class CurrentDemandEntity {
     @Column
     private Demand.Schema schema;
 
-    public CurrentDemandEntity(String refNo, LocalDate date, long level, Demand.Schema schema) {
+    CurrentDemandEntity(String refNo, LocalDate date, long level, Demand.Schema schema) {
         this.refNo = refNo;
         this.date = date;
         this.level = level;

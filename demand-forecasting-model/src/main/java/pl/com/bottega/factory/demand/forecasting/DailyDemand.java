@@ -1,7 +1,7 @@
 package pl.com.bottega.factory.demand.forecasting;
 
-import pl.com.bottega.factory.demand.forecasting.DemandEvents.DemandedLevelsChanged.Change;
 import lombok.Value;
+import pl.com.bottega.factory.demand.forecasting.DemandEvents.DemandedLevelsChanged.Change;
 
 import java.util.Objects;
 import java.util.Optional;

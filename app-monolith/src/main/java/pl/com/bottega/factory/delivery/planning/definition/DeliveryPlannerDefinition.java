@@ -1,6 +1,9 @@
-package pl.com.bottega.factory.delivery.planning;
+package pl.com.bottega.factory.delivery.planning.definition;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Singular;
 import pl.com.bottega.factory.demand.forecasting.Demand;
 
 import java.time.LocalTime;
@@ -9,21 +12,22 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
 @Builder
+@AllArgsConstructor
 @EqualsAndHashCode
 public class DeliveryPlannerDefinition {
     @Singular
-    Map<Demand.Schema, Map<LocalTime, Double>> definitions;
+    private final Map<Demand.Schema, Map<LocalTime, Double>> definitions;
 
     public static Map<LocalTime, Double> of(LocalTime time, Double fraction) {
         return Collections.singletonMap(time, fraction);
     }
 
     public <T> Map<Demand.Schema, T> map(Function<Map<LocalTime, Double>, T> timesAndFractions) {
-        return definitions.entrySet().stream().collect(Collectors.toMap(
-                Map.Entry::getKey,
-                e -> timesAndFractions.apply(e.getValue())
-        ));
+        return definitions.entrySet().stream()
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        e -> timesAndFractions.apply(e.getValue())
+                ));
     }
 }

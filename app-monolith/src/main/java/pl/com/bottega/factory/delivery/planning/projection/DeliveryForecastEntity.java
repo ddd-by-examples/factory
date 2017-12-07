@@ -1,15 +1,16 @@
-package pl.com.bottega.factory.demand.forecasting.projection;
+package pl.com.bottega.factory.delivery.planning.projection;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Data
 @Entity(name = "DeliveryForecast")
+@Getter
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class DeliveryForecastEntity {
@@ -25,7 +26,7 @@ public class DeliveryForecastEntity {
     @Column
     private long level;
 
-    public DeliveryForecastEntity(String refNo, LocalDateTime time, long level) {
+    DeliveryForecastEntity(String refNo, LocalDateTime time, long level) {
         this.refNo = refNo;
         this.date = time.toLocalDate();
         this.time = time;

@@ -1,4 +1,4 @@
-package pl.com.bottega.factory.delivery.planning;
+package pl.com.bottega.factory.delivery.planning.definition;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

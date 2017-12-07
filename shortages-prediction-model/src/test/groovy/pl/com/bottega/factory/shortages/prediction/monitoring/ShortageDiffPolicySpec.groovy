@@ -19,11 +19,11 @@ class ShortageDiffPolicySpec extends Specification {
         def policy = ShortageDiffPolicy.ValuesAreEquals
 
         Shortages one = Shortages.builder("3009000", 0, now)
-                .add(now + 1.day, 500L)
+                .missing(now + 1.day, 500L)
                 .build().orElse(null)
 
         Shortages another = Shortages.builder("3009000", 0, now + 5.min)
-                .add(now + 1.day, 500L)
+                .missing(now + 1.day, 500L)
                 .build().orElse(null)
 
         expect:
@@ -35,11 +35,11 @@ class ShortageDiffPolicySpec extends Specification {
         def policy = ShortageDiffPolicy.ValuesAreEquals
 
         Shortages one = Shortages.builder("3009000", 0, now)
-                .add(now + 1.day, 500L)
+                .missing(now + 1.day, 500L)
                 .build().orElse(null)
 
         Shortages another = Shortages.builder("3009000", 1000, now)
-                .add(now + 1.day, 500L)
+                .missing(now + 1.day, 500L)
                 .build().orElse(null)
 
         expect:
@@ -51,11 +51,11 @@ class ShortageDiffPolicySpec extends Specification {
         def policy = ShortageDiffPolicy.ValuesAreEquals
 
         Shortages one = Shortages.builder("3009000XXX", 0, now)
-                .add(now + 1.day, 500L)
+                .missing(now + 1.day, 500L)
                 .build().orElse(null)
 
         Shortages another = Shortages.builder("3009000", 0, now)
-                .add(now + 1.day, 500L)
+                .missing(now + 1.day, 500L)
                 .build().orElse(null)
 
         expect:
@@ -67,11 +67,11 @@ class ShortageDiffPolicySpec extends Specification {
         def policy = ShortageDiffPolicy.ValuesAreEquals
 
         Shortages one = Shortages.builder("3009000", 0, now)
-                .add(now + 1.day, 500L)
+                .missing(now + 1.day, 500L)
                 .build().orElse(null)
 
         Shortages another = Shortages.builder("3009000", 0, now)
-                .add(now + 1.day, 1500L)
+                .missing(now + 1.day, 1500L)
                 .build().orElse(null)
 
         expect:
@@ -83,11 +83,11 @@ class ShortageDiffPolicySpec extends Specification {
         def policy = ShortageDiffPolicy.ValuesAreEquals
 
         Shortages one = Shortages.builder("3009000", 0, now)
-                .add(now + 1.day, 500L)
+                .missing(now + 1.day, 500L)
                 .build().orElse(null)
 
         Shortages another = Shortages.builder("3009000", 0, now)
-                .add(now + 1.day, 499L)
+                .missing(now + 1.day, 499L)
                 .build().orElse(null)
 
         expect:
@@ -99,11 +99,11 @@ class ShortageDiffPolicySpec extends Specification {
         def policy = ShortageDiffPolicy.ValuesAreEquals
 
         Shortages one = Shortages.builder("3009000", 0, now)
-                .add(now + 1.day, 500L)
+                .missing(now + 1.day, 500L)
                 .build().orElse(null)
 
         Shortages another = Shortages.builder("3009000", 0, now)
-                .add(now + 2.day, 500L)
+                .missing(now + 2.day, 500L)
                 .build().orElse(null)
 
         expect:
@@ -115,11 +115,11 @@ class ShortageDiffPolicySpec extends Specification {
         def policy = ShortageDiffPolicy.ValuesAreEquals
 
         Shortages one = Shortages.builder("3009000", 0, now)
-                .add(now + 1.day, 500L)
+                .missing(now + 1.day, 500L)
                 .build().orElse(null)
 
         Shortages another = Shortages.builder("3009000", 0, now)
-                .add(now + 1.day + 1.min, 500L)
+                .missing(now + 1.day + 1.min, 500L)
                 .build().orElse(null)
 
         expect:

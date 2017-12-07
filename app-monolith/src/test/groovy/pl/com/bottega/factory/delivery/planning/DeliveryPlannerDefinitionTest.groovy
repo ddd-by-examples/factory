@@ -2,10 +2,13 @@ package pl.com.bottega.factory.delivery.planning
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import pl.com.bottega.factory.delivery.planning.definition.DeliveryPlannerDefinition
+import pl.com.bottega.factory.delivery.planning.definition.DeliveryPlannerDefinitionDao
+import pl.com.bottega.factory.delivery.planning.definition.DeliveryPlannerDefinitionEntity
 import spock.lang.Specification
 
 import static java.time.LocalTime.of as time
-import static pl.com.bottega.factory.delivery.planning.DeliveryPlannerDefinition.of
+import static pl.com.bottega.factory.delivery.planning.definition.DeliveryPlannerDefinition.of
 import static pl.com.bottega.factory.demand.forecasting.Demand.Schema.*
 
 @SpringBootTest

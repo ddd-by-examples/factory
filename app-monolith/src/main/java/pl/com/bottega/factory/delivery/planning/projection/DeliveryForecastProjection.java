@@ -1,4 +1,4 @@
-package pl.com.bottega.factory.demand.forecasting.projection;
+package pl.com.bottega.factory.delivery.planning.projection;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -6,6 +6,8 @@ import pl.com.bottega.factory.delivery.planning.DeliveryAutoPlanner;
 import pl.com.bottega.factory.delivery.planning.DeliveryAutoPlannerRepository;
 import pl.com.bottega.factory.demand.forecasting.Demand;
 import pl.com.bottega.factory.demand.forecasting.DemandEvents;
+import pl.com.bottega.factory.demand.forecasting.projection.CurrentDemandDao;
+import pl.com.bottega.factory.demand.forecasting.projection.CurrentDemandEntity;
 
 import java.time.Clock;
 import java.time.LocalDate;
@@ -22,13 +24,12 @@ public class DeliveryForecastProjection implements DemandEvents {
 
     @Override
     public void emit(DemandedLevelsChanged event) {
+        DeliveryAutoPlanner planner = planners.get(event.getId().getRefNo());
         event.getResults().keySet()
                 .forEach(daily -> forecastDao.deleteByRefNoAndDate(
                         daily.getRefNo(),
                         daily.getDate())
                 );
-
-        DeliveryAutoPlanner planner = planners.get(event.getId().getRefNo());
         event.getResults().entrySet().stream()
                 .flatMap(entry -> planner.propose(
                         entry.getKey().getDate(),
@@ -43,9 +44,9 @@ public class DeliveryForecastProjection implements DemandEvents {
     }
 
     public void handleDeliveryPlannerDefinitionChange(String refNo) {
-        forecastDao.deleteByRefNo(refNo);
         List<CurrentDemandEntity> demands = demandDao.findByRefNoAndDateGreaterThanEqual(refNo, LocalDate.now(clock));
         DeliveryAutoPlanner planner = planners.get(refNo);
+        forecastDao.deleteByRefNo(refNo);
         demands.stream()
                 .flatMap(entry -> planner.propose(
                         entry.getDate(),

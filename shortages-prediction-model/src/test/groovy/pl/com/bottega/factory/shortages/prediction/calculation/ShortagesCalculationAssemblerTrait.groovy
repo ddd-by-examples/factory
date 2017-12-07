@@ -59,7 +59,7 @@ trait ShortagesCalculationAssemblerTrait {
     Optional<Shortages> shortage(Map<LocalDateTime, Long> missing, long locked = 0) {
         def shortages = Shortages.builder(refNo, locked, now)
 
-        missing.each { time, level -> shortages.add(time, level) }
+        missing.each { time, level -> shortages.missing(time, level) }
 
         shortages.build()
     }

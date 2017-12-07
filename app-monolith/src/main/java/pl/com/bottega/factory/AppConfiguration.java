@@ -5,6 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
+import pl.com.bottega.factory.shortages.prediction.calculation.CurrentStock;
+import pl.com.bottega.factory.warehouse.WarehouseService;
 
 import java.time.Clock;
 
@@ -16,6 +18,12 @@ public class AppConfiguration {
 
     public static void main(String[] args) {
         SpringApplication.run(AppConfiguration.class, args);
+    }
+
+    @Bean
+    public WarehouseService warehouseService() {
+        // mocked facade for external service
+        return refNo -> new CurrentStock(0, 0);
     }
 
     @Bean

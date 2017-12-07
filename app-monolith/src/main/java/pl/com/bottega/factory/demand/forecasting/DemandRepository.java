@@ -53,8 +53,8 @@ class DemandRepository {
                 .map(entity -> new DailyDemand(
                         entity.createId(),
                         demands,
-                        DemandEntity.getDemand(entity),
-                        DemandEntity.getAdjustment(entity)))
+                        entity.getDemand(),
+                        entity.getAdjustment()))
                 .orElseGet(() -> new DailyDemand(
                         new DemandEntityId(refNo, date),
                         demands,

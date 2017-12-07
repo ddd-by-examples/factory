@@ -18,8 +18,6 @@ public class Forecast {
     Demands demands;
 
     public Optional<Shortages> findShortages() {
-        // TODO ASK including locked or only proper parts
-        // TODO ASK current stock or on day start? what if we are in the middle of production a day?
         long level = stock.getLevel();
 
         Shortages.Builder found = Shortages.builder(refNo, stock.getLocked(), created);
@@ -31,10 +29,9 @@ public class Forecast {
             long levelOnDelivery = level + produced - demand;
 
             if (levelOnDelivery < 0) {
-                found.add(time, levelOnDelivery);
+                found.missing(time, levelOnDelivery);
             }
-            // TODO: ASK accumulated shortages or reset when under zero?
-            level = levelOnDelivery >= 0 ? levelOnDelivery : 0;
+            level = Math.max(levelOnDelivery, 0);
             lastTime = time;
         }
         return found.build();

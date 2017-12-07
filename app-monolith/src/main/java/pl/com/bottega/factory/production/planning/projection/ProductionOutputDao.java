@@ -1,11 +1,13 @@
 package pl.com.bottega.factory.production.planning.projection;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
 import java.time.Instant;
 import java.util.List;
 
-public interface ProductionOutputDao {
+@Repository
+public interface ProductionOutputDao extends JpaRepository<ProductionOutputEntity, Long> {
 
-    void save(ProductionOutputEntity entity);
-
-    List<ProductionOutputEntity> findRefNoFrom(String refNo, Instant instant);
+    List<ProductionOutputEntity> findByRefNoAndStartGreaterThanEqual(String refNo, Instant instant);
 }

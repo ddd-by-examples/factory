@@ -11,4 +11,6 @@ import java.util.List;
 public interface CurrentDemandDao extends JpaRepository<CurrentDemandEntity, Long> {
 
     List<CurrentDemandEntity> findByRefNoAndDateGreaterThanEqual(String refNo, LocalDate date);
+
+    void deleteByRefNoAndDate(String refNo, LocalDate date);
 }

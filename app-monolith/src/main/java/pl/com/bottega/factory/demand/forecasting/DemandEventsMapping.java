@@ -2,18 +2,22 @@ package pl.com.bottega.factory.demand.forecasting;
 
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
-import pl.com.bottega.factory.demand.forecasting.projection.DeliveryForecastProjection;
+import pl.com.bottega.factory.delivery.planning.projection.DeliveryForecastProjection;
+import pl.com.bottega.factory.demand.forecasting.projection.CurrentDemandProjection;
+import pl.com.bottega.factory.shortages.prediction.ShortagePredictionMapping;
 
 @Lazy
 @Component
 class DemandEventsMapping implements DemandEvents {
 
-    DeliveryForecastProjection demands;
-    //ShortagePredictionMapping predictions;
+    CurrentDemandProjection demands;
+    DeliveryForecastProjection deliveries;
+    ShortagePredictionMapping predictions;
 
     @Override
     public void emit(DemandedLevelsChanged event) {
         demands.emit(event);
-        //predictions.emit(event);
+        deliveries.emit(event);
+        predictions.emit(event);
     }
 }

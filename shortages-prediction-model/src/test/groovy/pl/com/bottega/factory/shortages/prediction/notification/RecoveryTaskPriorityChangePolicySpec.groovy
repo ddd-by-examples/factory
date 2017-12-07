@@ -12,7 +12,7 @@ class RecoveryTaskPriorityChangePolicySpec extends Specification {
 
     Shortages foundShortage(Duration firstShortageIn, long lockedStock) {
         Shortages.builder("3009000", lockedStock, now)
-                .add(now.plus(firstShortageIn), 500L)
+                .missing(now.plus(firstShortageIn), 500L)
                 .build().get()
     }
 
