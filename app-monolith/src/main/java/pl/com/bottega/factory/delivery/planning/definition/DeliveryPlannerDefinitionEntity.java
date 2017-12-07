@@ -19,7 +19,7 @@ public class DeliveryPlannerDefinitionEntity {
 
     @Column
     @Convert(converter = DescriptionAsJson.class)
-    DeliveryPlannerDefinition definition;
+    private DeliveryPlannerDefinition definition;
 
     public DeliveryPlannerDefinitionEntity(String refNo, DeliveryPlannerDefinition definition) {
         this.refNo = refNo;

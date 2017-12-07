@@ -10,32 +10,32 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Optional;
 
-@Data
 @Entity(name = "Demand")
+@Data
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class DemandEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
+    private Long id;
 
     @ManyToOne
-    ProductDemandEntity product;
+    private ProductDemandEntity product;
     @Column
-    LocalDate date;
+    private LocalDate date;
 
     @Column
-    Long level;
+    private Long level;
     @Column
-    Demand.Schema schema;
+    private Demand.Schema schema;
 
     @Column
-    Long adjustmentLevel;
+    private Long adjustmentLevel;
     @Column
-    Demand.Schema adjustmentSchema;
+    private Demand.Schema adjustmentSchema;
     @Column
-    boolean adjustmentStrong;
+    private boolean adjustmentStrong;
 
     DemandEntity(ProductDemandEntity product, LocalDate date) {
         this.product = product;

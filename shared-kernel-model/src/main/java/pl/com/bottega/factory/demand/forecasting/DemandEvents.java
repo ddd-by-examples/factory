@@ -19,6 +19,10 @@ public interface DemandEvents {
             this.results = Collections.unmodifiableMap(results);
         }
 
+        public String getRefNo() {
+            return id.getRefNo();
+        }
+
         @Value
         public static class Change {
             Demand previous;

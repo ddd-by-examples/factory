@@ -21,7 +21,7 @@ import static java.util.stream.Collectors.toMap;
 
 @Component
 @AllArgsConstructor
-class DemandRepository {
+class DemandORMRepository {
 
     private Clock clock;
     private DemandEventsMapping events;

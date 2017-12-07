@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 import java.util.Map;
 
 @AllArgsConstructor
-class NotificationOfShortage implements ShortageEvents {
+public class NotificationOfShortage implements ShortageEvents {
 
     private final QualityTasks qualityTasks;
     private final Clock clock;

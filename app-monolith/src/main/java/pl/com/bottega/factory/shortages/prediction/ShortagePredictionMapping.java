@@ -7,16 +7,16 @@ import pl.com.bottega.factory.demand.forecasting.DemandEvents;
 import pl.com.bottega.factory.shortages.prediction.monitoring.ShortagePredictionProcess;
 import pl.com.bottega.factory.shortages.prediction.monitoring.ShortagePredictionProcessRepository;
 
-@AllArgsConstructor
-@Component
 @Lazy
+@Component
+@AllArgsConstructor
 public class ShortagePredictionMapping implements DemandEvents {
 
     private ShortagePredictionProcessRepository repository;
 
     @Override
     public void emit(DemandedLevelsChanged event) {
-        ShortagePredictionProcess model = repository.get(event.getId());
+        ShortagePredictionProcess model = repository.get(event.getRefNo());
         model.onDemandChanged();
         repository.save(model);
     }

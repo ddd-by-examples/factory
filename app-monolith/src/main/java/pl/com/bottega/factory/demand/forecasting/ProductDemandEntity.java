@@ -9,19 +9,19 @@ import pl.com.bottega.tools.TechnicalId;
 
 import javax.persistence.*;
 
-@Data
 @Entity(name = "ProductDemand")
+@Data
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class ProductDemandEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
+    private Long id;
     @Version
-    Long version;
+    private Long version;
     @Column
-    String refNo;
+    private String refNo;
 
     public ProductDemandEntity(String refNo) {
         this.refNo = refNo;

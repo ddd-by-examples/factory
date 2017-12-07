@@ -17,7 +17,7 @@ import java.time.ZoneId
 @SpringBootTest
 @Transactional
 @Commit
-class DemandRepositoryTest extends Specification {
+class DemandORMRepositoryTest extends Specification {
 
     def clock = Clock.fixed(Instant.now(), ZoneId.systemDefault())
     def events = Mock(DemandEventsMapping)
@@ -28,14 +28,14 @@ class DemandRepositoryTest extends Specification {
     @Autowired
     DemandDao demandDao
 
-    DemandRepository repository
+    DemandORMRepository repository
 
     final def today = LocalDate.now(clock)
 
     def setup() {
         demandDao.deleteAllInBatch()
         rootDao.deleteAllInBatch()
-        repository = new DemandRepository(clock, events, em, rootDao, demandDao)
+        repository = new DemandORMRepository(clock, events, em, rootDao, demandDao)
     }
 
     def "persists new demand"() {
