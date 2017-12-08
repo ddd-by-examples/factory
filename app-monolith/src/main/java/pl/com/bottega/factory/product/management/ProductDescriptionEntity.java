@@ -11,19 +11,19 @@ import javax.persistence.*;
 @Entity(name = "ProductDescription")
 @Data
 @NoArgsConstructor
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = "refNo")
 public class ProductDescriptionEntity {
 
     @Id
     @Column
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private String refNo;
 
     @Column
     @Convert(converter = DescriptionAsJson.class)
     ProductDescription description;
 
-    public ProductDescriptionEntity(ProductDescription description) {
+    public ProductDescriptionEntity(String refNo, ProductDescription description) {
+        this.refNo = refNo;
         this.description = description;
     }
 

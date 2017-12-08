@@ -18,8 +18,8 @@ class ProductDescriptionPersistenceTest extends Specification {
 
     def "verify access to ProductDescription data"() {
         given:
-        dao.save(new ProductDescriptionEntity(
-                new ProductDescription("3009000", "461952398951", singletonList("PROWAD.POJ.NA JARZ.ESSENT"))))
+        dao.save(new ProductDescriptionEntity("3009000",
+                new ProductDescription("461952398951", singletonList("PROWAD.POJ.NA JARZ.ESSENT"))))
 
         when:
         def entities = dao.findAll()
@@ -27,6 +27,6 @@ class ProductDescriptionPersistenceTest extends Specification {
         then:
         entities.size() == 1
         entities.get(0).description ==
-                new ProductDescription("3009000", "461952398951", singletonList("PROWAD.POJ.NA JARZ.ESSENT"))
+                new ProductDescription("461952398951", singletonList("PROWAD.POJ.NA JARZ.ESSENT"))
     }
 }

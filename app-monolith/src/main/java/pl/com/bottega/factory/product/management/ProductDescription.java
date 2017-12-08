@@ -6,7 +6,6 @@ import java.util.List;
 
 @Value
 public class ProductDescription {
-    String refNo;
     String matNum;
     List<String> names;
 }

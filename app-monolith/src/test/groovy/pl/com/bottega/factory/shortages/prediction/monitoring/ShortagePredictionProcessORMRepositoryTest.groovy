@@ -28,7 +28,7 @@ class ShortagePredictionProcessORMRepositoryTest extends Specification {
     ShortagePredictionProcessORMRepository repository
 
     def setup() {
-        dao.deleteAllInBatch()
+        dao.deleteAll()
         repository = new ShortagePredictionProcessORMRepository(
                 dao, forecasts, notifications
         )
