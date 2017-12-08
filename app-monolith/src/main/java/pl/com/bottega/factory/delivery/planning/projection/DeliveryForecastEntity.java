@@ -1,6 +1,5 @@
 package pl.com.bottega.factory.delivery.planning.projection;
 
-import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

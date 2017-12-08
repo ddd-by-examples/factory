@@ -1,6 +1,8 @@
 package pl.com.bottega.factory.production.planning.projection;
 
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.Duration;

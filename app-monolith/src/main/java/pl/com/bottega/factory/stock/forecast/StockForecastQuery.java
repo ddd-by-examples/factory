@@ -36,7 +36,7 @@ class StockForecastQuery {
         CurrentStock stock = stocks.forRefNo(refNo);
         LocalDate today = LocalDate.now(clock);
         return build(refNo, today, Optional.ofNullable(descriptions.findOne(refNo))
-                .map(ProductDescriptionEntity::getDescription).orElse(null), stock,
+                        .map(ProductDescriptionEntity::getDescription).orElse(null), stock,
                 this.demands
                         .findByRefNoAndDateGreaterThanEqual(refNo, today).stream()
                         .collect(toMap(

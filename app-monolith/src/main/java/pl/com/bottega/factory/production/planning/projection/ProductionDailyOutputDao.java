@@ -4,7 +4,6 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.stereotype.Repository;
 import pl.com.bottega.tools.ProjectionDao;
 
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 

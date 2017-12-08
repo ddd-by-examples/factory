@@ -1,9 +1,9 @@
 package pl.com.bottega.factory.shortages.prediction.calculation;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import pl.com.bottega.factory.delivery.planning.projection.DeliveryForecastDao;
 import pl.com.bottega.factory.delivery.planning.projection.DeliveryForecastEntity;
-import lombok.AllArgsConstructor;
 import pl.com.bottega.factory.production.planning.projection.ProductionOutputDao;
 import pl.com.bottega.factory.shortages.prediction.calculation.ProductionForecast.Item;
 import pl.com.bottega.factory.warehouse.WarehouseService;

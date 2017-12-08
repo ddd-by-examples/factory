@@ -1,6 +1,8 @@
 package pl.com.bottega.factory.demand.forecasting.projection;
 
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import pl.com.bottega.factory.demand.forecasting.Demand;
 
 import javax.persistence.*;

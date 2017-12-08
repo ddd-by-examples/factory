@@ -2,11 +2,13 @@ package pl.com.bottega.factory.product.management;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import pl.com.bottega.tools.JsonConverter;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Entity(name = "ProductDescription")
 @Data

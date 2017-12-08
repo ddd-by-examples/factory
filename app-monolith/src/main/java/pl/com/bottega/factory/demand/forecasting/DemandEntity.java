@@ -1,7 +1,6 @@
 package pl.com.bottega.factory.demand.forecasting;
 
 import lombok.*;
-import pl.com.bottega.factory.delivery.planning.definition.DeliveryPlannerDefinition;
 import pl.com.bottega.tools.JsonConverter;
 import pl.com.bottega.tools.TechnicalId;
 
