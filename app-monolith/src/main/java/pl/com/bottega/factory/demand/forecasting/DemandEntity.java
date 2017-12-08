@@ -1,9 +1,8 @@
 package pl.com.bottega.factory.demand.forecasting;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import pl.com.bottega.factory.delivery.planning.definition.DeliveryPlannerDefinition;
+import pl.com.bottega.tools.JsonConverter;
 import pl.com.bottega.tools.TechnicalId;
 
 import javax.persistence.*;
@@ -26,59 +25,39 @@ public class DemandEntity {
     private LocalDate date;
 
     @Column
-    private Long level;
-    @Column
-    private Demand.Schema schema;
-
-    @Column
-    private Long adjustmentLevel;
-    @Column
-    private Demand.Schema adjustmentSchema;
-    @Column
-    private boolean adjustmentStrong;
+    @Convert(converter = DemandAsJson.class)
+    private DemandValue value;
 
     DemandEntity(ProductDemandEntity product, LocalDate date) {
         this.product = product;
         this.date = date;
     }
 
-    Demand getDemand() {
-        return Demand.ofNullable(level, schema);
-    }
-
-    Adjustment getAdjustment() {
-        return Optional.ofNullable(adjustmentLevel)
-                .map(level -> new Adjustment(
-                        Demand.of(level, adjustmentSchema),
-                        adjustmentStrong
-                ))
-                .orElse(null);
-    }
-
-    void setDemand(Demand demand) {
-        if (demand == null) {
-            setLevel(null);
-            setSchema(null);
-        } else {
-            setLevel(demand.getLevel());
-            setSchema(demand.getSchema());
-        }
-    }
-
-    void setAdjustment(Adjustment adjustment) {
-        if (adjustment == null) {
-            setAdjustmentLevel(null);
-            setAdjustmentSchema(null);
-            setAdjustmentStrong(false);
-        } else {
-            setAdjustmentLevel(adjustment.getDemand().getLevel());
-            setAdjustmentSchema(adjustment.getDemand().getSchema());
-            setAdjustmentStrong(adjustment.isStrong());
-        }
-    }
-
     DemandEntityId createId() {
         return new DemandEntityId(product.getRefNo(), date, id);
+    }
+
+    void set(Demand demand, Adjustment adjustment) {
+        value = new DemandValue(demand, adjustment);
+    }
+
+    DemandValue get() {
+        return Optional.ofNullable(value)
+                .orElse(DemandValue.NO_VAL);
+    }
+
+    @Value
+    static class DemandValue {
+        public static final DemandValue NO_VAL = new DemandValue(null, null);
+
+        Demand documented;
+        Adjustment adjustment;
+    }
+
+    public static class DemandAsJson extends JsonConverter<DemandValue> {
+        public DemandAsJson() {
+            super(DemandValue.class);
+        }
     }
 
     @Getter

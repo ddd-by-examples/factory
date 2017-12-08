@@ -57,7 +57,7 @@ class DemandORMRepositoryTest extends Specification {
         given:
         def root = rootDao.save(new ProductDemandEntity("3009000"))
         def demand = new DemandEntity(root, today)
-        demand.setDemand(Demand.of(1000))
+        demand.set(Demand.of(1000), null)
         demandDao.save(demand)
 
         when:
@@ -70,18 +70,18 @@ class DemandORMRepositoryTest extends Specification {
         then:
         def demands = demandDao.findAll()
         demands.size() == 1
-        demand.every { it.getAdjustmentLevel() == 2000 }
+        demand.every { it.get().getAdjustment() == Adjustment.strong(Demand.of(2000)) }
     }
 
     def "doesn't fetch historical data"() {
         given:
         def root = rootDao.save(new ProductDemandEntity("3009000"))
         def old = new DemandEntity(root, today.minusDays(1))
-        old.setDemand(Demand.of(10000))
+        old.set(Demand.of(10000), null)
         demandDao.save(old)
 
         def todays = new DemandEntity(root, today)
-        todays.setDemand(Demand.of(1000))
+        todays.set(Demand.of(1000), null)
         demandDao.save(todays)
 
         when:

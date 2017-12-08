@@ -53,8 +53,8 @@ class DemandORMRepository {
                 .map(entity -> new DailyDemand(
                         entity.createId(),
                         demands,
-                        entity.getDemand(),
-                        entity.getAdjustment()))
+                        entity.get().getDocumented(),
+                        entity.get().getAdjustment()))
                 .orElseGet(() -> new DailyDemand(
                         new DemandEntityId(refNo, date),
                         demands,
@@ -75,8 +75,7 @@ class DemandORMRepository {
             } else {
                 entity = new DemandEntity(root, updated.getId().getDate());
             }
-            entity.setDemand(updated.getDocumented());
-            entity.setAdjustment(updated.getAdjustment());
+            entity.set(updated.getDocumented(), updated.getAdjustment());
 
             if (!TechnicalId.isPersisted(updated.getId())) {
                 demandDao.save(entity);
