@@ -24,7 +24,7 @@ public class DeliveryForecastProjection implements DemandEvents {
 
     @Override
     public void emit(DemandedLevelsChanged event) {
-        DeliveryAutoPlanner planner = planners.get(event.getRefNo());
+        DeliveryAutoPlanner planner = planners.get(event.getRefNo().getRefNo());
         event.getResults().keySet()
                 .forEach(daily -> forecastDao.deleteByRefNoAndDate(
                         daily.getRefNo(),

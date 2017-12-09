@@ -1,5 +1,6 @@
 package pl.com.bottega.factory.shortages.prediction.calculation
 
+import pl.com.bottega.factory.product.management.RefNoId
 import pl.com.bottega.factory.shortages.prediction.Shortages
 
 import java.time.Duration
@@ -13,7 +14,7 @@ trait ShortagesCalculationAssemblerTrait {
 
     Forecasts forecastProvider(CurrentStock stock, Demands demands, ProductionOutputs outputs) {
         def forecast = forecast(stock, demands, outputs)
-        return { String refNo, int daysAhead -> forecast } as Forecasts
+        return { RefNoId refNo, int daysAhead -> forecast } as Forecasts
     }
 
     Forecast forecast(CurrentStock stock, Demands demands, ProductionOutputs outputs) {

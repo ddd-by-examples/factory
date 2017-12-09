@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import pl.com.bottega.factory.delivery.planning.projection.DeliveryForecastDao;
 import pl.com.bottega.factory.delivery.planning.projection.DeliveryForecastEntity;
+import pl.com.bottega.factory.product.management.RefNoId;
 import pl.com.bottega.factory.production.planning.projection.ProductionOutputDao;
 import pl.com.bottega.factory.shortages.prediction.calculation.ProductionForecast.Item;
 import pl.com.bottega.factory.warehouse.WarehouseService;
@@ -28,13 +29,13 @@ class ForecastORMProvider implements Forecasts {
     private Clock clock;
 
     @Override
-    public Forecast get(String refNo, int daysAhead) {
+    public Forecast get(RefNoId refNo, int daysAhead) {
         CurrentStock stock = stocks.forRefNo(refNo);
         Instant now = Instant.now(clock);
         LocalDateTime time = now.atZone(clock.getZone()).toLocalDateTime();
 
         Map<LocalDateTime, Long> demands = this.demands
-                .findByRefNoAndDateGreaterThanEqual(refNo, now).stream()
+                .findByRefNoAndDateGreaterThanEqual(refNo.getRefNo(), now).stream()
                 .collect(toMap(
                         DeliveryForecastEntity::getTime,
                         DeliveryForecastEntity::getLevel
@@ -44,7 +45,7 @@ class ForecastORMProvider implements Forecasts {
         Demands demand = new Demands(demands);
 
         ProductionOutputs outputs = new ProductionForecast(
-                this.outputs.findByRefNoAndStartGreaterThanEqual(refNo, now).stream()
+                this.outputs.findByRefNoAndStartGreaterThanEqual(refNo.getRefNo(), now).stream()
                         .map(e -> new Item(
                                 e.getStart(),
                                 e.getDuration(),
@@ -52,6 +53,6 @@ class ForecastORMProvider implements Forecasts {
                         .collect(Collectors.toList())
         ).outputsInTimes(time, demands.keySet());
 
-        return new Forecast(refNo, time, times, stock, outputs, demand);
+        return new Forecast(refNo.getRefNo(), time, times, stock, outputs, demand);
     }
 }

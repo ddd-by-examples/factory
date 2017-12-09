@@ -3,6 +3,7 @@ package pl.com.bottega.factory.shortages.prediction.monitoring
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.annotation.Commit
+import pl.com.bottega.factory.product.management.RefNoId
 import pl.com.bottega.factory.shortages.prediction.Shortages
 import pl.com.bottega.factory.shortages.prediction.calculation.Forecasts
 import pl.com.bottega.factory.shortages.prediction.notification.NotificationOfShortage
@@ -18,8 +19,8 @@ import static pl.com.bottega.factory.shortages.prediction.monitoring.NewShortage
 @Commit
 class ShortagePredictionProcessORMRepositoryTest extends Specification {
 
-    LocalDateTime now = LocalDateTime.now()
-    String refNo = "3009000"
+    def now = LocalDateTime.now()
+    def refNo = "3009000"
 
     @Autowired
     ShortagesDao dao
@@ -93,15 +94,15 @@ class ShortagePredictionProcessORMRepositoryTest extends Specification {
     }
 
     Shortages shortagesCurrentlyPersisted() {
-        dao.findOne(refNo).shortages
+        dao.findByRefNo(refNo).get().shortages
     }
 
     void noShortagesPersisted() {
-        assert dao.findOne(refNo) == null
+        assert dao.findByRefNo(refNo) == Optional.empty()
     }
 
     ShortagePredictionProcess fetchProcess() {
-        repository.get(refNo)
+        repository.get(new RefNoId(refNo))
     }
 
     Shortages noShortages() {
@@ -127,10 +128,10 @@ class ShortagePredictionProcessORMRepositoryTest extends Specification {
     }
 
     void processEmitsNewShortage(ShortagePredictionProcess process, Shortages shortages) {
-        process.events.emit(new NewShortage(DemandChanged, shortages))
+        process.events.emit(new NewShortage(process.refNo, DemandChanged, shortages))
     }
 
     void processEmitsShortageSolved(ShortagePredictionProcess process) {
-        process.events.emit(new ShortageSolved(refNo))
+        process.events.emit(new ShortageSolved(process.refNo))
     }
 }

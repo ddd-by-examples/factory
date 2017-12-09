@@ -10,11 +10,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-@RepositoryRestResource(
-        path = "delivery/planning/forecasts",
-        collectionResourceRel = "forecast of deliveries")
+@RepositoryRestResource(path = "delivery-forecasts", collectionResourceRel = "delivery-forecasts")
 public interface DeliveryForecastDao extends ProjectionDao<DeliveryForecastEntity, Long> {
 
+    @RestResource(exported = false)
     List<DeliveryForecastEntity> findByRefNoAndDateGreaterThanEqual(String refNo, Instant instant);
 
     @RestResource(exported = false)

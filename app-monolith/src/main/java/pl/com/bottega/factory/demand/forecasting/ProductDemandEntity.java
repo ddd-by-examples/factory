@@ -8,12 +8,13 @@ import pl.com.bottega.factory.product.management.RefNoId;
 import pl.com.bottega.tools.TechnicalId;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity(name = "ProductDemand")
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class ProductDemandEntity {
+public class ProductDemandEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,23 +29,21 @@ public class ProductDemandEntity {
     }
 
     ProductDemandEntityId createId() {
-        return new ProductDemandEntityId(refNo, id, version);
+        return new ProductDemandEntityId(refNo, id);
     }
 
     @Getter
     static class ProductDemandEntityId extends RefNoId implements TechnicalId {
 
         Long id;
-        Long version;
 
         ProductDemandEntityId(String refNo) {
             super(refNo);
         }
 
-        ProductDemandEntityId(String refNo, long id, Long version) {
+        ProductDemandEntityId(String refNo, long id) {
             super(refNo);
             this.id = id;
-            this.version = version;
         }
     }
 }

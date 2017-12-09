@@ -8,9 +8,7 @@ import java.time.Instant;
 import java.util.List;
 
 @Repository
-@RepositoryRestResource(
-        path = "production/planning/outputs",
-        collectionResourceRel = "forecast of production outputs")
+@RepositoryRestResource(path = "production-outputs", collectionResourceRel = "production-outputs")
 public interface ProductionOutputDao extends ProjectionDao<ProductionOutputEntity, Long> {
 
     List<ProductionOutputEntity> findByRefNoAndStartGreaterThanEqual(String refNo, Instant instant);

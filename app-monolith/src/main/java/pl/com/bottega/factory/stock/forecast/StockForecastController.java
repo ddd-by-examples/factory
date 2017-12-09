@@ -7,9 +7,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import pl.com.bottega.factory.product.management.RefNoId;
 
-@Controller
-@RequestMapping("/stock/forecasts")
+//@Controller
+//@RequestMapping("/stock/forecasts")
 @AllArgsConstructor
 class StockForecastController {
 
@@ -18,6 +19,6 @@ class StockForecastController {
     @RequestMapping(value = "/{refNo}", method = RequestMethod.GET)
     @Transactional(readOnly = true)
     ResponseEntity<StockForecast> get(@PathVariable("refNo") String refNo) {
-        return ResponseEntity.ok(query.get(refNo));
+        return ResponseEntity.ok(query.get(new RefNoId(refNo)));
     }
 }

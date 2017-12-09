@@ -1,5 +1,6 @@
 package pl.com.bottega.factory.shortages.prediction.monitoring
 
+import pl.com.bottega.factory.product.management.RefNoId
 import pl.com.bottega.factory.shortages.prediction.Configuration
 import pl.com.bottega.factory.shortages.prediction.Shortages
 import pl.com.bottega.factory.shortages.prediction.calculation.Forecasts
@@ -8,11 +9,11 @@ import spock.lang.Specification
 
 import java.time.LocalDateTime
 
-import static pl.com.bottega.factory.shortages.prediction.monitoring.NewShortage.After;
+import static pl.com.bottega.factory.shortages.prediction.monitoring.NewShortage.After
 
 class ShortagePredictionProcessSpec extends Specification {
 
-    def refNo = "3009000"
+    def refNo = new RefNoId("3009000")
     def now = LocalDateTime.now()
     def forecastAssembler = new ShortagesCalculationAssembler(refNo: refNo, now: now)
     def events = Mock(ShortageEvents)
@@ -170,7 +171,7 @@ class ShortagePredictionProcessSpec extends Specification {
     }
 
     NewShortage newShortage(After after, Map<LocalDateTime, Long> missing) {
-        new NewShortage(after, forecastAssembler.shortage(missing).get())
+        new NewShortage(refNo, after, forecastAssembler.shortage(missing).get())
     }
 
     ShortageSolved shortageSolved() {

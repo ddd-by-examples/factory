@@ -8,6 +8,7 @@ import pl.com.bottega.factory.demand.forecasting.projection.CurrentDemandEntity;
 import pl.com.bottega.factory.product.management.ProductDescription;
 import pl.com.bottega.factory.product.management.ProductDescriptionDao;
 import pl.com.bottega.factory.product.management.ProductDescriptionEntity;
+import pl.com.bottega.factory.product.management.RefNoId;
 import pl.com.bottega.factory.production.planning.projection.ProductionDailyOutputDao;
 import pl.com.bottega.factory.production.planning.projection.ProductionDailyOutputEntity;
 import pl.com.bottega.factory.shortages.prediction.calculation.CurrentStock;
@@ -32,26 +33,26 @@ class StockForecastQuery {
     private final ProductDescriptionDao descriptions;
     private final Clock clock;
 
-    StockForecast get(String refNo) {
+    StockForecast get(RefNoId refNo) {
         CurrentStock stock = stocks.forRefNo(refNo);
         LocalDate today = LocalDate.now(clock);
-        return build(refNo, today, Optional.ofNullable(descriptions.findOne(refNo))
+        return build(refNo, today, Optional.ofNullable(descriptions.findByRefNo(refNo.getRefNo()))
                         .map(ProductDescriptionEntity::getDescription).orElse(null), stock,
                 this.demands
-                        .findByRefNoAndDateGreaterThanEqual(refNo, today).stream()
+                        .findByRefNoAndDateGreaterThanEqual(refNo.getRefNo(), today).stream()
                         .collect(toMap(
                                 CurrentDemandEntity::getDate,
                                 CurrentDemandEntity::getLevel
                         )),
                 this.outputs
-                        .findByRefNoAndDateGreaterThanEqual(refNo, today).stream()
+                        .findByRefNoAndDateGreaterThanEqual(refNo.getRefNo(), today).stream()
                         .collect(toMap(
                                 ProductionDailyOutputEntity::getDate,
                                 ProductionDailyOutputEntity::getOutput
                         )));
     }
 
-    private StockForecast build(String refNo, LocalDate today,
+    private StockForecast build(RefNoId refNo, LocalDate today,
                                 ProductDescription description, CurrentStock stock,
                                 Map<LocalDate, Long> demands,
                                 Map<LocalDate, Long> outputs) {
@@ -69,7 +70,7 @@ class StockForecastQuery {
                     ));
         }
         return builder
-                .refNo(refNo)
+                .refNo(refNo.getRefNo())
                 .description(description)
                 .build();
     }

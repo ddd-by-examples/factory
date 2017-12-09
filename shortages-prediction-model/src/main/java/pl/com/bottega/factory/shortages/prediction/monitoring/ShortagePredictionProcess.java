@@ -1,6 +1,7 @@
 package pl.com.bottega.factory.shortages.prediction.monitoring;
 
 import lombok.AllArgsConstructor;
+import pl.com.bottega.factory.product.management.RefNoId;
 import pl.com.bottega.factory.shortages.prediction.Configuration;
 import pl.com.bottega.factory.shortages.prediction.Shortages;
 import pl.com.bottega.factory.shortages.prediction.calculation.Forecast;
@@ -15,7 +16,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class ShortagePredictionProcess {
 
-    private final String refNo;
+    private final RefNoId refNo;
     private Shortages known;
 
     private final ShortageDiffPolicy diffPolicy;
@@ -48,7 +49,7 @@ public class ShortagePredictionProcess {
         boolean areDifferent = diffPolicy.areDifferent(this.known, newlyFound.orElse(null));
         if (areDifferent && newlyFound.isPresent()) {
             this.known = newlyFound.get();
-            events.emit(new NewShortage(event, newlyFound.get()));
+            events.emit(new NewShortage(refNo, event, known));
         } else if (known != null && !newlyFound.isPresent()) {
             this.known = null;
             events.emit(new ShortageSolved(refNo));

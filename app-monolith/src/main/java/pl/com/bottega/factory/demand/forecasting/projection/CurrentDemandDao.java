@@ -9,11 +9,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-@RepositoryRestResource(
-        path = "demand/forecasts",
-        collectionResourceRel = "forecast of customers demands")
+@RepositoryRestResource(path = "demand-forecasts", collectionResourceRel = "demand-forecasts")
 public interface CurrentDemandDao extends ProjectionDao<CurrentDemandEntity, Long> {
 
+    @RestResource(exported = false)
     List<CurrentDemandEntity> findByRefNoAndDateGreaterThanEqual(String refNo, LocalDate date);
 
     @RestResource(exported = false)

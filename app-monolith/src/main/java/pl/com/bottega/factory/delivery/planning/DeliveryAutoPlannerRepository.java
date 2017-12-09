@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import pl.com.bottega.factory.delivery.planning.definition.DeliveryPlannerDefinitionDao;
 import pl.com.bottega.factory.delivery.planning.definition.DeliveryPlannerDefinitionEntity;
+import pl.com.bottega.factory.product.management.RefNoId;
 
 import java.util.Collections;
 
@@ -17,7 +18,7 @@ public class DeliveryAutoPlannerRepository {
 
     public DeliveryAutoPlanner get(String refNo) {
         return new DeliveryAutoPlanner(refNo,
-                ofNullable(dao.findOne(refNo))
+                ofNullable(dao.findByRefNo(refNo))
                         .map(DeliveryPlannerDefinitionEntity::getDefinition)
                         .map(x -> x.map(DeliveriesSuggestion::timesAndFractions))
                         .orElse(Collections.emptyMap()));

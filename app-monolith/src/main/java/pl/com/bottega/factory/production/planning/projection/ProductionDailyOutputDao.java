@@ -8,9 +8,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-@RepositoryRestResource(
-        path = "production/planning/outputs/daily",
-        collectionResourceRel = "forecast of production daily outputs")
+@RepositoryRestResource(path = "production-outputs-daily", collectionResourceRel = "production-outputs-daily")
 public interface ProductionDailyOutputDao extends ProjectionDao<ProductionDailyOutputEntity, Long> {
 
     List<ProductionDailyOutputEntity> findByRefNoAndDateGreaterThanEqual(String refNo, LocalDate date);

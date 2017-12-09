@@ -5,6 +5,7 @@ import pl.com.bottega.tools.JsonConverter;
 import pl.com.bottega.tools.TechnicalId;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -12,17 +13,15 @@ import java.util.Optional;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class DemandEntity {
+public class DemandEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     @ManyToOne
     private ProductDemandEntity product;
     @Column
     private LocalDate date;
-
     @Column
     @Convert(converter = DemandAsJson.class)
     private DemandValue value;

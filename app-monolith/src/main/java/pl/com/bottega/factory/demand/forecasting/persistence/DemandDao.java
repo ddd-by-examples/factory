@@ -13,5 +13,4 @@ import java.util.List;
 public interface DemandDao extends JpaRepository<DemandEntity, Long> {
 
     List<DemandEntity> findByProductRefNoAndDateGreaterThanEqual(String refNo, LocalDate now);
-
 }

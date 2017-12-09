@@ -5,18 +5,10 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-
 @Repository
-
 @RepositoryRestResource(
-        path = "product/management/descriptions",
-        collectionResourceRel = "descriptions of products")
-public interface ProductDescriptionDao extends JpaRepository<ProductDescriptionEntity, String> {
-
-    @RestResource(exported = false)
-    default Optional<ProductDescription> description(String refNo) {
-        return Optional.ofNullable(findOne(refNo))
-                .map(ProductDescriptionEntity::getDescription);
-    }
+        path = "product-descriptions", collectionResourceRel = "product-descriptions")
+public interface ProductDescriptionDao extends JpaRepository<ProductDescriptionEntity, Long> {
+    @RestResource(path = "refNos", rel = "refNos")
+    ProductDescriptionEntity findByRefNo(String refNo);
 }

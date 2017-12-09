@@ -1,6 +1,7 @@
 package pl.com.bottega.factory.shortages.prediction.monitoring;
 
 import lombok.Value;
+import pl.com.bottega.factory.product.management.RefNoId;
 import pl.com.bottega.factory.shortages.prediction.Shortages;
 
 /**
@@ -11,6 +12,7 @@ public class NewShortage {
 
     public enum After {DemandChanged, PlanChanged, StockChanged, LockedParts}
 
+    RefNoId refNo;
     After trigger;
     Shortages shortages;
 }

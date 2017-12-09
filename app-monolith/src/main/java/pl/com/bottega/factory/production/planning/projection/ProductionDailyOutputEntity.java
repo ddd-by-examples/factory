@@ -5,13 +5,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity(name = "ProductionDailyOutput")
 @Getter
 @NoArgsConstructor
-@EqualsAndHashCode(of = "id")
-public class ProductionDailyOutputEntity {
+@EqualsAndHashCode(of = "refNo")
+public class ProductionDailyOutputEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

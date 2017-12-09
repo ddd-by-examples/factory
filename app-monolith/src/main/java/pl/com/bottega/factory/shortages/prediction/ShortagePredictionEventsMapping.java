@@ -7,10 +7,12 @@ import pl.com.bottega.factory.demand.forecasting.DemandEvents;
 import pl.com.bottega.factory.shortages.prediction.monitoring.ShortagePredictionProcess;
 import pl.com.bottega.factory.shortages.prediction.monitoring.ShortagePredictionProcessRepository;
 
+import java.util.Set;
+
 @Lazy
 @Component
 @AllArgsConstructor
-public class ShortagePredictionMapping implements DemandEvents {
+public class ShortagePredictionEventsMapping implements DemandEvents {
 
     private ShortagePredictionProcessRepository repository;
 

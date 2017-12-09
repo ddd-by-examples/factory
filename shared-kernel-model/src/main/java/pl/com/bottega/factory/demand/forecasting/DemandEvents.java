@@ -19,8 +19,8 @@ public interface DemandEvents {
             this.results = Collections.unmodifiableMap(results);
         }
 
-        public String getRefNo() {
-            return id.getRefNo();
+        public RefNoId getRefNo() {
+            return id;
         }
 
         @Value

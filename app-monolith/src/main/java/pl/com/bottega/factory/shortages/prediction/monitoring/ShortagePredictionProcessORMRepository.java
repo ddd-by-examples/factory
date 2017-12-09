@@ -2,12 +2,13 @@ package pl.com.bottega.factory.shortages.prediction.monitoring;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
+import pl.com.bottega.factory.product.management.RefNoId;
 import pl.com.bottega.factory.shortages.prediction.Configuration;
-import pl.com.bottega.factory.shortages.prediction.Shortages;
 import pl.com.bottega.factory.shortages.prediction.calculation.Forecasts;
 import pl.com.bottega.factory.shortages.prediction.notification.NotificationOfShortage;
+import pl.com.bottega.tools.TechnicalId;
 
-import static java.util.Optional.ofNullable;
+import java.util.Optional;
 
 @Component
 @AllArgsConstructor
@@ -20,9 +21,12 @@ class ShortagePredictionProcessORMRepository implements ShortagePredictionProces
     private final NotificationOfShortage notifications;
 
     @Override
-    public ShortagePredictionProcess get(String refNo) {
+    public ShortagePredictionProcess get(RefNoId refNo) {
+        Optional<ShortagesEntity> entity = dao.findByRefNo(refNo.getRefNo());
         return new ShortagePredictionProcess(
-                refNo, fetchData(refNo),
+                entity.map(ShortagesEntity::createId)
+                        .orElseGet(() -> ShortagesEntity.createId(refNo)),
+                entity.map(ShortagesEntity::getShortages).orElse(null),
                 policy, forecasts, configuration, new EventsHandler()
         );
     }
@@ -32,26 +36,29 @@ class ShortagePredictionProcessORMRepository implements ShortagePredictionProces
         // persisted after event
     }
 
-    private Shortages fetchData(String refNo) {
-        return ofNullable(dao.findOne(refNo))
-                .map(ShortagesEntity::getShortages).orElse(null);
+    private void save(NewShortage event) {
+        RefNoId refNo = event.getRefNo();
+        ShortagesEntity entity = TechnicalId.findOrDefault(
+                refNo, dao::findOne,
+                () -> dao.save(new ShortagesEntity(refNo.getRefNo())));
+        entity.setShortages(event.getShortages());
+        notifications.emit(event);
+    }
+
+    private void delete(ShortageSolved event) {
+        dao.delete(TechnicalId.get(event.getRefNo()));
+        notifications.emit(event);
     }
 
     private class EventsHandler implements ShortageEvents {
         @Override
         public void emit(NewShortage event) {
-            String refNo = event.getShortages().getRefNo();
-            ShortagesEntity entity = ofNullable(dao.findOne(refNo))
-                    .orElseGet(() -> new ShortagesEntity(refNo));
-            entity.setShortages(event.getShortages());
-            dao.save(entity);
-            notifications.emit(event);
+            save(event);
         }
 
         @Override
         public void emit(ShortageSolved event) {
-            dao.delete(event.getRefNo());
-            notifications.emit(event);
+            delete(event);
         }
     }
 }

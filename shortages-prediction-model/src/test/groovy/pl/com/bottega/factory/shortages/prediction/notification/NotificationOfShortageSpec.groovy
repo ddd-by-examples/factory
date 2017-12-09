@@ -1,5 +1,6 @@
 package pl.com.bottega.factory.shortages.prediction.notification
 
+import pl.com.bottega.factory.product.management.RefNoId
 import pl.com.bottega.factory.shortages.prediction.Shortages
 import pl.com.bottega.factory.shortages.prediction.monitoring.NewShortage
 import pl.com.bottega.factory.shortages.prediction.monitoring.ShortageSolved
@@ -107,7 +108,7 @@ class NotificationOfShortageSpec extends Specification {
         def notificator = notificator()
 
         when:
-        notificator.emit(new ShortageSolved(refNo))
+        notificator.emit(new ShortageSolved(new RefNoId(refNo)))
 
         then:
         0 * tasks.increasePriorityFor(_)
@@ -122,7 +123,7 @@ class NotificationOfShortageSpec extends Specification {
     }
 
     NewShortage newShortage(After after, Shortages shortages) {
-        new NewShortage(after, shortages)
+        new NewShortage(new RefNoId(refNo), after, shortages)
     }
 
     Shortages withShortage(

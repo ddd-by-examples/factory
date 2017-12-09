@@ -6,13 +6,15 @@ import lombok.NoArgsConstructor;
 import pl.com.bottega.factory.demand.forecasting.Demand;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity(name = "CurrentDemand")
 @Getter
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class CurrentDemandEntity {
+public class CurrentDemandEntity implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

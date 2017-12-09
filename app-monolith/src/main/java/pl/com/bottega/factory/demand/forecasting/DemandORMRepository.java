@@ -74,12 +74,9 @@ class DemandORMRepository {
                 entity = demandDao.getOne(TechnicalId.get(updated.getId()));
             } else {
                 entity = new DemandEntity(root, updated.getId().getDate());
-            }
-            entity.set(updated.getDocumented(), updated.getAdjustment());
-
-            if (!TechnicalId.isPersisted(updated.getId())) {
                 demandDao.save(entity);
             }
+            entity.set(updated.getDocumented(), updated.getAdjustment());
         }
     }
 }

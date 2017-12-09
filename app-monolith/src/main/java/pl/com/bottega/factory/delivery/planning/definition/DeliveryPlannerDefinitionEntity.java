@@ -5,21 +5,20 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import pl.com.bottega.tools.JsonConverter;
 
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity(name = "DeliveryPlannerDefinition")
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(of = "refNo")
-public class DeliveryPlannerDefinitionEntity {
+public class DeliveryPlannerDefinitionEntity implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     @Column
     private String refNo;
-
     @Column
     @Convert(converter = DescriptionAsJson.class)
     private DeliveryPlannerDefinition definition;
