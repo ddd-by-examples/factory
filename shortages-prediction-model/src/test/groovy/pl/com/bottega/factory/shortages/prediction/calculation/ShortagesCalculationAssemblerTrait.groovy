@@ -12,12 +12,12 @@ trait ShortagesCalculationAssemblerTrait {
     String refNo = "3009000"
     Set<LocalDateTime> times
 
-    Forecasts forecastProvider(CurrentStock stock, Demands demands, ProductionOutputs outputs) {
+    Forecasts forecastProvider(Stock stock, Demands demands, ProductionOutputs outputs) {
         def forecast = forecast(stock, demands, outputs)
         return { RefNoId refNo, int daysAhead -> forecast } as Forecasts
     }
 
-    Forecast forecast(CurrentStock stock, Demands demands, ProductionOutputs outputs) {
+    Forecast forecast(Stock stock, Demands demands, ProductionOutputs outputs) {
         new Forecast(refNo, now, times as List, stock, outputs, demands)
     }
 
@@ -45,12 +45,12 @@ trait ShortagesCalculationAssemblerTrait {
         new Demands(demands)
     }
 
-    CurrentStock stock(long levels) {
-        new CurrentStock(levels, 0)
+    Stock stock(long levels) {
+        new Stock(levels, 0)
     }
 
-    CurrentStock stock(long level, long locked) {
-        new CurrentStock(level, locked)
+    Stock stock(long level, long locked) {
+        new Stock(level, locked)
     }
 
     Optional<Shortages> noShortages() {

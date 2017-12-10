@@ -1,6 +1,7 @@
 package pl.com.bottega.factory.delivery.planning.definition;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,7 @@ public class DeliveryPlannerDefinitionEventsMapping {
     private DeliveryForecastProjection projection;
 
     @HandleAfterSave
+    @HandleAfterCreate
     public void handle(DeliveryPlannerDefinitionEntity entity) {
         projection.handleDeliveryPlannerDefinitionChange(entity.getRefNo());
     }

@@ -7,15 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.io.Serializable;
 
 @Repository
-public interface ProjectionDao<T, ID extends Serializable> extends CrudRepository<T, ID> {
-
-    @Override
-    @RestResource(exported = false)
-    <S extends T> S save(S entity);
-
-    @Override
-    @RestResource(exported = false)
-    <S extends T> Iterable<S> save(Iterable<S> entities);
+public interface CommandRepository<T, ID extends Serializable> extends CrudRepository<T, ID> {
 
     @Override
     @RestResource(exported = false)

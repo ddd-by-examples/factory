@@ -1,0 +1,116 @@
+{
+  "refNo": "3009000",
+  "description": {
+    "matNum": "461952398951",
+    "names": [
+      "PROWAD.POJ.NA JARZ.ESSENT"
+    ]
+  },
+  "forecasts": [
+    {
+      "date": "2017-12-10",
+      "stock": 1200,
+      "withLocked": 1900,
+      "demand": 0,
+      "output": 0
+    },
+    {
+      "date": "2017-12-11",
+      "stock": 1200,
+      "withLocked": 1900,
+      "demand": 2800,
+      "output": 0
+    },
+    {
+      "date": "2017-12-12",
+      "stock": -1600,
+      "withLocked": -900,
+      "demand": 0,
+      "output": 0
+    },
+    {
+      "date": "2017-12-13",
+      "stock": -1600,
+      "withLocked": -900,
+      "demand": 0,
+      "output": 0
+    },
+    {
+      "date": "2017-12-14",
+      "stock": -1600,
+      "withLocked": -900,
+      "demand": 0,
+      "output": 0
+    },
+    {
+      "date": "2017-12-15",
+      "stock": -1600,
+      "withLocked": -900,
+      "demand": 0,
+      "output": 0
+    },
+    {
+      "date": "2017-12-16",
+      "stock": -1600,
+      "withLocked": -900,
+      "demand": 0,
+      "output": 0
+    },
+    {
+      "date": "2017-12-17",
+      "stock": -1600,
+      "withLocked": -900,
+      "demand": 0,
+      "output": 0
+    },
+    {
+      "date": "2017-12-18",
+      "stock": -1600,
+      "withLocked": -900,
+      "demand": 0,
+      "output": 0
+    },
+    {
+      "date": "2017-12-19",
+      "stock": -1600,
+      "withLocked": -900,
+      "demand": 0,
+      "output": 0
+    },
+    {
+      "date": "2017-12-20",
+      "stock": -1600,
+      "withLocked": -900,
+      "demand": 0,
+      "output": 0
+    },
+    {
+      "date": "2017-12-21",
+      "stock": -1600,
+      "withLocked": -900,
+      "demand": 0,
+      "output": 0
+    },
+    {
+      "date": "2017-12-22",
+      "stock": -1600,
+      "withLocked": -900,
+      "demand": 0,
+      "output": 0
+    },
+    {
+      "date": "2017-12-23",
+      "stock": -1600,
+      "withLocked": -900,
+      "demand": 0,
+      "output": 0
+    },
+    {
+      "date": "2017-12-24",
+      "stock": -1600,
+      "withLocked": -900,
+      "demand": 0,
+      "output": 0
+    }
+  ]
+}

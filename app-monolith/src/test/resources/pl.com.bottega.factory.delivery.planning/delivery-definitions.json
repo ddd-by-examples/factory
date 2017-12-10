@@ -1,0 +1,17 @@
+{
+  "refNo": "3009000",
+  "definition": {
+    "definitions": {
+      "AtDayStart": {
+        "06:00": 1.0
+      },
+      "TillDayEnd": {
+        "22:00": 1.0
+      },
+      "Twice": {
+        "16:00": 0.5,
+        "20:00": 0.5
+      }
+    }
+  }
+}

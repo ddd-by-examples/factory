@@ -15,10 +15,10 @@ interface DeliveriesSuggestion {
     static DeliveriesSuggestion timesAndFractions(Map<LocalTime, Double> timesAndFractions) {
         return (refNo, date, demand) ->
                 timesAndFractions.entrySet().stream()
-                    .map(e -> new Delivery(
-                            refNo,
-                            date.atTime(e.getKey()), ((long)((double)demand.getLevel() / e.getValue())))
-                    );
+                        .map(e -> new Delivery(
+                                refNo,
+                                date.atTime(e.getKey()), ((long) ((double) demand.getLevel() / e.getValue())))
+                        );
     }
 
     Stream<Delivery> deliveriesFor(String refNo, LocalDate date, Demand demand);

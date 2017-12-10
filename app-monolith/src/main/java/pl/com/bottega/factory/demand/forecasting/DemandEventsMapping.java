@@ -1,5 +1,6 @@
 package pl.com.bottega.factory.demand.forecasting;
 
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import pl.com.bottega.factory.delivery.planning.projection.DeliveryForecastProjection;
@@ -8,11 +9,12 @@ import pl.com.bottega.factory.shortages.prediction.ShortagePredictionEventsMappi
 
 @Lazy
 @Component
+@AllArgsConstructor
 class DemandEventsMapping implements DemandEvents {
 
-    CurrentDemandProjection demands;
-    DeliveryForecastProjection deliveries;
-    ShortagePredictionEventsMapping predictions;
+    private final CurrentDemandProjection demands;
+    private final DeliveryForecastProjection deliveries;
+    private final ShortagePredictionEventsMapping predictions;
 
     @Override
     public void emit(DemandedLevelsChanged event) {

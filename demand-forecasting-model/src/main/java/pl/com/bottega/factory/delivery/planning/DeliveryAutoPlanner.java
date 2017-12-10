@@ -1,7 +1,7 @@
 package pl.com.bottega.factory.delivery.planning;
 
-import pl.com.bottega.factory.demand.forecasting.Demand;
 import lombok.AllArgsConstructor;
+import pl.com.bottega.factory.demand.forecasting.Demand;
 
 import java.time.LocalDate;
 import java.util.Map;

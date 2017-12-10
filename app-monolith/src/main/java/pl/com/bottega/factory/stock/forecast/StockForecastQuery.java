@@ -11,7 +11,7 @@ import pl.com.bottega.factory.product.management.ProductDescriptionEntity;
 import pl.com.bottega.factory.product.management.RefNoId;
 import pl.com.bottega.factory.production.planning.projection.ProductionDailyOutputDao;
 import pl.com.bottega.factory.production.planning.projection.ProductionDailyOutputEntity;
-import pl.com.bottega.factory.shortages.prediction.calculation.CurrentStock;
+import pl.com.bottega.factory.shortages.prediction.calculation.Stock;
 import pl.com.bottega.factory.stock.forecast.StockForecast.StockForecastBuilder;
 import pl.com.bottega.factory.warehouse.WarehouseService;
 
@@ -34,10 +34,12 @@ class StockForecastQuery {
     private final Clock clock;
 
     StockForecast get(RefNoId refNo) {
-        CurrentStock stock = stocks.forRefNo(refNo);
+        Stock stock = stocks.forRefNo(refNo);
         LocalDate today = LocalDate.now(clock);
-        return build(refNo, today, Optional.ofNullable(descriptions.findByRefNo(refNo.getRefNo()))
-                        .map(ProductDescriptionEntity::getDescription).orElse(null), stock,
+        return build(refNo, today,
+                Optional.ofNullable(descriptions.findByRefNo(refNo.getRefNo()))
+                        .map(ProductDescriptionEntity::getDescription).orElse(null),
+                stock,
                 this.demands
                         .findByRefNoAndDateGreaterThanEqual(refNo.getRefNo(), today).stream()
                         .collect(toMap(
@@ -49,25 +51,31 @@ class StockForecastQuery {
                         .collect(toMap(
                                 ProductionDailyOutputEntity::getDate,
                                 ProductionDailyOutputEntity::getOutput
-                        )));
+                        ))
+        );
     }
 
     private StockForecast build(RefNoId refNo, LocalDate today,
-                                ProductDescription description, CurrentStock stock,
+                                ProductDescription description, Stock stock,
                                 Map<LocalDate, Long> demands,
                                 Map<LocalDate, Long> outputs) {
         LocalDate stopAtDay = today.plusDays(15);
         long level = stock.getLevel();
         StockForecastBuilder builder = StockForecast.builder();
         for (LocalDate date = today; date.isBefore(stopAtDay); date = date.plusDays(1)) {
+            long demand = demands.getOrDefault(date, 0L);
+            long output = outputs.getOrDefault(date, 0L);
+            long withLocked = level + stock.getLocked();
             builder.forecast(
                     new StockForecast.DailyForecast(
                             date,
                             level,
-                            level + stock.getLocked(),
-                            demands.getOrDefault(date, 0L),
-                            outputs.getOrDefault(date, 0L)
-                    ));
+                            withLocked,
+                            demand,
+                            output
+                    )
+            );
+            level = level - demand + output;
         }
         return builder
                 .refNo(refNo.getRefNo())

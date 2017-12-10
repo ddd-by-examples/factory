@@ -1,15 +1,16 @@
 package pl.com.bottega.factory.production.planning.projection;
 
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.stereotype.Repository;
-import pl.com.bottega.tools.ProjectionDao;
+import pl.com.bottega.tools.ProjectionRepository;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
 @RepositoryRestResource(path = "production-outputs", collectionResourceRel = "production-outputs")
-public interface ProductionOutputDao extends ProjectionDao<ProductionOutputEntity, Long> {
-
-    List<ProductionOutputEntity> findByRefNoAndStartGreaterThanEqual(String refNo, Instant instant);
+public interface ProductionOutputDao extends ProjectionRepository<ProductionOutputEntity, Long> {
+    @RestResource(path = "refNos", rel = "refNos")
+    List<ProductionOutputEntity> findByRefNoAndStartGreaterThanEqual(String refNo, LocalDateTime from);
 }

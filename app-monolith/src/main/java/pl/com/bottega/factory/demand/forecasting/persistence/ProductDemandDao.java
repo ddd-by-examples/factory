@@ -8,8 +8,5 @@ import pl.com.bottega.factory.demand.forecasting.ProductDemandEntity;
 @Repository
 @RestResource(exported = false)
 public interface ProductDemandDao extends JpaRepository<ProductDemandEntity, Long> {
-
-    ProductDemandEntity findById(Long id);
-
     ProductDemandEntity findByRefNo(String refNo);
 }

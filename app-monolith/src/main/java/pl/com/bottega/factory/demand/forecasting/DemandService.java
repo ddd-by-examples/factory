@@ -15,6 +15,7 @@ public class DemandService {
     public void process(Document document) {
         ProductDemand model = repository.get(document.getRefNo());
         model.process(document);
+        repository.save(model);
     }
 
     public void adjust(AdjustDemand adjustDemand) {

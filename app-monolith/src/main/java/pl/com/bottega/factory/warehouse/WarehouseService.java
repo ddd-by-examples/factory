@@ -1,8 +1,8 @@
 package pl.com.bottega.factory.warehouse;
 
 import pl.com.bottega.factory.product.management.RefNoId;
-import pl.com.bottega.factory.shortages.prediction.calculation.CurrentStock;
+import pl.com.bottega.factory.shortages.prediction.calculation.Stock;
 
 public interface WarehouseService {
-    CurrentStock forRefNo(RefNoId refNo);
+    Stock forRefNo(RefNoId refNo);
 }

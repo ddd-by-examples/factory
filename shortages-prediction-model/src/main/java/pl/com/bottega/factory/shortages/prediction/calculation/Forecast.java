@@ -4,25 +4,25 @@ import lombok.AllArgsConstructor;
 import pl.com.bottega.factory.shortages.prediction.Shortages;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
+import java.util.SortedSet;
 
 @AllArgsConstructor
 public class Forecast {
 
-    String refNo;
-    LocalDateTime created;
-    List<LocalDateTime> times;
-    CurrentStock stock;
-    ProductionOutputs outputs;
-    Demands demands;
+    private final String refNo;
+    private final LocalDateTime created;
+    private final SortedSet<LocalDateTime> deliveryTimes;
+    private final Stock stock;
+    private final ProductionOutputs outputs;
+    private final Demands demands;
 
     public Optional<Shortages> findShortages() {
         long level = stock.getLevel();
 
         Shortages.Builder found = Shortages.builder(refNo, stock.getLocked(), created);
         LocalDateTime lastTime = created;
-        for (LocalDateTime time : times) {
+        for (LocalDateTime time : deliveryTimes) {
             long demand = demands.get(time);
             long produced = outputs.getOutput(lastTime, time);
 

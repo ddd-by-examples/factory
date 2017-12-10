@@ -12,9 +12,9 @@ import pl.com.bottega.factory.warehouse.WarehouseService;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toMap;
@@ -23,36 +23,36 @@ import static java.util.stream.Collectors.toMap;
 @AllArgsConstructor
 class ForecastORMProvider implements Forecasts {
 
-    private WarehouseService stocks;
-    private DeliveryForecastDao demands;
-    private ProductionOutputDao outputs;
-    private Clock clock;
+    private final WarehouseService stocks;
+    private final DeliveryForecastDao demands;
+    private final ProductionOutputDao outputs;
+    private final Clock clock;
 
     @Override
     public Forecast get(RefNoId refNo, int daysAhead) {
-        CurrentStock stock = stocks.forRefNo(refNo);
+        Stock stock = stocks.forRefNo(refNo);
         Instant now = Instant.now(clock);
         LocalDateTime time = now.atZone(clock.getZone()).toLocalDateTime();
 
         Map<LocalDateTime, Long> demands = this.demands
-                .findByRefNoAndDateGreaterThanEqual(refNo.getRefNo(), now).stream()
+                .findByRefNoAndTimeGreaterThanEqual(refNo.getRefNo(), time).stream()
                 .collect(toMap(
                         DeliveryForecastEntity::getTime,
                         DeliveryForecastEntity::getLevel
                 ));
-        List<LocalDateTime> times = new ArrayList<>(demands.keySet());
+        SortedSet<LocalDateTime> deliveryTimes = new TreeSet<>(demands.keySet());
 
         Demands demand = new Demands(demands);
 
         ProductionOutputs outputs = new ProductionForecast(
-                this.outputs.findByRefNoAndStartGreaterThanEqual(refNo.getRefNo(), now).stream()
+                this.outputs.findByRefNoAndStartGreaterThanEqual(refNo.getRefNo(), time).stream()
                         .map(e -> new Item(
                                 e.getStart(),
                                 e.getDuration(),
                                 e.getPartsPerMinute()))
                         .collect(Collectors.toList())
-        ).outputsInTimes(time, demands.keySet());
+        ).outputsInTimes(time, deliveryTimes);
 
-        return new Forecast(refNo.getRefNo(), time, times, stock, outputs, demand);
+        return new Forecast(refNo.getRefNo(), time, deliveryTimes, stock, outputs, demand);
     }
 }

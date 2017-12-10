@@ -1,0 +1,23 @@
+{
+  "note": "Customer moved demand for day earlier",
+  "customerRepresentative": "Krysia z logistyki",
+  "adjustment": {
+    "refNo": "3009000",
+    "adjustments": {
+      "2017-12-11": {
+        "demand": {
+          "level": 2800,
+          "schema": "AtDayStart"
+        },
+        "strong": true
+      },
+      "2017-12-12": {
+        "demand": {
+          "level": 0,
+          "schema": "AtDayStart"
+        },
+        "strong": false
+      }
+    }
+  }
+}
