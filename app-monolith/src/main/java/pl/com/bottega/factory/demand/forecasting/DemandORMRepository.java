@@ -40,24 +40,24 @@ class DemandORMRepository {
                                 Function.identity()
                         ));
 
+        UnitOfWork unitOfWork = new UnitOfWork();
         Demands demands = new Demands();
-        demands.fetch = date -> map(refNo, date, data, demands);
-
-        return new ProductDemand(id, demands, clock, events);
+        demands.fetch = date -> map(refNo, date, data, unitOfWork);
+        return new ProductDemand(id, demands, unitOfWork, clock, events);
     }
 
     private DailyDemand map(String refNo, LocalDate date,
                             Map<LocalDate, DemandEntity> data,
-                            Demands demands) {
+                            UnitOfWork unitOfWork) {
         return ofNullable(data.get(date))
                 .map(entity -> new DailyDemand(
                         entity.createId(),
-                        demands,
+                        unitOfWork,
                         entity.get().getDocumented(),
                         entity.get().getAdjustment()))
                 .orElseGet(() -> new DailyDemand(
                         new DemandEntityId(refNo, date),
-                        demands,
+                        unitOfWork,
                         null,
                         null
                 ));
@@ -65,10 +65,10 @@ class DemandORMRepository {
 
     void save(ProductDemand model) {
         ProductDemandEntity root = rootDao.findOne(TechnicalId.get(model.id));
-        if (model.demands.getUpdates().size() > 0) {
+        if (model.unit.updates().size() > 0) {
             em.lock(root, LockModeType.OPTIMISTIC_FORCE_INCREMENT);
         }
-        for (DemandUpdated updated : model.demands.getUpdates()) {
+        for (DemandUpdated updated : model.unit.updates()) {
             DemandEntity entity;
             if (TechnicalId.isPersisted(updated.getId())) {
                 entity = demandDao.getOne(TechnicalId.get(updated.getId()));

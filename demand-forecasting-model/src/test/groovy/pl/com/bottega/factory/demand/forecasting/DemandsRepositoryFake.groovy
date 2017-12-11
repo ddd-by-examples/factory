@@ -7,8 +7,8 @@ class DemandsRepositoryFake extends Demands {
 
     DailyDemandBuilder builder
 
-    DemandsRepositoryFake(String refNo, Clock clock) {
-        this.builder = new DailyDemandBuilder(refNo: refNo, clock: clock, events: this)
+    DemandsRepositoryFake(String refNo, UnitOfWork unitOfWork, Clock clock) {
+        this.builder = new DailyDemandBuilder(refNo: refNo, events: unitOfWork, clock: clock)
         fetch = { date -> nothingDemanded(date) }
     }
 
@@ -27,10 +27,5 @@ class DemandsRepositoryFake extends Demands {
                 .build()
         fetched.put(date, demand)
         demand
-    }
-
-    void clearUnitOfWork() {
-        super.@changes.clear()
-        super.@warnings.clear()
     }
 }

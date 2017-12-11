@@ -76,7 +76,7 @@ class DocumentProcessingSpec extends Specification {
         1 * events.emit(levelChanged([2800, 2000], [0, 3500]))
 
         when:
-        builder.demands.clearUnitOfWork()
+        builder.clearUnitOfWork()
         demand.process(document)
 
         then:

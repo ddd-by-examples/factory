@@ -10,7 +10,8 @@ import static pl.com.bottega.factory.demand.forecasting.DemandEvents.DemandedLev
 class ProductDemandBuilder {
 
     def refNo = "3009000"
-    def demands = new DemandsRepositoryFake(refNo, clock)
+    def unitOfWork = new UnitOfWork()
+    def demands = new DemandsRepositoryFake(refNo, unitOfWork, clock)
     def clock = Clock.fixed(Instant.now(), ZoneId.systemDefault())
     DemandEvents events
 
@@ -20,7 +21,7 @@ class ProductDemandBuilder {
             demands.demanded(date, level)
             date = date.plusDays(1)
         }
-        new ProductDemand(new RefNoId(refNo), demands, clock, events)
+        new ProductDemand(new RefNoId(refNo), demands, unitOfWork, clock, events)
     }
 
     Document document(LocalDate date, long ... levels) {
@@ -53,5 +54,11 @@ class ProductDemandBuilder {
             date = date.plusDays(1)
         }
         new DemandedLevelsChanged(new RefNoId(refNo), results)
+    }
+
+    void clearUnitOfWork() {
+        unitOfWork.@changes.clear()
+        unitOfWork.@reviews.clear()
+        unitOfWork.@updates.clear()
     }
 }

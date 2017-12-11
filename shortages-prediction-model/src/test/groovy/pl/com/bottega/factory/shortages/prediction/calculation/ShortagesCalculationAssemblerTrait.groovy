@@ -10,7 +10,7 @@ trait ShortagesCalculationAssemblerTrait {
 
     LocalDateTime now = LocalDateTime.now()
     String refNo = "3009000"
-    Set<LocalDateTime> times
+    SortedSet<LocalDateTime> times
 
     Forecasts forecastProvider(Stock stock, Demands demands, ProductionOutputs outputs) {
         def forecast = forecast(stock, demands, outputs)
@@ -18,7 +18,7 @@ trait ShortagesCalculationAssemblerTrait {
     }
 
     Forecast forecast(Stock stock, Demands demands, ProductionOutputs outputs) {
-        new Forecast(refNo, now, times as List, stock, outputs, demands)
+        new Forecast(refNo, now, times, stock, outputs, demands)
     }
 
     ProductionOutputs noProductions() {
@@ -36,12 +36,12 @@ trait ShortagesCalculationAssemblerTrait {
     }
 
     Demands noDemands() {
-        times = Collections.emptySet()
+        times = Collections.emptySortedSet()
         new Demands([:])
     }
 
     Demands demands(Map<LocalDateTime, Long> demands) {
-        times = demands.keySet()
+        times = new TreeSet<>(demands.keySet())
         new Demands(demands)
     }
 
