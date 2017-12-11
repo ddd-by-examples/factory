@@ -7,7 +7,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RepositoryRestResource(
-        path = "product-descriptions", collectionResourceRel = "product-descriptions")
+        path = "product-descriptions",
+        collectionResourceRel = "product-descriptions",
+        itemResourceRel = "product-description")
 public interface ProductDescriptionDao extends JpaRepository<ProductDescriptionEntity, Long> {
     @RestResource(path = "refNos", rel = "refNos")
     ProductDescriptionEntity findByRefNo(String refNo);

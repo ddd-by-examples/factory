@@ -9,7 +9,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-@RepositoryRestResource(path = "production-outputs", collectionResourceRel = "production-outputs")
+@RepositoryRestResource(path = "production-outputs",
+        collectionResourceRel = "production-outputs",
+        itemResourceRel = "production-output")
 public interface ProductionOutputDao extends ProjectionRepository<ProductionOutputEntity, Long> {
     @RestResource(path = "refNos", rel = "refNos")
     List<ProductionOutputEntity> findByRefNoAndStartGreaterThanEqual(String refNo, LocalDateTime from);

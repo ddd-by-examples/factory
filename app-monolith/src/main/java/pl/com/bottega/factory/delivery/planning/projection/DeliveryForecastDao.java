@@ -10,7 +10,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-@RepositoryRestResource(path = "delivery-forecasts", collectionResourceRel = "delivery-forecasts")
+@RepositoryRestResource(path = "delivery-forecasts",
+        collectionResourceRel = "delivery-forecasts",
+        itemResourceRel = "delivery-forecast")
 public interface DeliveryForecastDao extends ProjectionRepository<DeliveryForecastEntity, Long> {
 
     @RestResource(path = "refNos", rel = "refNos")

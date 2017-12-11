@@ -8,7 +8,9 @@ import pl.com.bottega.tools.CommandRepository;
 import java.time.LocalDate;
 
 @Repository
-@RepositoryRestResource(path = "demand-adjustments", collectionResourceRel = "demand-adjustments")
+@RepositoryRestResource(path = "demand-adjustments",
+        collectionResourceRel = "demand-adjustments",
+        itemResourceRel = "demand-adjustment")
 public interface DemandAdjustmentDao extends CommandRepository<DemandAdjustmentEntity, Long> {
     @RestResource(exported = false)
     void deleteByCleanAfterGreaterThanEqual(LocalDate date);

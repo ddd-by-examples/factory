@@ -7,7 +7,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RepositoryRestResource(
-        path = "delivery-definitions", collectionResourceRel = "delivery-definitions")
+        path = "delivery-definitions",
+        collectionResourceRel = "delivery-definitions",
+        itemResourceRel = "delivery-definition")
 public interface DeliveryPlannerDefinitionDao extends JpaRepository<DeliveryPlannerDefinitionEntity, Long> {
     @RestResource(path = "refNos", rel = "refNos")
     DeliveryPlannerDefinitionEntity findByRefNo(String refNo);

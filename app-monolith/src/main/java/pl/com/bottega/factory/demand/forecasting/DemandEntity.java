@@ -13,6 +13,7 @@ import java.util.Optional;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
+@ToString(exclude = "product")
 public class DemandEntity implements Serializable {
 
     @Id
