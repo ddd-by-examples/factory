@@ -12,7 +12,7 @@ class Adjustment {
         return new Adjustment(demand, true);
     }
 
-    static Adjustment week(Demand demand) {
+    static Adjustment weak(Demand demand) {
         return new Adjustment(demand, false);
     }
 

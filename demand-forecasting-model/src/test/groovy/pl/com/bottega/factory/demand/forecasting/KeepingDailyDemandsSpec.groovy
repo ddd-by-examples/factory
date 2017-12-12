@@ -1,6 +1,5 @@
 package pl.com.bottega.factory.demand.forecasting
 
-import spock.lang.PendingFeature
 import spock.lang.Specification
 
 class KeepingDailyDemandsSpec extends Specification {
@@ -64,8 +63,7 @@ class KeepingDailyDemandsSpec extends Specification {
         0 * events.emit(_ as DailyDemand.LevelChanged)
     }
 
-    @PendingFeature
-    def "Document update hidden by strong adjustment should rise warning"() {
+    def "Document update ignored by strong adjustment should rise warning"() {
         given:
         def demand = demand()
                 .demandedLevels(2800)
@@ -76,7 +74,7 @@ class KeepingDailyDemandsSpec extends Specification {
 
         then:
         demand.getLevel() == Demand.of(3500)
-        1 * events.emit(_ as DailyDemand.ReviewRequest)
+        1 * events.emit(reviewRequest(2800, 3500, 5000))
     }
 
     DailyDemandBuilder demand() {
@@ -94,5 +92,9 @@ class KeepingDailyDemandsSpec extends Specification {
 
     def levelChanged(long previous, long current) {
         builder.levelChanged(previous, current)
+    }
+
+    def reviewRequest(long previousDocumented, long adjustment, long newDocumented) {
+        builder.reviewRequest(previousDocumented, adjustment, newDocumented)
     }
 }

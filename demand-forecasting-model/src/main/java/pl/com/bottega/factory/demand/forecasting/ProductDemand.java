@@ -2,6 +2,8 @@ package pl.com.bottega.factory.demand.forecasting;
 
 import lombok.AllArgsConstructor;
 import pl.com.bottega.factory.demand.forecasting.DemandEvents.DemandedLevelsChanged;
+import pl.com.bottega.factory.demand.forecasting.DemandEvents.ReviewRequested;
+import pl.com.bottega.factory.demand.forecasting.DemandEvents.ReviewRequested.ReviewNeeded;
 import pl.com.bottega.factory.product.management.RefNoId;
 
 import java.time.Clock;
@@ -38,6 +40,15 @@ class ProductDemand {
 
         if (unit.anyChanges()) {
             events.emit(new DemandedLevelsChanged(id, unit.changes()));
+        }
+        if (unit.anyReviews()) {
+            events.emit(new ReviewRequested(id, unit.reviews()));
+        }
+    }
+
+    void review(ReviewNeeded review, ReviewDecision decision) {
+        if (decision.requireAdjustment()) {
+            adjust(decision.toAdjustment(review));
         }
     }
 

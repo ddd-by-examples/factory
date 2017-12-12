@@ -5,12 +5,14 @@ import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
 
-import static pl.com.bottega.factory.demand.forecasting.DemandEvents.DemandedLevelsChanged.Change;
+import static pl.com.bottega.factory.demand.forecasting.DemandEvents.DemandedLevelsChanged.Change
+import static pl.com.bottega.factory.demand.forecasting.DemandEvents.ReviewRequested.ReviewNeeded
 
 class DailyDemandBuilder {
 
     Clock clock = Clock.fixed(Instant.now(), ZoneId.systemDefault())
     DailyDemand.Events events
+    ReviewPolicy policy = ReviewPolicy.BASIC
 
     String refNo = "3009000"
     private LocalDate date = LocalDate.now(clock)
@@ -18,7 +20,7 @@ class DailyDemandBuilder {
     private Adjustment adjustment
 
     DailyDemand build() {
-        new DailyDemand(new DailyId(refNo, date), events, base, adjustment)
+        new DailyDemand(new DailyId(refNo, date), events, policy, base, adjustment)
     }
 
     DailyDemandBuilder reset() {
@@ -60,6 +62,11 @@ class DailyDemandBuilder {
         this
     }
 
+    DailyDemandBuilder demandedLevels(Demand level) {
+        base = level
+        this
+    }
+
     DailyDemandBuilder adjustedTo(long level) {
         adjustment = new Adjustment(Demand.of(level), false)
         this
@@ -82,6 +89,15 @@ class DailyDemandBuilder {
         new DailyDemand.LevelChanged(
                 new DailyId(refNo, date),
                 new Change(Demand.of(previous), Demand.of(current))
+        )
+    }
+
+    ReviewNeeded reviewRequest(long previousDocumented, long adjustment, long newDocumented) {
+        new ReviewNeeded(
+                new DailyId(refNo, date),
+                Demand.of(previousDocumented),
+                Demand.of(adjustment),
+                Demand.of(newDocumented)
         )
     }
 }

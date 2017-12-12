@@ -23,11 +23,12 @@ import static java.util.stream.Collectors.toMap;
 @AllArgsConstructor
 class DemandORMRepository {
 
-    private Clock clock;
-    private DemandEventsMapping events;
-    private EntityManager em;
-    private ProductDemandDao rootDao;
-    private DemandDao demandDao;
+    private final Clock clock;
+    private final DemandEventsMapping events;
+    private final ReviewPolicy reviewPolicy = ReviewPolicy.BASIC;
+    private final EntityManager em;
+    private final ProductDemandDao rootDao;
+    private final DemandDao demandDao;
 
     ProductDemand get(String refNo) {
         ProductDemandEntity root = rootDao.findByRefNo(refNo);
@@ -53,11 +54,13 @@ class DemandORMRepository {
                 .map(entity -> new DailyDemand(
                         entity.createId(),
                         unitOfWork,
+                        reviewPolicy,
                         entity.get().getDocumented(),
                         entity.get().getAdjustment()))
                 .orElseGet(() -> new DailyDemand(
                         new DemandEntityId(refNo, date),
                         unitOfWork,
+                        reviewPolicy,
                         null,
                         null
                 ));

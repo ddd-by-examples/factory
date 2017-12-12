@@ -2,16 +2,15 @@ package pl.com.bottega.factory.demand.forecasting.projection;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
-import pl.com.bottega.factory.demand.forecasting.DemandEvents;
+import pl.com.bottega.factory.demand.forecasting.DemandEvents.DemandedLevelsChanged;
 
 @Component
 @AllArgsConstructor
-public class CurrentDemandProjection implements DemandEvents {
+public class CurrentDemandProjection {
 
     private final CurrentDemandDao demandDao;
 
-    @Override
-    public void emit(DemandedLevelsChanged event) {
+    public void persistCurrentDemands(DemandedLevelsChanged event) {
         event.getResults().forEach((daily, change) -> {
                     demandDao.deleteByRefNoAndDate(
                             daily.getRefNo(),

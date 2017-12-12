@@ -21,16 +21,25 @@ public class Handler {
 
     private final DemandService service;
     private final DemandAdjustmentDao adjustments;
+    private final DemandReviewDao reviews;
     private final Clock clock;
 
     @HandleBeforeCreate
     @HandleBeforeSave
-    public void adjustDemand(DemandAdjustmentEntity resource) {
-        LocalDate latest = resource.getAdjustment()
+    public void adjust(DemandAdjustmentEntity adjustment) {
+        LocalDate latest = adjustment.getAdjustment()
                 .latestAdjustment()
                 .orElse(LocalDate.now(clock));
-        resource.setCleanAfter(latest.plusDays(7));
-        service.adjust(resource.getAdjustment());
+        adjustment.setCleanAfter(latest.plusDays(7));
+        service.adjust(adjustment.getAdjustment());
+    }
+
+    @HandleBeforeSave
+    public void review(DemandReviewEntity review) {
+        if (review.decisionTaken()) {
+            review.setCleanAfter(LocalDate.now(clock).plusDays(7));
+            service.review(review.getReview(), review.getDecision());
+        }
     }
 
     @Scheduled(cron = "0 0 12 * * ?")
@@ -38,5 +47,6 @@ public class Handler {
     @Transactional
     public void clean() {
         adjustments.deleteByCleanAfterGreaterThanEqual(LocalDate.now(clock));
+        reviews.deleteByCleanAfterGreaterThanEqual(LocalDate.now(clock));
     }
 }

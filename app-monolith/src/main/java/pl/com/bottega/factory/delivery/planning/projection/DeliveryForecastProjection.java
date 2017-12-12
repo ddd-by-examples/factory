@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import pl.com.bottega.factory.delivery.planning.DeliveryAutoPlanner;
 import pl.com.bottega.factory.delivery.planning.DeliveryAutoPlannerORMRepository;
 import pl.com.bottega.factory.demand.forecasting.Demand;
-import pl.com.bottega.factory.demand.forecasting.DemandEvents;
+import pl.com.bottega.factory.demand.forecasting.DemandEvents.DemandedLevelsChanged;
 import pl.com.bottega.factory.demand.forecasting.projection.CurrentDemandDao;
 import pl.com.bottega.factory.demand.forecasting.projection.CurrentDemandEntity;
 
@@ -15,15 +15,14 @@ import java.util.List;
 
 @Component
 @AllArgsConstructor
-public class DeliveryForecastProjection implements DemandEvents {
+public class DeliveryForecastProjection {
 
     private final Clock clock;
     private final DeliveryForecastDao forecastDao;
     private final CurrentDemandDao demandDao;
     private final DeliveryAutoPlannerORMRepository planners;
 
-    @Override
-    public void emit(DemandedLevelsChanged event) {
+    public void persistDeliveryForecasts(DemandedLevelsChanged event) {
         DeliveryAutoPlanner planner = planners.get(event.getRefNo().getRefNo());
         event.getResults().keySet()
                 .forEach(daily -> forecastDao.deleteByRefNoAndDate(

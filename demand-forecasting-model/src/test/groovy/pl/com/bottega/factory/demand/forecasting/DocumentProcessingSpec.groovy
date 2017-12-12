@@ -6,15 +6,18 @@ import java.time.LocalDate
 
 import static pl.com.bottega.factory.demand.forecasting.DemandEvents.DemandedLevelsChanged
 
-class DocumentProcessingSpec extends Specification {
+class DocumentProcessingSpec extends Specification implements ProductDemandTrait {
 
     def events = Mock(DemandEvents)
-    def builder = new ProductDemandBuilder(events: events)
+
+    void setup() {
+        builder = new ProductDemandBuilder(events: events)
+    }
 
     def "Updated demands should be stored"() {
         given:
         def today = LocalDate.now(builder.clock)
-        def demand = demand(2800, 0)
+        def demand = demanded(2800, 0)
         def document = document(today, 2000, 3500)
 
         when:
@@ -27,7 +30,7 @@ class DocumentProcessingSpec extends Specification {
     def "Demands for dates not present in system should be stored "() {
         given:
         def today = LocalDate.now(builder.clock)
-        def demand = demand(1000)
+        def demand = demanded(1000)
         def document = document(today, 1000, 3500, 1000)
 
         when:
@@ -40,7 +43,7 @@ class DocumentProcessingSpec extends Specification {
     def "Document without changes should not generate event"() {
         given:
         def today = LocalDate.now(builder.clock)
-        def demand = demand(2800, 0)
+        def demand = demanded(2800, 0)
         def document = document(today, 2800, 0)
 
         when:
@@ -53,7 +56,7 @@ class DocumentProcessingSpec extends Specification {
     def "Should skip past demands from document"() {
         given:
         def pastDate = LocalDate.now(builder.clock).minusDays(2)
-        def demand = demand(0, 0)
+        def demand = demanded(0, 0)
         def document = document(pastDate, 2800, 2800, 3500, 1000)
 
         when:
@@ -66,7 +69,7 @@ class DocumentProcessingSpec extends Specification {
     def "Document processing should be idempotent"() {
         given:
         def today = LocalDate.now(builder.clock)
-        def demand = demand(2800, 0)
+        def demand = demanded(2800, 0)
         def document = document(today, 2000, 3500)
 
         when:
@@ -81,21 +84,5 @@ class DocumentProcessingSpec extends Specification {
 
         then:
         0 * events.emit(_ as DemandedLevelsChanged)
-    }
-
-    ProductDemand demand(long ... levels) {
-        builder.demand(levels)
-    }
-
-    Document document(LocalDate date, long ... levels) {
-        builder.document(date, levels)
-    }
-
-    DemandedLevelsChanged levelChanged(List<Long>... changes) {
-        builder.levelChanged(changes)
-    }
-
-    List<Long> notChanged() {
-        []
     }
 }

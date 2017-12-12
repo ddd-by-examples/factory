@@ -2,6 +2,7 @@ package pl.com.bottega.factory.demand.forecasting;
 
 import lombok.Value;
 import pl.com.bottega.factory.demand.forecasting.DemandEvents.DemandedLevelsChanged.Change;
+import pl.com.bottega.factory.demand.forecasting.DemandEvents.ReviewRequested.ReviewNeeded;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -10,6 +11,7 @@ class DailyDemand {
 
     private final DailyId id;
     private final Events events;
+    private final ReviewPolicy policy;
 
     private Demand documented;
     private Adjustment adjustment;
@@ -17,15 +19,16 @@ class DailyDemand {
     interface Events {
         void emit(LevelChanged event);
 
-        void emit(ReviewRequest event);
+        void emit(ReviewNeeded event);
 
         void emit(DemandUpdated event);
     }
 
-    DailyDemand(DailyId id, Events events,
+    DailyDemand(DailyId id, Events events, ReviewPolicy policy,
                 Demand documented, Adjustment adjustment) {
         this.id = id;
         this.events = events;
+        this.policy = policy;
         this.documented = Optional.ofNullable(documented)
                 .orElse(Demand.nothingDemanded());
         this.adjustment = adjustment;
@@ -45,6 +48,13 @@ class DailyDemand {
 
     void update(Demand documented) {
         State state = state();
+        if (policy.reviewNeeded(this.documented, this.adjustment, documented)) {
+            events.emit(new ReviewNeeded(id,
+                    this.documented,
+                    this.adjustment.getDemand(),
+                    documented)
+            );
+        }
         if (!Adjustment.isStrong(this.adjustment)) {
             this.adjustment = null;
         }
@@ -68,14 +78,6 @@ class DailyDemand {
     static class LevelChanged {
         DailyId id;
         Change change;
-    }
-
-    @Value
-    static class ReviewRequest {
-        DailyId id;
-        Demand previousDocumented;
-        Demand strongAdjustment;
-        Demand newDocumented;
     }
 
     @Value

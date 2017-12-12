@@ -3,11 +3,11 @@ package pl.com.bottega.factory.demand.forecasting
 import java.time.Clock
 import java.time.LocalDate
 
-class DemandsRepositoryFake extends Demands {
+class DemandsFake extends Demands {
 
     DailyDemandBuilder builder
 
-    DemandsRepositoryFake(String refNo, UnitOfWork unitOfWork, Clock clock) {
+    DemandsFake(String refNo, UnitOfWork unitOfWork, Clock clock) {
         this.builder = new DailyDemandBuilder(refNo: refNo, events: unitOfWork, clock: clock)
         fetch = { date -> nothingDemanded(date) }
     }
@@ -25,6 +25,26 @@ class DemandsRepositoryFake extends Demands {
                 .demandedLevels(level)
                 .noAdjustments()
                 .build()
+        fetched.put(date, demand)
+        demand
+    }
+
+    DailyDemand adjusted(LocalDate date, long level) {
+        def demand = builder.date(date)
+                .demandedLevels(fetched.get(date)?.level)
+                .adjustedTo(level)
+                .build()
+
+        fetched.put(date, demand)
+        demand
+    }
+
+    DailyDemand stronglyAdjusted(LocalDate date, long level) {
+        def demand = builder.date(date)
+                .demandedLevels(fetched.get(date)?.level)
+                .stronglyAdjustedTo(level)
+                .build()
+
         fetched.put(date, demand)
         demand
     }

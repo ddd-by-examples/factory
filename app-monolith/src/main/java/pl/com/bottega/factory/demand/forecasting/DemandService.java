@@ -2,6 +2,7 @@ package pl.com.bottega.factory.demand.forecasting;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.com.bottega.factory.demand.forecasting.DemandEvents.ReviewRequested.ReviewNeeded;
 
 import javax.transaction.Transactional;
 
@@ -21,6 +22,12 @@ public class DemandService {
     public void adjust(AdjustDemand adjustDemand) {
         ProductDemand model = repository.get(adjustDemand.getRefNo());
         model.adjust(adjustDemand);
+        repository.save(model);
+    }
+
+    public void review(ReviewNeeded review, ReviewDecision decision) {
+        ProductDemand model = repository.get(review.getRefNo());
+        model.review(review, decision);
         repository.save(model);
     }
 }
