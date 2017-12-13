@@ -31,6 +31,7 @@ class DemandORMRepositoryTest extends Specification {
     DemandORMRepository repository
 
     final def today = LocalDate.now(clock)
+    final def refNo = "3009000"
 
     def setup() {
         demandDao.deleteAllInBatch()
@@ -40,56 +41,70 @@ class DemandORMRepositoryTest extends Specification {
 
     def "persists new demand"() {
         given:
-        rootDao.save(new ProductDemandEntity("3009000"))
+        noDemandsInDB()
 
         when:
-        def object = repository.get("3009000")
-        object.adjust(new AdjustDemand("3009000", [
-                (today): Adjustment.strong(Demand.of(2000))
-        ]))
+        def object = demandIsLoadedFromDB()
+        object.adjust(demandAdjustment(today, 2000))
         repository.save(object)
 
         then:
-        demandDao.findAll().size() == 1
+        def demandsInDB = demandDao.findAll()
+        demandsInDB.size() == 1
+        demandsInDB.every hasAdjustment(2000)
     }
 
     def "updates existing demand"() {
         given:
-        def root = rootDao.save(new ProductDemandEntity("3009000"))
-        def demand = new DemandEntity(root, today)
-        demand.set(Demand.of(1000), null)
-        demandDao.save(demand)
+        demandInDB((today): 1000)
 
         when:
-        def object = repository.get("3009000")
-        object.adjust(new AdjustDemand("3009000", [
-                (today): Adjustment.strong(Demand.of(2000))
-        ]))
+        def object = demandIsLoadedFromDB()
+        object.adjust(demandAdjustment(today, 2000))
         repository.save(object)
 
         then:
-        def demands = demandDao.findAll()
-        demands.size() == 1
-        demand.every { it.get().getAdjustment() == Adjustment.strong(Demand.of(2000)) }
+        def demandsInDB = demandDao.findAll()
+        demandsInDB.size() == 1
+        demandsInDB.every hasAdjustment(2000)
     }
 
     def "doesn't fetch historical data"() {
         given:
-        def root = rootDao.save(new ProductDemandEntity("3009000"))
-        def old = new DemandEntity(root, today.minusDays(1))
-        old.set(Demand.of(10000), null)
-        demandDao.save(old)
-
-        def todays = new DemandEntity(root, today)
-        todays.set(Demand.of(1000), null)
-        demandDao.save(todays)
+        demandInDB((today.minusDays(1)): 10000, (today): 1000)
 
         when:
-        def demands = demandDao.findByProductRefNoAndDateGreaterThanEqual("3009000", today)
+        def demands = demandDao.findByProductRefNoAndDateGreaterThanEqual(refNo, today)
 
         then:
         demands.size() == 1
-        demands.contains(todays)
-        !demands.contains(old)
+        demands.every { it -> it.date == today }
+    }
+
+    private ProductDemandEntity noDemandsInDB() {
+        rootDao.save(new ProductDemandEntity(refNo))
+    }
+
+    private void demandInDB(Map<LocalDate, Long> demands) {
+        def root = rootDao.save(new ProductDemandEntity(refNo))
+        demands.each { date, level ->
+            def demand = new DemandEntity(root, date)
+            demand.set(Demand.of(level), null)
+            demandDao.save(demand)
+        }
+    }
+
+    private AdjustDemand demandAdjustment(LocalDate date, long level) {
+        new AdjustDemand(refNo, [
+                (date): Adjustment.strong(Demand.of(level))
+        ])
+    }
+
+    private ProductDemand demandIsLoadedFromDB() {
+        repository.get(refNo)
+    }
+
+    private def hasAdjustment(long level) {
+        return { it.get().getAdjustment() == Adjustment.strong(Demand.of(level)) }
     }
 }
