@@ -6,8 +6,6 @@ import java.time.*
 
 import static DemandedLevelsChanged.Change
 import static ReviewRequested.ReviewNeeded
-import static pl.com.bottega.factory.demand.forecasting.DemandEvents.DemandedLevelsChanged
-import static pl.com.bottega.factory.demand.forecasting.DemandEvents.ReviewRequested
 
 class ProductDemandBuilder {
 

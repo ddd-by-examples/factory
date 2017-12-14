@@ -23,9 +23,4 @@ public class Demand {
         return of(0);
     }
 
-    public static Demand ofNullable(Long level, Schema schema) {
-        return level == null || schema == null
-                ? nothingDemanded()
-                : of(level, schema);
-    }
 }

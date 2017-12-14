@@ -2,7 +2,7 @@ package pl.com.bottega.factory.demand.forecasting.projection;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
-import pl.com.bottega.factory.demand.forecasting.DemandEvents.DemandedLevelsChanged;
+import pl.com.bottega.factory.demand.forecasting.DemandedLevelsChanged;
 
 @Component
 @AllArgsConstructor

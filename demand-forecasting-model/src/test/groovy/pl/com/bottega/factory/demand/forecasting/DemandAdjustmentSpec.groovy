@@ -4,8 +4,6 @@ import spock.lang.Specification
 
 import java.time.LocalDate
 
-import static pl.com.bottega.factory.demand.forecasting.DemandEvents.DemandedLevelsChanged
-
 class DemandAdjustmentSpec extends Specification implements ProductDemandTrait {
 
     def events = Mock(DemandEvents)

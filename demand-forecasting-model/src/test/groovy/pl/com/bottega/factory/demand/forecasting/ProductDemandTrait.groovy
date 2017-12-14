@@ -3,8 +3,6 @@ package pl.com.bottega.factory.demand.forecasting
 import java.time.LocalDate
 
 import static ReviewRequested.ReviewNeeded
-import static pl.com.bottega.factory.demand.forecasting.DemandEvents.DemandedLevelsChanged
-import static pl.com.bottega.factory.demand.forecasting.DemandEvents.ReviewRequested
 
 trait ProductDemandTrait {
 

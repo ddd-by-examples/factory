@@ -5,8 +5,8 @@ import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
 
-import static pl.com.bottega.factory.demand.forecasting.DemandEvents.DemandedLevelsChanged.Change
-import static pl.com.bottega.factory.demand.forecasting.DemandEvents.ReviewRequested.ReviewNeeded
+import static DemandedLevelsChanged.Change
+import static ReviewRequested.ReviewNeeded
 
 class DailyDemandBuilder {
 

@@ -1,7 +1,7 @@
 package pl.com.bottega.factory.demand.forecasting;
 
 import lombok.AllArgsConstructor;
-import pl.com.bottega.factory.demand.forecasting.DemandEvents.ReviewRequested.ReviewNeeded;
+import pl.com.bottega.factory.demand.forecasting.ReviewRequested.ReviewNeeded;
 
 import java.util.Collections;
 import java.util.function.Function;

@@ -4,7 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import pl.com.bottega.factory.demand.forecasting.DemandEvents.ReviewRequested.ReviewNeeded;
+import pl.com.bottega.factory.demand.forecasting.ReviewRequested.ReviewNeeded;
 import pl.com.bottega.factory.demand.forecasting.ReviewDecision;
 import pl.com.bottega.tools.JsonConverter;
 

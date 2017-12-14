@@ -2,7 +2,7 @@ package pl.com.bottega.factory.demand.forecasting;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.com.bottega.factory.demand.forecasting.DemandEvents.ReviewRequested.ReviewNeeded;
+import pl.com.bottega.factory.demand.forecasting.ReviewRequested.ReviewNeeded;
 
 import javax.transaction.Transactional;
 

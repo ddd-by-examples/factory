@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import pl.com.bottega.factory.delivery.planning.DeliveryAutoPlanner;
 import pl.com.bottega.factory.delivery.planning.DeliveryAutoPlannerORMRepository;
 import pl.com.bottega.factory.demand.forecasting.Demand;
-import pl.com.bottega.factory.demand.forecasting.DemandEvents.DemandedLevelsChanged;
+import pl.com.bottega.factory.demand.forecasting.DemandedLevelsChanged;
 import pl.com.bottega.factory.demand.forecasting.projection.CurrentDemandDao;
 import pl.com.bottega.factory.demand.forecasting.projection.CurrentDemandEntity;
 

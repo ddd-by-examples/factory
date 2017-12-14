@@ -1,7 +1,6 @@
 package pl.com.bottega.factory.demand.forecasting;
 
-import pl.com.bottega.factory.demand.forecasting.DemandEvents.DemandedLevelsChanged;
-import pl.com.bottega.factory.demand.forecasting.DemandEvents.ReviewRequested.ReviewNeeded;
+import pl.com.bottega.factory.demand.forecasting.ReviewRequested.ReviewNeeded;
 
 import java.util.*;
 

@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Entity(name = "DeliveryForecast")
 @Getter
 @NoArgsConstructor
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = {"refNo", "date"})
 public class DeliveryForecastEntity implements Serializable {
 
     @Id

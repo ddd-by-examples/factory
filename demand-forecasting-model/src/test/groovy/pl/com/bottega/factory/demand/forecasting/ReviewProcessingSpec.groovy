@@ -4,7 +4,6 @@ import spock.lang.Specification
 
 import java.time.LocalDate
 
-import static pl.com.bottega.factory.demand.forecasting.DemandEvents.DemandedLevelsChanged
 import static pl.com.bottega.factory.demand.forecasting.ReviewDecision.*
 
 class ReviewProcessingSpec extends Specification implements ProductDemandTrait {

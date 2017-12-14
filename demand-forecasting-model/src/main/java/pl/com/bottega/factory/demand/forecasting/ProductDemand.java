@@ -1,9 +1,7 @@
 package pl.com.bottega.factory.demand.forecasting;
 
 import lombok.AllArgsConstructor;
-import pl.com.bottega.factory.demand.forecasting.DemandEvents.DemandedLevelsChanged;
-import pl.com.bottega.factory.demand.forecasting.DemandEvents.ReviewRequested;
-import pl.com.bottega.factory.demand.forecasting.DemandEvents.ReviewRequested.ReviewNeeded;
+import pl.com.bottega.factory.demand.forecasting.ReviewRequested.ReviewNeeded;
 import pl.com.bottega.factory.product.management.RefNoId;
 
 import java.time.Clock;
