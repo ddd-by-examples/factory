@@ -12,8 +12,8 @@ class ProductDemand {
 
     final RefNoId id;
     final Demands demands;
-    final UnitOfWork unit;
 
+    final UnitOfWork unit;
     final Clock clock;
     final DemandEvents events;
 

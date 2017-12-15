@@ -79,7 +79,10 @@ class DemandORMRepository {
                 entity = new DemandEntity(root, updated.getId().getDate());
                 demandDao.save(entity);
             }
-            entity.set(updated.getDocumented(), updated.getAdjustment());
+            entity.set(
+                    updated.getDocumented().nullIfNone(),
+                    updated.getAdjustment()
+            );
         }
     }
 }

@@ -10,12 +10,11 @@ import java.util.Optional;
 class DailyDemand {
 
     private final DailyId id;
-    private final Events events;
-    private final ReviewPolicy policy;
-
     private Demand documented;
     private Adjustment adjustment;
 
+    private final Events events;
+    private final ReviewPolicy policy;
     interface Events {
         void emit(LevelChanged event);
 

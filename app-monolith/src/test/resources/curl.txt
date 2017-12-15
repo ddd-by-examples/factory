@@ -2,6 +2,25 @@
 curl http://localhost:8080
 
 curl -X POST -H "Content-Type: application/json" \
+ -d @app-monolith/src/test/resources/pl.com.bottega.factory.product.management/product-descriptions.json \
+ http://localhost:8080/product-descriptions
+
+curl -X POST -H "Content-Type: application/json" \
+ -d @app-monolith/src/test/resources/pl.com.bottega.factory.delivery.planning/delivery-definitions.json \
+ http://localhost:8080/delivery-definitions
+
+curl -X POST -H "Content-Type: application/json" \
  -d @app-monolith/src/test/resources/pl.com.bottega.factory.demand.forecasting.command/demand-adjustments.json \
  http://localhost:8080/demand-adjustments
+
+curl http://localhost:8080/demand-forecasts
+curl http://localhost:8080/delivery-forecasts
+curl http://localhost:8080/stock-forecasts
+curl http://localhost:8080/shortages
+
+
+curl http://localhost:8080/demand-reviews
+
+curl http://localhost:8080/production-outputs
+curl http://localhost:8080/production-outputs-daily
 

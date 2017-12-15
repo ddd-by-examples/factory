@@ -125,7 +125,7 @@ class ShortagePredictionProcessSpec extends Specification {
         new ShortagePredictionProcess(
                 refNo,
                 previouslyFound,
-                ShortageDiffPolicy.ValuesAreEquals,
+                ShortageDiffPolicy.ValuesAreNotSame,
                 forecastThatWillFindShortages,
                 defaultConfig(),
                 events

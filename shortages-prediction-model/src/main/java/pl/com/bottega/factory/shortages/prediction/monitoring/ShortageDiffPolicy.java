@@ -4,7 +4,7 @@ import pl.com.bottega.factory.shortages.prediction.Shortages;
 
 interface ShortageDiffPolicy {
 
-    ShortageDiffPolicy ValuesAreEquals = Shortages::areNotSame;
+    ShortageDiffPolicy ValuesAreNotSame = Shortages::areNotSame;
 
     boolean areDifferent(Shortages previous, Shortages found);
 }

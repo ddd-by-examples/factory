@@ -15,7 +15,7 @@ import java.util.Optional;
 class ShortagePredictionProcessORMRepository implements ShortagePredictionProcessRepository {
 
     private final ShortagesDao dao;
-    private final ShortageDiffPolicy policy = ShortageDiffPolicy.ValuesAreEquals;
+    private final ShortageDiffPolicy policy = ShortageDiffPolicy.ValuesAreNotSame;
     private final Forecasts forecasts;
     private final Configuration configuration = () -> 14;
     private final NotificationOfShortage notifications;

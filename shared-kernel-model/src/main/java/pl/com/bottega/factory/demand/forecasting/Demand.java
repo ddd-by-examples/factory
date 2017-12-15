@@ -4,6 +4,8 @@ import lombok.Value;
 
 @Value
 public class Demand {
+    private static final Demand NONE = of(0);
+
     long level;
     Schema schema;
 
@@ -20,7 +22,10 @@ public class Demand {
     }
 
     public static Demand nothingDemanded() {
-        return of(0);
+        return NONE;
     }
 
+    Demand nullIfNone() {
+        return NONE == this ? null : this;
+    }
 }
