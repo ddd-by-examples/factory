@@ -13,7 +13,7 @@ class ShortagesCalculationExamplesSpec extends Specification
         given:
         def forecast = forecast(
                 stock(7 * 500L),
-                demands(
+                deliveries(
                         (now): 500L,
                         (now + 1.day): 500L,
                         (now + 2.day): 500L,
@@ -36,7 +36,7 @@ class ShortagesCalculationExamplesSpec extends Specification
         given:
         def forecast = forecast(
                 stock(4 * 500L),
-                demands(
+                deliveries(
                         (now): 500L,
                         (now + 1.day): 500L,
                         (now + 2.day): 500L,
@@ -63,7 +63,7 @@ class ShortagesCalculationExamplesSpec extends Specification
         given:
         def forecast = forecast(
                 stock(6 * 500L),
-                demands(
+                deliveries(
                         (now): 500L,
                         (now + 1.day): 500L,
                         (now + 2.day): 500L,
@@ -86,7 +86,7 @@ class ShortagesCalculationExamplesSpec extends Specification
         given:
         def forecast = forecast(
                 stock(500L),
-                demands(
+                deliveries(
                         (now): 500L,
                         (now + 1.day): 500L,
                         (now + 2.day): 500L,

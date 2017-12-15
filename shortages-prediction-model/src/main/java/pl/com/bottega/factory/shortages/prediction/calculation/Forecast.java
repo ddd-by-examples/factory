@@ -15,7 +15,7 @@ public class Forecast {
     private final SortedSet<LocalDateTime> deliveryTimes;
     private final Stock stock;
     private final ProductionOutputs outputs;
-    private final Demands demands;
+    private final Deliveries deliveries;
 
     public Optional<Shortages> findShortages() {
         long level = stock.getLevel();
@@ -23,7 +23,7 @@ public class Forecast {
         Shortages.Builder found = Shortages.builder(refNo, stock.getLocked(), created);
         LocalDateTime lastTime = created;
         for (LocalDateTime time : deliveryTimes) {
-            long demand = demands.get(time);
+            long demand = deliveries.get(time);
             long produced = outputs.getOutput(lastTime, time);
 
             long levelOnDelivery = level + produced - demand;

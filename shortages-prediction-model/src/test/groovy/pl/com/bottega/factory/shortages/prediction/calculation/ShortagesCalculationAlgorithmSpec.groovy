@@ -13,7 +13,7 @@ class ShortagesCalculationAlgorithmSpec extends Specification
         given:
         def forecast = forecast(
                 stock(1000L),
-                demands((now + 20.min): 500L),
+                deliveries((now + 20.min): 500L),
                 noProductions()
         )
 
@@ -28,7 +28,7 @@ class ShortagesCalculationAlgorithmSpec extends Specification
         given:
         def forecast = forecast(
                 stock(0L, 1000L),
-                demands((now + 20.min): 500L),
+                deliveries((now + 20.min): 500L),
                 noProductions()
         )
 
@@ -43,7 +43,7 @@ class ShortagesCalculationAlgorithmSpec extends Specification
         given:
         def forecast = forecast(
                 stock(0),
-                demands((now + 20.min): 500L, (now + 1.day): 500L),
+                deliveries((now + 20.min): 500L, (now + 1.day): 500L),
                 noProductions()
         )
 
@@ -61,7 +61,7 @@ class ShortagesCalculationAlgorithmSpec extends Specification
         given:
         def forecast = forecast(
                 stock(0),
-                demands((now): 500L),
+                deliveries((now): 500L),
                 noProductions()
         )
 
@@ -76,7 +76,7 @@ class ShortagesCalculationAlgorithmSpec extends Specification
         given:
         def forecast = forecast(
                 stock(0),
-                noDemands(),
+                noDeliveries(),
                 noProductions()
         )
 
@@ -91,7 +91,7 @@ class ShortagesCalculationAlgorithmSpec extends Specification
         given:
         def forecast = forecast(
                 stock(0),
-                demands((now + 5.h): 500L),
+                deliveries((now + 5.h): 500L),
                 plan([production(now, 50.min, 10)])
         )
 
@@ -106,7 +106,7 @@ class ShortagesCalculationAlgorithmSpec extends Specification
         given:
         def forecast = forecast(
                 stock(0),
-                demands((now + 20.min): 500L),
+                deliveries((now + 20.min): 500L),
                 plan([production(now, 50.min, 10)])
         )
 
@@ -121,7 +121,7 @@ class ShortagesCalculationAlgorithmSpec extends Specification
         given:
         def forecast = forecast(
                 stock(0),
-                demands((now): 500L),
+                deliveries((now): 500L),
                 plan([production(now + 1.h, 50.min, 10)])
         )
 
@@ -136,7 +136,7 @@ class ShortagesCalculationAlgorithmSpec extends Specification
         given:
         def forecast = forecast(
                 stock(0),
-                demands((now + 30.min): 600L),
+                deliveries((now + 30.min): 600L),
                 plan([production(now, 50.min, 10), production(now, 50.min, 10)])
         )
 
@@ -151,7 +151,7 @@ class ShortagesCalculationAlgorithmSpec extends Specification
         given:
         def forecast = forecast(
                 stock(0),
-                demands(
+                deliveries(
                         (now + 60.min): 500L, // first delivery
                         (now + 1.day + 60.min): 500L + 100L), // second delivery
                 plan([

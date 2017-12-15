@@ -153,7 +153,7 @@ class ShortagePredictionProcessSpec extends Specification {
     Forecasts noShortagesWillBeFound() {
         forecastAssembler.forecastProvider(
                 forecastAssembler.stock(1000),
-                forecastAssembler.noDemands(),
+                forecastAssembler.noDeliveries(),
                 forecastAssembler.noProductions()
         )
     }
@@ -161,7 +161,7 @@ class ShortagePredictionProcessSpec extends Specification {
     Forecasts willFindShortages(Map<LocalDateTime, Long> shortages) {
         forecastAssembler.forecastProvider(
                 forecastAssembler.stock(0),
-                forecastAssembler.demands(shortages),
+                forecastAssembler.deliveries(shortages),
                 forecastAssembler.noProductions()
         )
     }

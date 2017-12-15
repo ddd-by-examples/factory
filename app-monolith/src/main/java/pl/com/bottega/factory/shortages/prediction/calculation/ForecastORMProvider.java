@@ -24,7 +24,7 @@ import static java.util.stream.Collectors.toMap;
 class ForecastORMProvider implements Forecasts {
 
     private final WarehouseService stocks;
-    private final DeliveryForecastDao demands;
+    private final DeliveryForecastDao deliveries;
     private final ProductionOutputDao outputs;
     private final Clock clock;
 
@@ -34,15 +34,15 @@ class ForecastORMProvider implements Forecasts {
         Instant now = Instant.now(clock);
         LocalDateTime time = now.atZone(clock.getZone()).toLocalDateTime();
 
-        Map<LocalDateTime, Long> demands = this.demands
+        Map<LocalDateTime, Long> deliveries = this.deliveries
                 .findByRefNoAndTimeGreaterThanEqual(refNo.getRefNo(), time).stream()
                 .collect(toMap(
                         DeliveryForecastEntity::getTime,
                         DeliveryForecastEntity::getLevel
                 ));
-        SortedSet<LocalDateTime> deliveryTimes = new TreeSet<>(demands.keySet());
+        SortedSet<LocalDateTime> deliveryTimes = new TreeSet<>(deliveries.keySet());
 
-        Demands demand = new Demands(demands);
+        Deliveries demand = new Deliveries(deliveries);
 
         ProductionOutputs outputs = new ProductionForecast(
                 this.outputs.findByRefNoAndStartGreaterThanEqual(refNo.getRefNo(), time).stream()

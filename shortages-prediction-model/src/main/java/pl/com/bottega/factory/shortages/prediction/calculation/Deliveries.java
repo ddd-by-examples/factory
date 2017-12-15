@@ -6,11 +6,11 @@ import java.time.LocalDateTime;
 import java.util.Map;
 
 @AllArgsConstructor
-class Demands {
+class Deliveries {
 
-    private final Map<LocalDateTime, Long> demands;
+    private final Map<LocalDateTime, Long> forecast;
 
     long get(LocalDateTime time) {
-        return demands.getOrDefault(time, 0L);
+        return forecast.getOrDefault(time, 0L);
     }
 }

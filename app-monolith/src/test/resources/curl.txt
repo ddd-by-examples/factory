@@ -1,0 +1,7 @@
+
+curl http://localhost:8080
+
+curl -X POST -H "Content-Type: application/json" \
+ -d @app-monolith/src/test/resources/pl.com.bottega.factory.demand.forecasting.command/demand-adjustments.json \
+ http://localhost:8080/demand-adjustments
+

@@ -1,19 +1,19 @@
 {
-  "note": "Customer moved demand for day earlier",
-  "customerRepresentative": "Krysia z logistyki",
+  "note": "Bo demo dla comarch-u",
+  "customerRepresentative": "Koledzy z logistyki",
   "adjustment": {
     "refNo": "3009000",
     "adjustments": {
-      "2017-12-11": {
+      "2017-12-15": {
         "demand": {
-          "level": 2800,
+          "level": 1000,
           "schema": "AtDayStart"
         },
         "strong": true
       },
-      "2017-12-12": {
+      "2017-12-16": {
         "demand": {
-          "level": 0,
+          "level": 1000,
           "schema": "AtDayStart"
         },
         "strong": false

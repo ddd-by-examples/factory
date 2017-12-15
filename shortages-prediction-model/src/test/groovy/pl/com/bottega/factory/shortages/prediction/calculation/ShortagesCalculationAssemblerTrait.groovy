@@ -12,12 +12,12 @@ trait ShortagesCalculationAssemblerTrait {
     String refNo = "3009000"
     SortedSet<LocalDateTime> times
 
-    Forecasts forecastProvider(Stock stock, Demands demands, ProductionOutputs outputs) {
+    Forecasts forecastProvider(Stock stock, Deliveries demands, ProductionOutputs outputs) {
         def forecast = forecast(stock, demands, outputs)
         return { RefNoId refNo, int daysAhead -> forecast } as Forecasts
     }
 
-    Forecast forecast(Stock stock, Demands demands, ProductionOutputs outputs) {
+    Forecast forecast(Stock stock, Deliveries demands, ProductionOutputs outputs) {
         new Forecast(refNo, now, times, stock, outputs, demands)
     }
 
@@ -35,14 +35,14 @@ trait ShortagesCalculationAssemblerTrait {
         new ProductionForecast.Item(start, duration, partsPerMinute)
     }
 
-    Demands noDemands() {
+    Deliveries noDeliveries() {
         times = Collections.emptySortedSet()
-        new Demands([:])
+        new Deliveries([:])
     }
 
-    Demands demands(Map<LocalDateTime, Long> demands) {
+    Deliveries deliveries(Map<LocalDateTime, Long> demands) {
         times = new TreeSet<>(demands.keySet())
-        new Demands(demands)
+        new Deliveries(demands)
     }
 
     Stock stock(long levels) {
