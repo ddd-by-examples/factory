@@ -1,36 +1,39 @@
 package pl.com.bottega.factory.stock.forecast.ressource;
 
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.data.rest.core.config.Projection;
-import pl.com.bottega.factory.product.management.ProductDescriptionEntity;
 import pl.com.bottega.factory.stock.forecast.StockForecast;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity(name = "StockForecast")
-@Data
+@Getter
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
-@ToString(exclude = "product")
+@ToString
 public class StockForecastEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
-    private ProductDescriptionEntity product;
+    @Column
+    private String refNo;
+
+    public StockForecastEntity(String refNo) {
+        this.refNo = refNo;
+    }
 
     public StockForecast getStockForecast() {
-        return StaticAccess.calculateQuery(product.getRefNo());
+        return StaticAccess.calculateQuery(refNo);
     }
 
     @Projection(types = {StockForecastEntity.class})
     interface CollectionItem {
-        ProductDescriptionEntity getProduct();
+        String getRefNo();
     }
 }

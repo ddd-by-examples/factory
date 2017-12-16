@@ -15,7 +15,7 @@ public class Forecast {
     private final SortedSet<LocalDateTime> deliveryTimes;
     private final Stock stock;
     private final ProductionOutputs outputs;
-    private final Deliveries deliveries;
+    private final DeliveriesForecast deliveries;
 
     public Optional<Shortages> findShortages() {
         long level = stock.getLevel();

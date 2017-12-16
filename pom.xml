@@ -11,10 +11,14 @@
 
     <modules>
         <module>app-monolith</module>
+        <module>adapter-commons</module>
         <module>shared-kernel-model</module>
         <module>demand-forecasting-model</module>
+        <module>demand-forecasting-adapters</module>
         <module>shortages-prediction-model</module>
-        <!--<module>playground-model</module>-->
+        <module>shortages-prediction-adapters</module>
+        <module>product-management-adapters</module>
+        <module>production-planning-adapters</module>
     </modules>
 
 </project>

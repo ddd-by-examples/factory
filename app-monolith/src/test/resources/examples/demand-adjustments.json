@@ -1,0 +1,30 @@
+{
+  "note": "Bo demo dla comarch-u",
+  "customerRepresentative": "Koledzy z logistyki",
+  "adjustment": {
+    "refNo": "3009000",
+    "adjustments": {
+      "2017-12-17": {
+        "demand": {
+          "level": 2000,
+          "schema": "AtDayStart"
+        },
+        "strong": true
+      },
+      "2017-12-22": {
+        "demand": {
+          "level": 1000,
+          "schema": "AtDayStart"
+        },
+        "strong": false
+      },
+      "2017-12-23": {
+        "demand": {
+          "level": 300,
+          "schema": "AtDayStart"
+        },
+        "strong": false
+      }
+    }
+  }
+}

@@ -17,18 +17,36 @@
     <dependencies>
         <dependency>
             <groupId>pl.com.bottega</groupId>
-            <artifactId>shared-kernel-model</artifactId>
+            <artifactId>demand-forecasting-adapters</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>pl.com.bottega</groupId>
-            <artifactId>demand-forecasting-model</artifactId>
+            <artifactId>shortages-prediction-adapters</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>pl.com.bottega</groupId>
-            <artifactId>shortages-prediction-model</artifactId>
+            <artifactId>product-management-adapters</artifactId>
             <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>pl.com.bottega</groupId>
+            <artifactId>production-planning-adapters</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.com.bottega</groupId>
+            <artifactId>adapter-commons</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>pl.com.bottega</groupId>
+            <artifactId>adapter-commons</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <type>test-jar</type>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -52,11 +70,6 @@
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-rest-hal-browser</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jsr310</artifactId>
-            <version>2.8.5</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

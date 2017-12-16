@@ -21,7 +21,7 @@ public class Demand {
         return new Demand(level, schema);
     }
 
-    public static Demand nothingDemanded() {
+    static Demand nothingDemanded() {
         return NONE;
     }
 

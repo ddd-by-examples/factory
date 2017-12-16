@@ -53,8 +53,7 @@ public class StockForecastQuery {
                                 Map<LocalDate, Long> outputs) {
         LocalDate stopAtDay = today.plusDays(15);
         long level = stock.getLevel();
-        StockForecastBuilder builder = StockForecast.builder()
-                .refNo(refNo.getRefNo());
+        StockForecastBuilder builder = StockForecast.builder();
         for (LocalDate date = today; date.isBefore(stopAtDay); date = date.plusDays(1)) {
             long withLocked = level + stock.getLocked();
             long demand = demands.getOrDefault(date, 0L);

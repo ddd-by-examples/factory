@@ -11,7 +11,6 @@ import java.util.List;
 @Builder
 public class StockForecast {
 
-    String refNo;
     @Singular
     List<DailyForecast> forecasts;
 

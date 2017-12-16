@@ -14,7 +14,7 @@ import java.util.Optional;
  * Created by michal on 02.02.2017.
  */
 @AllArgsConstructor
-public class ShortagePredictionProcess {
+class ShortagePredictionProcess {
 
     private final RefNoId refNo;
     private Shortages known;
@@ -24,19 +24,19 @@ public class ShortagePredictionProcess {
     private final Configuration configuration;
     private final ShortageEvents events;
 
-    public void onDemandChanged() {
+    void onDemandChanged() {
         predict(After.DemandChanged);
     }
 
-    public void onPlanChanged() {
+    void onPlanChanged() {
         predict(After.PlanChanged);
     }
 
-    public void onStockChanged() {
+    void onStockChanged() {
         predict(After.StockChanged);
     }
 
-    public void onLockedParts() {
+    void onLockedParts() {
         predict(After.LockedParts);
     }
 

@@ -3,7 +3,6 @@ package pl.com.bottega.factory.shortages.prediction.notification
 import pl.com.bottega.factory.product.management.RefNoId
 import pl.com.bottega.factory.shortages.prediction.Shortages
 import pl.com.bottega.factory.shortages.prediction.monitoring.NewShortage
-import pl.com.bottega.factory.shortages.prediction.monitoring.ShortageSolved
 import spock.lang.Specification
 
 import java.time.*
@@ -25,7 +24,7 @@ class NotificationOfShortageSpec extends Specification {
         def notificator = notificator()
 
         when:
-        notificator.emit(newShortage(After.DemandChanged, withShortage()))
+        notificator.notifyAbout(newShortage(After.DemandChanged, withShortage()))
 
         then:
         1 * notifications.alertPlanner(withShortage())
@@ -36,7 +35,7 @@ class NotificationOfShortageSpec extends Specification {
         def notificator = notificator()
 
         when:
-        notificator.emit(newShortage(After.LockedParts, withShortage()))
+        notificator.notifyAbout(newShortage(After.LockedParts, withShortage()))
 
         then:
         1 * notifications.softNotifyPlanner(withShortage())
@@ -47,7 +46,7 @@ class NotificationOfShortageSpec extends Specification {
         def notificator = notificator()
 
         when:
-        notificator.emit(newShortage(After.PlanChanged, withShortage()))
+        notificator.notifyAbout(newShortage(After.PlanChanged, withShortage()))
 
         then:
         1 * notifications.markOnPlan(withShortage())
@@ -58,7 +57,7 @@ class NotificationOfShortageSpec extends Specification {
         def notificator = notificator()
 
         when:
-        notificator.emit(newShortage(After.StockChanged, withShortage()))
+        notificator.notifyAbout(newShortage(After.StockChanged, withShortage()))
 
         then:
         1 * notifications.alertPlanner(withShortage())
@@ -69,7 +68,7 @@ class NotificationOfShortageSpec extends Specification {
         def notificator = notificator()
 
         when:
-        notificator.emit(newShortage(After.StockChanged,
+        notificator.notifyAbout(newShortage(After.StockChanged,
                 withShortage(Duration.ofDays(1), 500))
         )
 
@@ -82,7 +81,7 @@ class NotificationOfShortageSpec extends Specification {
         def notificator = notificator()
 
         when:
-        notificator.emit(newShortage(After.StockChanged,
+        notificator.notifyAbout(newShortage(After.StockChanged,
                 withShortage(Duration.ofDays(1), 0))
         )
 
@@ -95,24 +94,12 @@ class NotificationOfShortageSpec extends Specification {
         def notificator = notificator()
 
         when:
-        notificator.emit(newShortage(After.StockChanged,
+        notificator.notifyAbout(newShortage(After.StockChanged,
                 withShortage(Duration.ofDays(10), 500))
         )
 
         then:
         0 * tasks.increasePriorityFor(_)
-    }
-
-    def "No notification after shortage solved specified for now"() {
-        given:
-        def notificator = notificator()
-
-        when:
-        notificator.emit(new ShortageSolved(new RefNoId(refNo)))
-
-        then:
-        0 * tasks.increasePriorityFor(_)
-        0 * notifications._(_)
     }
 
     def notificator() {

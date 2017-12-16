@@ -15,6 +15,7 @@ class DailyDemand {
 
     private final Events events;
     private final ReviewPolicy policy;
+
     interface Events {
         void emit(LevelChanged event);
 
