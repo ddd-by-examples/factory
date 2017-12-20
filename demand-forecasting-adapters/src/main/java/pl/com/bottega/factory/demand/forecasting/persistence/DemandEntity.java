@@ -1,6 +1,8 @@
 package pl.com.bottega.factory.demand.forecasting.persistence;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import pl.com.bottega.factory.demand.forecasting.DailyId;
 import pl.com.bottega.factory.demand.forecasting.DemandValue;
 import pl.com.bottega.tools.JsonConverter;
@@ -11,22 +13,18 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity(name = "Demand")
+@Table(schema = "demand_forecasting")
 @Getter
 @NoArgsConstructor
-@EqualsAndHashCode(of = "id")
-@ToString
 public class DemandEntity implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
-    @Column
-    String refNo;
-    @Column
+    private String refNo;
     private LocalDate date;
-    @Column
-    @Convert(converter = DemandAsJson.class)
     @Setter
+    @Convert(converter = DemandAsJson.class)
     private DemandValue value;
 
     public DemandEntity(String refNo, LocalDate date) {

@@ -2,8 +2,8 @@ package pl.com.bottega.factory.delivery.planning.definition;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.Singular;
+import lombok.Value;
 import pl.com.bottega.factory.demand.forecasting.Demand;
 
 import java.time.LocalTime;
@@ -13,8 +13,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Builder
+@Value
 @AllArgsConstructor
-@EqualsAndHashCode
 public class DeliveryPlannerDefinition {
     @Singular
     private final Map<Demand.Schema, Map<LocalTime, Double>> definitions;

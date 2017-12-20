@@ -37,7 +37,7 @@ class DemandORMRepository {
         RefNoId id = root.createId();
 
         Map<LocalDate, DemandEntity> data =
-                demandDao.findByProductRefNoAndDateGreaterThanEqual(refNo, LocalDate.now(clock)).stream()
+                demandDao.findByRefNoAndDateGreaterThanEqual(refNo, LocalDate.now(clock)).stream()
                         .collect(toMap(
                                 DemandEntity::getDate,
                                 Function.identity()

@@ -1,6 +1,5 @@
 package pl.com.bottega.factory.demand.forecasting.persistence;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import pl.com.bottega.factory.product.management.RefNoId;
@@ -10,17 +9,16 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity(name = "ProductDemand")
+@Table(schema = "demand_forecasting")
 @NoArgsConstructor
-@EqualsAndHashCode(of = "id")
 public class ProductDemandEntity implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
     @Version
     private Long version;
-    @Column
-    String refNo;
+    private String refNo;
 
     public ProductDemandEntity(String refNo) {
         this.refNo = refNo;
@@ -33,11 +31,7 @@ public class ProductDemandEntity implements Serializable {
     @Getter
     static class ProductDemandEntityId extends RefNoId implements TechnicalId {
 
-        Long id;
-
-        ProductDemandEntityId(String refNo) {
-            super(refNo);
-        }
+        private Long id;
 
         ProductDemandEntityId(String refNo, long id) {
             super(refNo);

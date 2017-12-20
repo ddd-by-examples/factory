@@ -76,7 +76,7 @@ class DemandORMRepositoryTest extends Specification {
         demandInDB((today.minusDays(1)): 10000, (today): 1000)
 
         when:
-        def demands = demandDao.findByProductRefNoAndDateGreaterThanEqual(refNo, today)
+        def demands = demandDao.findByRefNoAndDateGreaterThanEqual(refNo, today)
 
         then:
         demands.size() == 1
@@ -90,7 +90,7 @@ class DemandORMRepositoryTest extends Specification {
     private void demandInDB(Map<LocalDate, Long> demands) {
         def root = rootDao.save(new ProductDemandEntity(refNo))
         demands.each { date, level ->
-            def demand = new DemandEntity(root, date)
+            def demand = new DemandEntity(refNo, date)
             demand.setValue(new DemandValue(Demand.of(level), null))
             demandDao.save(demand)
         }
@@ -107,6 +107,6 @@ class DemandORMRepositoryTest extends Specification {
     }
 
     private def hasAdjustment(long level) {
-        return { it.get().getAdjustment() == Adjustment.strong(Demand.of(level)) }
+        return { it.getValue().getAdjustment() == Adjustment.strong(Demand.of(level)) }
     }
 }

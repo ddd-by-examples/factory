@@ -1,30 +1,28 @@
 package pl.com.bottega.factory.delivery.planning.projection;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity(name = "DeliveryForecast")
+@Table(schema = "delivery_planning")
 @Getter
 @NoArgsConstructor
-@EqualsAndHashCode(of = {"refNo", "date"})
 public class DeliveryForecastEntity implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
-    @Column
     private String refNo;
-    @Column
     private LocalDate date;
-    @Column
     private LocalDateTime time;
-    @Column
     private long level;
 
     DeliveryForecastEntity(String refNo, LocalDateTime time, long level) {

@@ -1,6 +1,5 @@
 package pl.com.bottega.factory.demand.forecasting.command;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,26 +11,21 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity(name = "DemandAdjustment")
+@Table(schema = "demand_forecasting")
 @Getter
 @NoArgsConstructor
-@EqualsAndHashCode(of = "id")
 public class DemandAdjustmentEntity implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
-
-    @Column
     private String note;
-    @Column
     private String customerRepresentative;
-    @Column
-    @Setter
-    private LocalDate cleanAfter;
-
-    @Column(length = 4096)
     @Convert(converter = AdjustDemandAsJson.class)
     private AdjustDemand adjustment;
+
+    @Setter
+    private LocalDate cleanAfter;
 
     public static class AdjustDemandAsJson extends JsonConverter<AdjustDemand> {
         public AdjustDemandAsJson() {

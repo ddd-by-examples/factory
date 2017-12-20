@@ -2,7 +2,10 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
-    <!--<include file="/schema/product-management.sql"/>-->
-    <!--<include file="/schema/demand-forecasting.sql"/>-->
-    <!--<include file="/schema/shortages-prediction.sql"/>-->
+    <include file="/schema/commons.sql"/>
+    <include file="/schema/delivery-planning.sql"/>
+    <include file="/schema/demand-forecasting.sql"/>
+    <include file="/schema/product-management.sql"/>
+    <include file="/schema/production-planning.sql"/>
+    <include file="/schema/shortages-prediction.sql"/>
 </databaseChangeLog>

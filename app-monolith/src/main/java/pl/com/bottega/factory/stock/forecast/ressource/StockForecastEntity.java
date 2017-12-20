@@ -1,27 +1,22 @@
 package pl.com.bottega.factory.stock.forecast.ressource;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import org.springframework.data.rest.core.config.Projection;
 import pl.com.bottega.factory.stock.forecast.StockForecast;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 
 @Entity(name = "StockForecast")
+@Table(schema = "shortages_prediction")
 @Getter
 @NoArgsConstructor
-@EqualsAndHashCode(of = "id")
-@ToString
 public class StockForecastEntity implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    @Column
     private String refNo;
 
     public StockForecastEntity(String refNo) {

@@ -1,6 +1,5 @@
 package pl.com.bottega.factory.demand.forecasting.command;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,29 +13,22 @@ import java.time.Instant;
 import java.time.LocalDate;
 
 @Entity(name = "DemandReview")
+@Table(schema = "demand_forecasting")
 @Getter
 @NoArgsConstructor
-@EqualsAndHashCode(of = "id")
 public class DemandReviewEntity implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
-
-    @Column
     private String refNo;
-    @Column
     private LocalDate date;
-    @Column
     private Instant timestamp;
-    @Column
     @Convert(converter = ReviewAsJson.class)
     private ReviewNeeded review;
 
-    @Column
     @Enumerated(EnumType.STRING)
     private ReviewDecision decision;
-    @Column
     @Setter
     private LocalDate cleanAfter;
 

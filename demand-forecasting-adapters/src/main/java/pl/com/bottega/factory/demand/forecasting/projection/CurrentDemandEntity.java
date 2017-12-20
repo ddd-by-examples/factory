@@ -1,6 +1,5 @@
 package pl.com.bottega.factory.demand.forecasting.projection;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import pl.com.bottega.factory.demand.forecasting.Demand;
@@ -10,21 +9,17 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity(name = "CurrentDemand")
+@Table(schema = "demand_forecasting")
 @Getter
 @NoArgsConstructor
-@EqualsAndHashCode(of = "id")
 public class CurrentDemandEntity implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
-    @Column
     private String refNo;
-    @Column
     private LocalDate date;
-    @Column
     private long level;
-    @Column
     @Enumerated(EnumType.STRING)
     private Demand.Schema schema;
 

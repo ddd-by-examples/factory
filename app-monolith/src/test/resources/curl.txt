@@ -5,6 +5,8 @@ curl -X POST -H "Content-Type: application/json" \
  -d @app-monolith/src/test/resources/examples/product-descriptions.json \
  http://localhost:8080/product-descriptions
 
+curl http://localhost:8080/stock-forecasts
+
 curl -X POST -H "Content-Type: application/json" \
  -d @app-monolith/src/test/resources/examples/delivery-definitions.json \
  http://localhost:8080/delivery-definitions

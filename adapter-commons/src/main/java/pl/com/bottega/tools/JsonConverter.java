@@ -19,6 +19,7 @@ public abstract class JsonConverter<T> implements AttributeConverter<T, String> 
             .setVisibility(PropertyAccessor.CREATOR, JsonAutoDetect.Visibility.ANY)
             .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
             .enable(SerializationFeature.WRITE_DATES_WITH_ZONE_ID)
+            .disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
             .registerModule(new JavaTimeModule());
 
     private final Class<T> type;

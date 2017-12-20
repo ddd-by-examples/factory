@@ -1,6 +1,5 @@
 package pl.com.bottega.factory.shortages.prediction.monitoring.persistence;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,21 +12,19 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity(name = "Shortage")
+@Table(schema = "shortages_prediction")
 @Getter
 @NoArgsConstructor
-@EqualsAndHashCode(of = "refNo")
 public class ShortagesEntity implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
     @Version
     private Long version;
-    @Column
     private String refNo;
-    @Column(length = 1024)
-    @Convert(converter = ShortagesAsJson.class)
     @Setter
+    @Convert(converter = ShortagesAsJson.class)
     private Shortages shortages;
 
     public ShortagesEntity(String refNo) {
@@ -51,7 +48,7 @@ public class ShortagesEntity implements Serializable {
     @Getter
     static class ShortagesEntityId extends RefNoId implements TechnicalId {
 
-        Long id;
+        private Long id;
 
         ShortagesEntityId(String refNo) {
             super(refNo);

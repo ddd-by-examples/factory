@@ -1,26 +1,24 @@
 package pl.com.bottega.factory.delivery.planning.definition;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import pl.com.bottega.tools.JsonConverter;
 
-import javax.persistence.*;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 
 @Entity(name = "DeliveryPlannerDefinition")
+@Table(schema = "delivery_planning")
 @Getter
 @NoArgsConstructor
-@EqualsAndHashCode(of = "refNo")
 public class DeliveryPlannerDefinitionEntity implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    @Column
     private String refNo;
-    @Column
-    @Convert(converter = DescriptionAsJson.class)
+    @Convert(converter = DefinitionAsJson.class)
     private DeliveryPlannerDefinition definition;
 
     public DeliveryPlannerDefinitionEntity(String refNo, DeliveryPlannerDefinition definition) {
@@ -28,8 +26,8 @@ public class DeliveryPlannerDefinitionEntity implements Serializable {
         this.definition = definition;
     }
 
-    public static class DescriptionAsJson extends JsonConverter<DeliveryPlannerDefinition> {
-        public DescriptionAsJson() {
+    public static class DefinitionAsJson extends JsonConverter<DeliveryPlannerDefinition> {
+        public DefinitionAsJson() {
             super(DeliveryPlannerDefinition.class);
         }
     }

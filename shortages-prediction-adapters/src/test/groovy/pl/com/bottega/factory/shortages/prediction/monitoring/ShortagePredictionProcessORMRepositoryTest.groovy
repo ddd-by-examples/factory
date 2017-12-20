@@ -8,7 +8,6 @@ import pl.com.bottega.factory.shortages.prediction.Shortages
 import pl.com.bottega.factory.shortages.prediction.calculation.Forecasts
 import pl.com.bottega.factory.shortages.prediction.monitoring.persistence.ShortagesDao
 import pl.com.bottega.factory.shortages.prediction.monitoring.persistence.ShortagesEntity
-import pl.com.bottega.factory.shortages.prediction.notification.NotificationOfShortage
 import spock.lang.Specification
 
 import javax.transaction.Transactional
@@ -27,11 +26,11 @@ class ShortagePredictionProcessORMRepositoryTest extends Specification {
     @Autowired
     ShortagesDao dao
     def forecasts = Mock(Forecasts)
-    def notifications = Mock(NotificationOfShortage)
+    def notifications = Mock(ShortageEvents)
     ShortagePredictionProcessORMRepository repository
 
     def setup() {
-        dao.deleteAll()
+        dao.deleteAllInBatch()
         repository = new ShortagePredictionProcessORMRepository(
                 dao, forecasts, notifications
         )

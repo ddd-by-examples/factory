@@ -1,45 +1,45 @@
 package pl.com.bottega.factory.production.planning.projection;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
 @Entity(name = "ProductionOutput")
+@Table(schema = "production_planning")
 @Getter
 @NoArgsConstructor
-@EqualsAndHashCode(of = "refNo")
 public class ProductionOutputEntity implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
-    @Column
     private String refNo;
-    @Column
     private LocalDateTime start;
-    @Column
-    private Duration duration;
-    @Column
+    private long duration;
     private LocalDateTime end;
-    @Column
     private int partsPerMinute;
-    @Column
     private long total;
 
-    public ProductionOutputEntity(String refNo,
-                                  LocalDateTime start, Duration duration,
-                                  int partsPerMinute,
-                                  long total) {
+    ProductionOutputEntity(String refNo,
+                           LocalDateTime start, Duration duration,
+                           int partsPerMinute,
+                           long total) {
         this.refNo = refNo;
         this.start = start;
-        this.duration = duration;
+        this.duration = duration.getSeconds();
         this.end = start.plus(duration);
         this.partsPerMinute = partsPerMinute;
         this.total = total;
+    }
+
+    public Duration getDuration() {
+        return Duration.ofSeconds(duration);
     }
 }

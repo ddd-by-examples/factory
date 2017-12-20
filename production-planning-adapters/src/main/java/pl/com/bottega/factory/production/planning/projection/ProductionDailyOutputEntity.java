@@ -1,30 +1,29 @@
 package pl.com.bottega.factory.production.planning.projection;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity(name = "ProductionDailyOutput")
+@Table(schema = "production_planning")
 @Getter
 @NoArgsConstructor
-@EqualsAndHashCode(of = "refNo")
 public class ProductionDailyOutputEntity implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
-    @Column
     private String refNo;
-    @Column
     private LocalDate date;
-    @Column
     private long output;
 
-    public ProductionDailyOutputEntity(String refNo, LocalDate date, long output) {
+    ProductionDailyOutputEntity(String refNo, LocalDate date, long output) {
         this.refNo = refNo;
         this.date = date;
         this.output = output;

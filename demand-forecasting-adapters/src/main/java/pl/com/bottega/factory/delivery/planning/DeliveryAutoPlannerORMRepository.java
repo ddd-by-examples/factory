@@ -17,7 +17,7 @@ public class DeliveryAutoPlannerORMRepository {
 
     public DeliveryAutoPlanner get(String refNo) {
         return new DeliveryAutoPlanner(refNo,
-                ofNullable(dao.findByRefNo(refNo))
+                ofNullable(dao.findOne(refNo))
                         .map(DeliveryPlannerDefinitionEntity::getDefinition)
                         .map(x -> x.map(DeliveriesSuggestion::timesAndFractions))
                         .orElse(Collections.emptyMap()));

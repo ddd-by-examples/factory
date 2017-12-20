@@ -14,4 +14,6 @@ import java.util.Optional;
 public interface ShortagesDao extends ProjectionRepository<ShortagesEntity, Long> {
     @RestResource(path = "refNos", rel = "refNos")
     Optional<ShortagesEntity> findByRefNo(String refNo);
+
+    void deleteAllInBatch();
 }
