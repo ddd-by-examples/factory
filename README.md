@@ -1,13 +1,12 @@
 # Missing complete example of Domain-Driven Design enterprise application
 
-##Command Query CRUD Responsibility Segregation
+## Command Query CRUD Responsibility Segregation
 Not every piece of software is equally important...
 Not every piece will decide about company / product success or can cause not reversible negative business consequences like materialise brand risk or money loses.
 On the other hand scalability or non functional requirements are different for different activities in software.
 To accommodate to those differences, separate architectural patterns are applied:
 
-![Visualisation of Command Query CRUD Responsibility Segregation]
-(https://github.com/michal-michaluk/factory/raw/master/command-query-crud.png)
+![Visualisation of Command Query CRUD Responsibility Segregation](https://github.com/michal-michaluk/factory/raw/master/command-query-crud.png)
 
 **Simple Create Read Update Delete functionality** exposed with leverage of CRUD framework.
 
@@ -23,20 +22,20 @@ Goals of that approach:
 - keeping Domain Model as simple as possible by protecting it from accidental complexity caused by technological choices or transport models from external services,
 - make core business code technology agnostic, enabling continues technology migration and keeping long living projects up to date with fast evolving frameworks and libraries.
 
-**Complex Query**
-- query based on projection of domain event to persistent expected by consumer read model,
-- read model composed at query execution time based directly on Domain Model persistent form,
-- mix of above: read model composed at query execution time based on pre-calculated persistent event projections which needs post processing to shape expected read model.
+**Complex Query** made access from consumer facade to persistent data as direct and simple as possible:
+- query persisted projection of domain event in form of read model expected by consumer,
+- read model composed at query execution time build directly from persistent form of Domain Model,
+- mix of above: read model composed at query execution time build from pre-calculated persisted projection of domain event.
 
 Additional complex calculation or projections can be partially delegated to Domain Model if desired.
 
 Goals of that approach:
 - encapsulation of Domain Model complexity by providing consumer driven or published language API,
-- freeing Domain Model from exposing data for reads one more making Domain Model simpler,
+- freeing Domain Model from exposing data for reads making Domain Model simpler,
 - improves reads performance and enable horizontal scalability.
 
 
-##Hexagonal Architecture
+## Hexagonal Architecture
 Only the most valuable part of that enterprise software is embedded in hexagonal architecture - complex business processing modeled in form of Domain Model.
 
 **Application Services** - providing entry point to Domain Model functionality, Application Services are ports for Primary / Driving Adapters.
@@ -48,10 +47,10 @@ Only the most valuable part of that enterprise software is embedded in hexagonal
 **Adapters** - integration of technology (REST, database, external services, etc.) with Domain Model. Making useful application from Domain Model and technology.
 
 
-##Implementing Domain Model as first
+## Implementing Domain Model as first
 In most projects the biggest risk is lack of domain knowledge among developers. We all known Java, databases and bunch of handy frameworks, but what about: Investment Banking, Automotive Manufacturing or even e-Commerce.
 
-Lets face those risk at first, maintain and explore domain knowledge with Model Exploration Whirlpool and build Ubiquitous Language with your executable Domain Model from day one.
+Lets face those risk at first, maintain and explore domain knowledge with **Model Exploration Whirlpool** and build **Ubiquitous Language** with your executable **Domain Model** from day one.
 Adding infrastructure and technology later is easy thanks to Hexagonal Architecture.
 
 Starting from ZERO business knowledge through initial domain and opportunity exploration with **Big Picture Event Storming**:
