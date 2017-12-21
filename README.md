@@ -6,7 +6,7 @@ Not every piece will decide about company / product success or can cause not rev
 On the other hand scalability or non functional requirements are different for different activities in software.
 To accommodate to those differences, separate architectural patterns are applied:
 
-![Visualisation of Command Query CRUD Responsibility Segregation](https://github.com/michal-michaluk/factory/raw/master/command-query-crud.png)
+![Command Query CRUD Responsibility Segregation](https://github.com/michal-michaluk/factory/raw/master/command-query-crud.png)
 
 **Simple Create Read Update Delete functionality** exposed with leverage of CRUD framework.
 
@@ -37,6 +37,8 @@ Goals of that approach:
 
 ## Hexagonal Architecture
 Only the most valuable part of that enterprise software is embedded in hexagonal architecture - complex business processing modeled in form of Domain Model.
+
+![Domain Model embedded in hexagonal architecture](https://github.com/michal-michaluk/factory/raw/master/hexagon.png)
 
 **Application Services** - providing entry point to Domain Model functionality, Application Services are ports for Primary / Driving Adapters.
 
