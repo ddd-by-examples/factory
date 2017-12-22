@@ -1,7 +1,7 @@
 package pl.com.bottega.factory.shortages.prediction.notification
 
 import pl.com.bottega.factory.product.management.RefNoId
-import pl.com.bottega.factory.shortages.prediction.Shortages
+import pl.com.bottega.factory.shortages.prediction.Shortage
 import pl.com.bottega.factory.shortages.prediction.monitoring.NewShortage
 import spock.lang.Specification
 
@@ -109,14 +109,14 @@ class NotificationOfShortageSpec extends Specification {
         )
     }
 
-    NewShortage newShortage(After after, Shortages shortages) {
+    NewShortage newShortage(After after, Shortage shortages) {
         new NewShortage(new RefNoId(refNo), after, shortages)
     }
 
-    Shortages withShortage(
+    Shortage withShortage(
             Duration firstShortageIn = Duration.ofDays(4),
             long lockedStock = 0) {
-        Shortages.builder(refNo, lockedStock, now)
+        Shortage.builder(refNo, lockedStock, now)
                 .missing(now.plus(firstShortageIn), 500L)
                 .build().get()
     }

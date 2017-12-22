@@ -21,7 +21,7 @@ import static java.util.stream.Collectors.toMap;
 
 @Component
 @AllArgsConstructor
-class ForecastORMRepository implements Forecasts {
+class ForecastORMRepository implements ShortageForecasts {
 
     private final WarehouseService stocks;
     private final DeliveryForecastDao deliveries;
@@ -29,7 +29,7 @@ class ForecastORMRepository implements Forecasts {
     private final Clock clock;
 
     @Override
-    public Forecast get(RefNoId refNo, int daysAhead) {
+    public ShortageForecast get(RefNoId refNo, int daysAhead) {
         Stock stock = stocks.forRefNo(refNo);
         LocalDateTime time = LocalDateTime.now(clock);
         LocalDateTime max = time.plusDays(daysAhead).truncatedTo(ChronoUnit.DAYS);
@@ -53,6 +53,6 @@ class ForecastORMRepository implements Forecasts {
                         .collect(Collectors.toList())
         ).outputsInTimes(time, deliveryTimes);
 
-        return new Forecast(refNo.getRefNo(), time, deliveryTimes, stock, outputs, demand);
+        return new ShortageForecast(refNo.getRefNo(), time, deliveryTimes, stock, outputs, demand);
     }
 }

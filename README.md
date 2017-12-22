@@ -1,4 +1,4 @@
-# Missing complete example of Domain-Driven Design enterprise application
+# The missing, complete example of Domain-Driven Design enterprise application
 
 ## Command Query CRUD Responsibility Segregation
 Not every piece of software is equally important...
@@ -63,22 +63,28 @@ Making useful application from the Domain Model and the technology.
 In most projects the biggest risk is lack of domain knowledge among developers. We all known Java,
 databases and bunch of handy frameworks, but what about: Investment Banking, Automotive Manufacturing or even e-Commerce.
 
-Lets face those risk at first, maintain and explore domain knowledge
+Let's face the risk at first, maintain and explore domain knowledge
 with **Model Exploration Whirlpool** and build **Ubiquitous Language** with your executable **Domain Model**,
 **Domain Stories** and **Specification by Examples** from day one.
 Adding infrastructure and technology later is easy thanks to Hexagonal Architecture.
 
-Starting from ZERO business knowledge through initial domain and opportunity exploration with **Big Picture Event Storming**:
-<big-picture-es>
+Simply starting from ZERO business knowledge through initial domain and opportunity exploration with **Big Picture Event Storming**:
+![Big Picture Event Storming](https://github.com/michal-michaluk/factory/raw/master/es-big-picture-original.jpg)
 
-Looking for system boundaries, impacted and required actors and there interactions with system under design:
-<actors-and-boundaries>
+after cleaning and trimming initial model to most valuable and needed areas: 
+![Big Picture Event Storming](https://github.com/michal-michaluk/factory/raw/master/es-big-picture-cleaned.jpg)
 
-Estimating depth of domain model and Command Query CRUD segregation:
-<command-query-crud>
+Deep dive in **Demand Forecasting** sub-domain with **Design Level Event Storming**:
+![Design Level Event Storming - Demand Forecasting](https://github.com/michal-michaluk/factory/raw/master/es-design-demand-forecasting.jpg)
 
-Design level Event Storming with Domain Stories and Specification by Examples:
-<demand-forecasting-design-es>
-<adjust-demand.feature>
+is excellent canvas to cooperative exploration of:
+- impacted and required actors,
+- initial / desired system boundaries,
+- actors interactions with system under design.
 
-<shortage-prediction-design-es>
+With use of **Domain Stories** and **Specification by Examples** it is easy to find:
+- business rules and invariants,
+- acceptance criteria,
+- estimation of Domain Model depth,
+- CRUD-suspected activities,
+- missing parts.

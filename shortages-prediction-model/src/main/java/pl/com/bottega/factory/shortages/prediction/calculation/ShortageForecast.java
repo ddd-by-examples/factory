@@ -1,14 +1,14 @@
 package pl.com.bottega.factory.shortages.prediction.calculation;
 
 import lombok.AllArgsConstructor;
-import pl.com.bottega.factory.shortages.prediction.Shortages;
+import pl.com.bottega.factory.shortages.prediction.Shortage;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.SortedSet;
 
 @AllArgsConstructor
-public class Forecast {
+public class ShortageForecast {
 
     private final String refNo;
     private final LocalDateTime created;
@@ -17,10 +17,10 @@ public class Forecast {
     private final ProductionOutputs outputs;
     private final DeliveriesForecast deliveries;
 
-    public Optional<Shortages> findShortages() {
+    public Optional<Shortage> findShortages() {
         long level = stock.getLevel();
 
-        Shortages.Builder found = Shortages.builder(refNo, stock.getLocked(), created);
+        Shortage.Builder found = Shortage.builder(refNo, stock.getLocked(), created);
         LocalDateTime lastTime = created;
         for (LocalDateTime time : deliveryTimes) {
             long demand = deliveries.get(time);

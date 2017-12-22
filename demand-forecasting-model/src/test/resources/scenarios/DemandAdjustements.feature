@@ -1,25 +1,29 @@
 Feature: manual adjustments of demand
 
-  sub domain: demand forecasting
+  Sub Domain: demand forecasting
   keeps track of current and future customer needs for our products
 
   Domain story:
   Adjust demand at day to amount, delivered.
-  >> demand.adjust(productRefNo, atDay, amount)
   We can change only Demands for today and future.
 
   New demand is stored for further reference
-  Data from call-off document should be preserved (DON’T OVERRIDE THEM).
+  Data from call-off document should be preserved.
   Adjust demand should be possible even
-  if there was no call-off document for that product.
-  In standard case future call-off documents should be stronger (overrides) adjustment,
-  but if customer warn us about opposite case import of call-off document should not remove previous adjustments.
+  if there was no document for that product.
+  In standard case future call-off documents should override adjustment,
+  but if customer warn us about opposite case
+  import of document should not remove previous adjustments.
+  Logistician note should be kept with adjustment.
 
-  emit domain event demand changed
+  Domain event: demanded levels changed
+  [context boundary]
 
-  Logistician note should be kept along with adjustment.
+  Sub Domain: shortage prediction
+  continuously monitors demands, production plan and stock levels
+  predicts potential shortage based on forecasts
+  notifies personal about potential shortages
 
-  outside of context boundary:
   If new demand is not fulfilled by
   current product stock and production forecast
   there is a shortage in particular days and we need to rise an alert.

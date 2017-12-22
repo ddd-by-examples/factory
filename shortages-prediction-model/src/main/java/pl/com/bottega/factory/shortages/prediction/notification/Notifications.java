@@ -1,14 +1,14 @@
 package pl.com.bottega.factory.shortages.prediction.notification;
 
-import pl.com.bottega.factory.shortages.prediction.Shortages;
+import pl.com.bottega.factory.shortages.prediction.Shortage;
 
 /**
  * Created by michal on 02.02.2017.
  */
 public interface Notifications {
-    void alertPlanner(Shortages shortage);
+    void alertPlanner(Shortage shortage);
 
-    void softNotifyPlanner(Shortages shortage);
+    void softNotifyPlanner(Shortage shortage);
 
-    void markOnPlan(Shortages shortage);
+    void markOnPlan(Shortage shortage);
 }

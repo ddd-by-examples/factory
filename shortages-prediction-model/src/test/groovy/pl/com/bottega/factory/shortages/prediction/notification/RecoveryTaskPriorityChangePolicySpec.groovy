@@ -1,6 +1,6 @@
 package pl.com.bottega.factory.shortages.prediction.notification
 
-import pl.com.bottega.factory.shortages.prediction.Shortages
+import pl.com.bottega.factory.shortages.prediction.Shortage
 import spock.lang.Specification
 
 import java.time.Duration
@@ -10,8 +10,8 @@ class RecoveryTaskPriorityChangePolicySpec extends Specification {
 
     def now = LocalDateTime.now()
 
-    Shortages foundShortage(Duration firstShortageIn, long lockedStock) {
-        Shortages.builder("3009000", lockedStock, now)
+    Shortage foundShortage(Duration firstShortageIn, long lockedStock) {
+        Shortage.builder("3009000", lockedStock, now)
                 .missing(now.plus(firstShortageIn), 500L)
                 .build().get()
     }

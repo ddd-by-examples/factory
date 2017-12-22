@@ -2,7 +2,7 @@ package pl.com.bottega.factory.demand.forecasting
 
 import java.time.LocalDate
 
-import static ReviewRequested.ReviewNeeded
+import static pl.com.bottega.factory.demand.forecasting.ReviewRequired.ToReview
 
 trait ProductDemandTrait {
 
@@ -32,11 +32,11 @@ trait ProductDemandTrait {
         []
     }
 
-    ReviewRequested reviewRequest(ReviewNeeded... reviews) {
+    ReviewRequired reviewRequest(ToReview... reviews) {
         builder.reviewRequest(reviews)
     }
 
-    ReviewNeeded review(
+    ToReview review(
             LocalDate date,
             long previousDocumented,
             long strongAdjustment,

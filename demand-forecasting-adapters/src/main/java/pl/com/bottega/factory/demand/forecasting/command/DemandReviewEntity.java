@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.com.bottega.factory.demand.forecasting.ReviewDecision;
-import pl.com.bottega.factory.demand.forecasting.ReviewRequested.ReviewNeeded;
+import pl.com.bottega.factory.demand.forecasting.ReviewRequired.ToReview;
 import pl.com.bottega.tools.JsonConverter;
 
 import javax.persistence.*;
@@ -25,14 +25,14 @@ public class DemandReviewEntity implements Serializable {
     private LocalDate date;
     private Instant timestamp;
     @Convert(converter = ReviewAsJson.class)
-    private ReviewNeeded review;
+    private ToReview review;
 
     @Enumerated(EnumType.STRING)
     private ReviewDecision decision;
     @Setter
     private LocalDate cleanAfter;
 
-    public DemandReviewEntity(Instant timestamp, ReviewNeeded review) {
+    public DemandReviewEntity(Instant timestamp, ToReview review) {
         this.timestamp = timestamp;
         this.refNo = review.getId().getRefNo();
         this.date = review.getId().getDate();
@@ -43,9 +43,9 @@ public class DemandReviewEntity implements Serializable {
         return decision != null;
     }
 
-    public static class ReviewAsJson extends JsonConverter<ReviewNeeded> {
+    public static class ReviewAsJson extends JsonConverter<ToReview> {
         public ReviewAsJson() {
-            super(ReviewNeeded.class);
+            super(ToReview.class);
         }
     }
 }

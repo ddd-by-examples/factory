@@ -1,6 +1,6 @@
 package pl.com.bottega.factory.demand.forecasting;
 
-import pl.com.bottega.factory.demand.forecasting.ReviewRequested.ReviewNeeded;
+import pl.com.bottega.factory.demand.forecasting.ReviewRequired.ToReview;
 
 import java.util.*;
 
@@ -9,7 +9,7 @@ import static java.util.Collections.unmodifiableList;
 class UnitOfWork implements DailyDemand.Events {
 
     Map<DailyId, DemandedLevelsChanged.Change> changes = new HashMap<>();
-    List<ReviewNeeded> reviews = new LinkedList<>();
+    List<ToReview> reviews = new LinkedList<>();
     List<DailyDemand.DemandUpdated> updates = new LinkedList<>();
 
     boolean anyChanges() {
@@ -24,7 +24,7 @@ class UnitOfWork implements DailyDemand.Events {
         return !reviews.isEmpty();
     }
 
-    List<ReviewNeeded> reviews() {
+    List<ToReview> reviews() {
         return Collections.unmodifiableList(reviews);
     }
 
@@ -38,7 +38,7 @@ class UnitOfWork implements DailyDemand.Events {
     }
 
     @Override
-    public void emit(ReviewNeeded event) {
+    public void emit(ToReview event) {
         reviews.add(event);
     }
 

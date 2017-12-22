@@ -1,7 +1,7 @@
 package pl.com.bottega.factory.demand.forecasting;
 
 import lombok.AllArgsConstructor;
-import pl.com.bottega.factory.demand.forecasting.ReviewRequested.ReviewNeeded;
+import pl.com.bottega.factory.demand.forecasting.ReviewRequired.ToReview;
 
 import java.util.Collections;
 import java.util.function.Function;
@@ -9,13 +9,13 @@ import java.util.function.Function;
 @AllArgsConstructor
 public enum ReviewDecision {
     IGNORE(r -> null),
-    PICK_PREVIOUS(ReviewNeeded::getPreviousDocumented),
-    MAKE_ADJUSTMENT_WEAK(ReviewNeeded::getAdjustment),
-    PICK_NEW(ReviewNeeded::getNewDocumented);
+    PICK_PREVIOUS(ToReview::getPreviousDocumented),
+    MAKE_ADJUSTMENT_WEAK(ToReview::getAdjustment),
+    PICK_NEW(ToReview::getNewDocumented);
 
-    private final Function<ReviewNeeded, Demand> pick;
+    private final Function<ToReview, Demand> pick;
 
-    public AdjustDemand toAdjustment(ReviewNeeded review) {
+    public AdjustDemand toAdjustment(ToReview review) {
         if (this == IGNORE) {
             throw new IllegalStateException("can't convert " + this + " to adjustment");
         }

@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.com.bottega.factory.product.management.RefNoId;
-import pl.com.bottega.factory.shortages.prediction.Shortages;
+import pl.com.bottega.factory.shortages.prediction.Shortage;
 import pl.com.bottega.tools.JsonConverter;
 import pl.com.bottega.tools.TechnicalId;
 
@@ -25,7 +25,7 @@ public class ShortagesEntity implements Serializable {
     private String refNo;
     @Setter
     @Convert(converter = ShortagesAsJson.class)
-    private Shortages shortages;
+    private Shortage shortages;
 
     public ShortagesEntity(String refNo) {
         this.refNo = refNo;
@@ -39,9 +39,9 @@ public class ShortagesEntity implements Serializable {
         return id instanceof ShortagesEntityId ? id : new ShortagesEntityId(id.getRefNo());
     }
 
-    public static class ShortagesAsJson extends JsonConverter<Shortages> {
+    public static class ShortagesAsJson extends JsonConverter<Shortage> {
         public ShortagesAsJson() {
-            super(Shortages.class);
+            super(Shortage.class);
         }
     }
 

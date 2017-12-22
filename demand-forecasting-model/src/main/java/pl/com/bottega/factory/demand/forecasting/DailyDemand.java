@@ -2,7 +2,7 @@ package pl.com.bottega.factory.demand.forecasting;
 
 import lombok.Value;
 import pl.com.bottega.factory.demand.forecasting.DemandedLevelsChanged.Change;
-import pl.com.bottega.factory.demand.forecasting.ReviewRequested.ReviewNeeded;
+import pl.com.bottega.factory.demand.forecasting.ReviewRequired.ToReview;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -19,7 +19,7 @@ class DailyDemand {
     interface Events {
         void emit(LevelChanged event);
 
-        void emit(ReviewNeeded event);
+        void emit(ToReview event);
 
         void emit(DemandUpdated event);
     }
@@ -49,7 +49,7 @@ class DailyDemand {
     void update(Demand documented) {
         State state = state();
         if (policy.reviewNeeded(this.documented, this.adjustment, documented)) {
-            events.emit(new ReviewNeeded(id,
+            events.emit(new ToReview(id,
                     this.documented,
                     this.adjustment.getDemand(),
                     documented)

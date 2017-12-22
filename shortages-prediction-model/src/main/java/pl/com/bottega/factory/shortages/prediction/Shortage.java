@@ -15,22 +15,22 @@ import java.util.TreeMap;
  * Created by michal on 22.10.2015.
  */
 @Value
-public class Shortages {
+public class Shortage {
 
     private final String refNo;
     private final long lockedParts;
     private final LocalDateTime found;
     private final SortedMap<LocalDateTime, Long> shortages;
 
-    public static Shortages.Builder builder(String refNo, long locked, LocalDateTime found) {
+    public static Shortage.Builder builder(String refNo, long locked, LocalDateTime found) {
         return new Builder(refNo, locked, found);
     }
 
-    public static boolean areNotSame(Shortages first, Shortages second) {
+    public static boolean areNotSame(Shortage first, Shortage second) {
         return !areSame(first, second);
     }
 
-    public static boolean areSame(Shortages first, Shortages second) {
+    public static boolean areSame(Shortage first, Shortage second) {
         boolean noShortages = first == null && second == null;
         boolean onlyOne = first == null && second != null || first != null && second == null;
         if (noShortages || onlyOne) return false;
@@ -55,11 +55,11 @@ public class Shortages {
             return this;
         }
 
-        public Optional<Shortages> build() {
+        public Optional<Shortage> build() {
             if (gaps.isEmpty()) {
                 return Optional.empty();
             } else {
-                return Optional.of(new Shortages(refNo, locked, found,
+                return Optional.of(new Shortage(refNo, locked, found,
                         Collections.unmodifiableSortedMap(gaps)));
             }
         }

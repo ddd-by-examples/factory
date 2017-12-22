@@ -1,6 +1,6 @@
 package pl.com.bottega.factory.shortages.prediction.monitoring
 
-import pl.com.bottega.factory.shortages.prediction.Shortages
+import pl.com.bottega.factory.shortages.prediction.Shortage
 import pl.com.bottega.factory.shortages.prediction.calculation.TimeGrammar
 import spock.lang.Specification
 
@@ -18,11 +18,11 @@ class ShortageDiffPolicySpec extends Specification {
         given:
         def policy = ShortageDiffPolicy.ValuesAreNotSame
 
-        Shortages one = Shortages.builder("3009000", 0, now)
+        Shortage one = Shortage.builder("3009000", 0, now)
                 .missing(now + 1.day, 500L)
                 .build().orElse(null)
 
-        Shortages another = Shortages.builder("3009000", 0, now + 5.min)
+        Shortage another = Shortage.builder("3009000", 0, now + 5.min)
                 .missing(now + 1.day, 500L)
                 .build().orElse(null)
 
@@ -34,11 +34,11 @@ class ShortageDiffPolicySpec extends Specification {
         given:
         def policy = ShortageDiffPolicy.ValuesAreNotSame
 
-        Shortages one = Shortages.builder("3009000", 0, now)
+        Shortage one = Shortage.builder("3009000", 0, now)
                 .missing(now + 1.day, 500L)
                 .build().orElse(null)
 
-        Shortages another = Shortages.builder("3009000", 1000, now)
+        Shortage another = Shortage.builder("3009000", 1000, now)
                 .missing(now + 1.day, 500L)
                 .build().orElse(null)
 
@@ -50,11 +50,11 @@ class ShortageDiffPolicySpec extends Specification {
         given:
         def policy = ShortageDiffPolicy.ValuesAreNotSame
 
-        Shortages one = Shortages.builder("3009000XXX", 0, now)
+        Shortage one = Shortage.builder("3009000XXX", 0, now)
                 .missing(now + 1.day, 500L)
                 .build().orElse(null)
 
-        Shortages another = Shortages.builder("3009000", 0, now)
+        Shortage another = Shortage.builder("3009000", 0, now)
                 .missing(now + 1.day, 500L)
                 .build().orElse(null)
 
@@ -66,11 +66,11 @@ class ShortageDiffPolicySpec extends Specification {
         given:
         def policy = ShortageDiffPolicy.ValuesAreNotSame
 
-        Shortages one = Shortages.builder("3009000", 0, now)
+        Shortage one = Shortage.builder("3009000", 0, now)
                 .missing(now + 1.day, 500L)
                 .build().orElse(null)
 
-        Shortages another = Shortages.builder("3009000", 0, now)
+        Shortage another = Shortage.builder("3009000", 0, now)
                 .missing(now + 1.day, 1500L)
                 .build().orElse(null)
 
@@ -82,11 +82,11 @@ class ShortageDiffPolicySpec extends Specification {
         given:
         def policy = ShortageDiffPolicy.ValuesAreNotSame
 
-        Shortages one = Shortages.builder("3009000", 0, now)
+        Shortage one = Shortage.builder("3009000", 0, now)
                 .missing(now + 1.day, 500L)
                 .build().orElse(null)
 
-        Shortages another = Shortages.builder("3009000", 0, now)
+        Shortage another = Shortage.builder("3009000", 0, now)
                 .missing(now + 1.day, 499L)
                 .build().orElse(null)
 
@@ -98,11 +98,11 @@ class ShortageDiffPolicySpec extends Specification {
         given:
         def policy = ShortageDiffPolicy.ValuesAreNotSame
 
-        Shortages one = Shortages.builder("3009000", 0, now)
+        Shortage one = Shortage.builder("3009000", 0, now)
                 .missing(now + 1.day, 500L)
                 .build().orElse(null)
 
-        Shortages another = Shortages.builder("3009000", 0, now)
+        Shortage another = Shortage.builder("3009000", 0, now)
                 .missing(now + 2.day, 500L)
                 .build().orElse(null)
 
@@ -114,11 +114,11 @@ class ShortageDiffPolicySpec extends Specification {
         given:
         def policy = ShortageDiffPolicy.ValuesAreNotSame
 
-        Shortages one = Shortages.builder("3009000", 0, now)
+        Shortage one = Shortage.builder("3009000", 0, now)
                 .missing(now + 1.day, 500L)
                 .build().orElse(null)
 
-        Shortages another = Shortages.builder("3009000", 0, now)
+        Shortage another = Shortage.builder("3009000", 0, now)
                 .missing(now + 1.day + 1.min, 500L)
                 .build().orElse(null)
 

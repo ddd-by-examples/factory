@@ -6,8 +6,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import pl.com.bottega.factory.product.management.RefNoId;
-import pl.com.bottega.factory.shortages.prediction.calculation.Forecast;
-import pl.com.bottega.factory.shortages.prediction.calculation.Forecasts;
+import pl.com.bottega.factory.shortages.prediction.calculation.ShortageForecast;
+import pl.com.bottega.factory.shortages.prediction.calculation.ShortageForecasts;
 import pl.com.bottega.factory.shortages.prediction.monitoring.NewShortage;
 import pl.com.bottega.factory.shortages.prediction.monitoring.ShortageEvents;
 import pl.com.bottega.factory.shortages.prediction.monitoring.ShortageSolved;
@@ -26,8 +26,8 @@ public class Configuration {
     }
 
     @Bean
-    public Forecasts forecasts() {
-        return new ForecastsFake();
+    public ShortageForecasts forecasts() {
+        return new ShortageForecastsFake();
     }
 
     @Bean
@@ -47,9 +47,9 @@ public class Configuration {
         }
     }
 
-    private class ForecastsFake implements Forecasts {
+    private class ShortageForecastsFake implements ShortageForecasts {
         @Override
-        public Forecast get(RefNoId refNo, int daysAhead) {
+        public ShortageForecast get(RefNoId refNo, int daysAhead) {
             return null;
         }
     }

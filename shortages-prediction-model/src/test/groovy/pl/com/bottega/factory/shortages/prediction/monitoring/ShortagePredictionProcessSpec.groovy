@@ -2,8 +2,8 @@ package pl.com.bottega.factory.shortages.prediction.monitoring
 
 import pl.com.bottega.factory.product.management.RefNoId
 import pl.com.bottega.factory.shortages.prediction.Configuration
-import pl.com.bottega.factory.shortages.prediction.Shortages
-import pl.com.bottega.factory.shortages.prediction.calculation.Forecasts
+import pl.com.bottega.factory.shortages.prediction.Shortage
+import pl.com.bottega.factory.shortages.prediction.calculation.ShortageForecasts
 import pl.com.bottega.factory.shortages.prediction.calculation.ShortagesCalculationAssembler
 import spock.lang.Specification
 
@@ -119,8 +119,8 @@ class ShortagePredictionProcessSpec extends Specification {
     }
 
     ShortagePredictionProcess predictionProcess(
-            Shortages previouslyFound,
-            Forecasts forecastThatWillFindShortages) {
+            Shortage previouslyFound,
+            ShortageForecasts forecastThatWillFindShortages) {
 
         new ShortagePredictionProcess(
                 refNo,
@@ -142,15 +142,15 @@ class ShortagePredictionProcessSpec extends Specification {
          (now.plusDays(1)) : 900L]
     }
 
-    Shortages noShortagesWasPreviouslyFound() {
+    Shortage noShortagesWasPreviouslyFound() {
         null
     }
 
-    Shortages wasPreviouslyFound(Map<LocalDateTime, Long> shortages) {
+    Shortage wasPreviouslyFound(Map<LocalDateTime, Long> shortages) {
         forecastAssembler.shortage(shortages).orElse(null)
     }
 
-    Forecasts noShortagesWillBeFound() {
+    ShortageForecasts noShortagesWillBeFound() {
         forecastAssembler.forecastProvider(
                 forecastAssembler.stock(1000),
                 forecastAssembler.noDeliveries(),
@@ -158,7 +158,7 @@ class ShortagePredictionProcessSpec extends Specification {
         )
     }
 
-    Forecasts willFindShortages(Map<LocalDateTime, Long> shortages) {
+    ShortageForecasts willFindShortages(Map<LocalDateTime, Long> shortages) {
         forecastAssembler.forecastProvider(
                 forecastAssembler.stock(0),
                 forecastAssembler.deliveries(shortages),

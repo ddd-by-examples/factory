@@ -1,7 +1,7 @@
 package pl.com.bottega.factory.shortages.prediction.calculation
 
 import pl.com.bottega.factory.product.management.RefNoId
-import pl.com.bottega.factory.shortages.prediction.Shortages
+import pl.com.bottega.factory.shortages.prediction.Shortage
 
 import java.time.Duration
 import java.time.LocalDateTime
@@ -12,13 +12,13 @@ trait ShortagesCalculationAssemblerTrait {
     String refNo = "3009000"
     SortedSet<LocalDateTime> times
 
-    Forecasts forecastProvider(Stock stock, DeliveriesForecast demands, ProductionOutputs outputs) {
+    ShortageForecasts forecastProvider(Stock stock, DeliveriesForecast demands, ProductionOutputs outputs) {
         def forecast = forecast(stock, demands, outputs)
-        return { RefNoId refNo, int daysAhead -> forecast } as Forecasts
+        return { RefNoId refNo, int daysAhead -> forecast } as ShortageForecasts
     }
 
-    Forecast forecast(Stock stock, DeliveriesForecast demands, ProductionOutputs outputs) {
-        new Forecast(refNo, now, times, stock, outputs, demands)
+    ShortageForecast forecast(Stock stock, DeliveriesForecast demands, ProductionOutputs outputs) {
+        new ShortageForecast(refNo, now, times, stock, outputs, demands)
     }
 
     ProductionOutputs noProductions() {
@@ -53,12 +53,12 @@ trait ShortagesCalculationAssemblerTrait {
         new Stock(level, locked)
     }
 
-    Optional<Shortages> noShortages() {
+    Optional<Shortage> noShortages() {
         Optional.empty()
     }
 
-    Optional<Shortages> shortage(Map<LocalDateTime, Long> missing, long locked = 0) {
-        def shortages = Shortages.builder(refNo, locked, now)
+    Optional<Shortage> shortage(Map<LocalDateTime, Long> missing, long locked = 0) {
+        def shortages = Shortage.builder(refNo, locked, now)
 
         missing.each { time, level -> shortages.missing(time, level) }
 

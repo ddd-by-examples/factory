@@ -6,7 +6,7 @@ import java.time.LocalDate
 import java.time.ZoneId
 
 import static DemandedLevelsChanged.Change
-import static ReviewRequested.ReviewNeeded
+import static pl.com.bottega.factory.demand.forecasting.ReviewRequired.ToReview
 
 class DailyDemandBuilder {
 
@@ -92,8 +92,8 @@ class DailyDemandBuilder {
         )
     }
 
-    ReviewNeeded reviewRequest(long previousDocumented, long adjustment, long newDocumented) {
-        new ReviewNeeded(
+    ToReview reviewRequest(long previousDocumented, long adjustment, long newDocumented) {
+        new ToReview(
                 new DailyId(refNo, date),
                 Demand.of(previousDocumented),
                 Demand.of(adjustment),

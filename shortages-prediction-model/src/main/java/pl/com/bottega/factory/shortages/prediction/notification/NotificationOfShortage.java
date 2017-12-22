@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Singular;
 import lombok.Value;
-import pl.com.bottega.factory.shortages.prediction.Shortages;
+import pl.com.bottega.factory.shortages.prediction.Shortage;
 import pl.com.bottega.factory.shortages.prediction.monitoring.NewShortage;
 import pl.com.bottega.factory.shortages.prediction.monitoring.NewShortage.After;
 
@@ -32,9 +32,9 @@ public class NotificationOfShortage {
     }
 
     public void notifyAbout(NewShortage event) {
-        Shortages shortage = event.getShortages();
+        Shortage shortage = event.getShortage();
         rules.wayOfNotificationAfter(event.getTrigger())
-                .notifyAbout(event.getShortages());
+                .notifyAbout(event.getShortage());
 
         if (policy.shouldIncreasePriority(LocalDateTime.now(clock), shortage)) {
             qualityTasks.increasePriorityFor(shortage.getRefNo());
@@ -54,6 +54,6 @@ public class NotificationOfShortage {
     }
 
     interface Notificator {
-        void notifyAbout(Shortages shortages);
+        void notifyAbout(Shortage shortage);
     }
 }

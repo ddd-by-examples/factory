@@ -3,7 +3,7 @@ package pl.com.bottega.factory.shortages.prediction.notification;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import pl.com.bottega.factory.shortages.prediction.Shortages;
+import pl.com.bottega.factory.shortages.prediction.Shortage;
 
 import java.time.Clock;
 
@@ -27,17 +27,17 @@ public class NotificationConfiguration {
 
     private static class MockedPlannerPushNotifications implements Notifications {
         @Override
-        public void alertPlanner(Shortages shortage) {
+        public void alertPlanner(Shortage shortage) {
 
         }
 
         @Override
-        public void softNotifyPlanner(Shortages shortage) {
+        public void softNotifyPlanner(Shortage shortage) {
 
         }
 
         @Override
-        public void markOnPlan(Shortages shortage) {
+        public void markOnPlan(Shortage shortage) {
 
         }
     }

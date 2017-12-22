@@ -2,7 +2,7 @@ package pl.com.bottega.factory.shortages.prediction.calculation
 
 import spock.lang.Specification
 
-class ShortagesCalculationAlgorithmSpec extends Specification
+class ShortageCalculationAlgorithmSpec extends Specification
         implements ShortagesCalculationAssemblerTrait {
 
     void setup() {

@@ -7,7 +7,7 @@ import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import pl.com.bottega.factory.demand.forecasting.DemandEvents;
 import pl.com.bottega.factory.demand.forecasting.DemandedLevelsChanged;
-import pl.com.bottega.factory.demand.forecasting.ReviewRequested;
+import pl.com.bottega.factory.demand.forecasting.ReviewRequired;
 
 import java.time.Clock;
 
@@ -34,7 +34,7 @@ public class Configuration {
         }
 
         @Override
-        public void emit(ReviewRequested event) {
+        public void emit(ReviewRequired event) {
 
         }
     }

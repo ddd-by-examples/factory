@@ -32,7 +32,7 @@ class DemandEventsMapping implements DemandEvents {
     }
 
     @Override
-    public void emit(ReviewRequested event) {
+    public void emit(ReviewRequired event) {
         Instant timestamp = Instant.now(clock);
         demandReviews.save(event.getReviews().stream()
                 .map(r -> new DemandReviewEntity(timestamp, r))

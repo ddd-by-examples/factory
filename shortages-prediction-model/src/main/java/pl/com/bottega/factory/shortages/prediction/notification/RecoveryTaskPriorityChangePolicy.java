@@ -1,6 +1,6 @@
 package pl.com.bottega.factory.shortages.prediction.notification;
 
-import pl.com.bottega.factory.shortages.prediction.Shortages;
+import pl.com.bottega.factory.shortages.prediction.Shortage;
 
 import java.time.LocalDateTime;
 
@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public interface RecoveryTaskPriorityChangePolicy {
 
     static RecoveryTaskPriorityChangePolicy never() {
-        return (LocalDateTime now, Shortages shortage) -> false;
+        return (LocalDateTime now, Shortage shortage) -> false;
     }
 
     static RecoveryTaskPriorityChangePolicy onlyIn1DaysAhead() {
@@ -18,10 +18,10 @@ public interface RecoveryTaskPriorityChangePolicy {
     }
 
     static RecoveryTaskPriorityChangePolicy shortageInDays(long shortageInXDays) {
-        return (LocalDateTime now, Shortages shortage) ->
+        return (LocalDateTime now, Shortage shortage) ->
                 shortage.getLockedParts() > 0 && shortage.anyBefore(
                         now.plusDays(shortageInXDays));
     }
 
-    boolean shouldIncreasePriority(LocalDateTime now, Shortages shortage);
+    boolean shouldIncreasePriority(LocalDateTime now, Shortage shortage);
 }

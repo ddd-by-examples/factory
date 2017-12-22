@@ -8,17 +8,17 @@ import java.util.Collections;
 import java.util.List;
 
 @Value
-public class ReviewRequested {
+public class ReviewRequired {
     RefNoId refNo;
-    List<ReviewNeeded> reviews;
+    List<ToReview> reviews;
 
-    public ReviewRequested(RefNoId refNo, List<ReviewNeeded> reviews) {
+    public ReviewRequired(RefNoId refNo, List<ToReview> reviews) {
         this.refNo = refNo;
         this.reviews = Collections.unmodifiableList(reviews);
     }
 
     @Value
-    public static class ReviewNeeded {
+    public static class ToReview {
         DailyId id;
         Demand previousDocumented;
         Demand adjustment;

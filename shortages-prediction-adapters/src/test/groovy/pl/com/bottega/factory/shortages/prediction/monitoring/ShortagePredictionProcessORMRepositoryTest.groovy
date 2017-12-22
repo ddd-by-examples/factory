@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.annotation.Commit
 import pl.com.bottega.factory.product.management.RefNoId
-import pl.com.bottega.factory.shortages.prediction.Shortages
-import pl.com.bottega.factory.shortages.prediction.calculation.Forecasts
+import pl.com.bottega.factory.shortages.prediction.Shortage
+import pl.com.bottega.factory.shortages.prediction.calculation.ShortageForecasts
 import pl.com.bottega.factory.shortages.prediction.monitoring.persistence.ShortagesDao
 import pl.com.bottega.factory.shortages.prediction.monitoring.persistence.ShortagesEntity
 import spock.lang.Specification
@@ -25,7 +25,7 @@ class ShortagePredictionProcessORMRepositoryTest extends Specification {
 
     @Autowired
     ShortagesDao dao
-    def forecasts = Mock(Forecasts)
+    def forecasts = Mock(ShortageForecasts)
     def notifications = Mock(ShortageEvents)
     ShortagePredictionProcessORMRepository repository
 
@@ -88,13 +88,13 @@ class ShortagePredictionProcessORMRepositoryTest extends Specification {
         noShortagesPersisted()
     }
 
-    def persistedShortage(Shortages shortages) {
+    def persistedShortage(Shortage shortages) {
         def entity = new ShortagesEntity(refNo)
         entity.setShortages(shortages)
         dao.save(entity)
     }
 
-    Shortages shortagesCurrentlyPersisted() {
+    Shortage shortagesCurrentlyPersisted() {
         dao.findByRefNo(refNo).get().shortages
     }
 
@@ -106,29 +106,29 @@ class ShortagePredictionProcessORMRepositoryTest extends Specification {
         repository.get(new RefNoId(refNo))
     }
 
-    Shortages noShortages() {
+    Shortage noShortages() {
         null
     }
 
-    Shortages someShortages() {
-        Shortages.builder(refNo, 0, now)
+    Shortage someShortages() {
+        Shortage.builder(refNo, 0, now)
                 .missing(now.plusDays(1), 500)
                 .build()
                 .orElse(null)
     }
 
-    Shortages someOldShortages() {
-        Shortages.builder(refNo, 0, now.minusDays(1))
+    Shortage someOldShortages() {
+        Shortage.builder(refNo, 0, now.minusDays(1))
                 .missing(now.plusDays(2), 2500)
                 .build()
                 .orElse(null)
     }
 
-    Shortages shortagesCurrentlyKnownBy(ShortagePredictionProcess process) {
+    Shortage shortagesCurrentlyKnownBy(ShortagePredictionProcess process) {
         process.known
     }
 
-    void processEmitsNewShortage(ShortagePredictionProcess process, Shortages shortages) {
+    void processEmitsNewShortage(ShortagePredictionProcess process, Shortage shortages) {
         process.events.emit(new NewShortage(process.refNo, DemandChanged, shortages))
     }
 

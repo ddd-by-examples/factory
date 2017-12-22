@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import pl.com.bottega.factory.product.management.RefNoId;
 import pl.com.bottega.factory.shortages.prediction.Configuration;
-import pl.com.bottega.factory.shortages.prediction.calculation.Forecasts;
+import pl.com.bottega.factory.shortages.prediction.calculation.ShortageForecasts;
 import pl.com.bottega.factory.shortages.prediction.monitoring.persistence.ShortagesDao;
 import pl.com.bottega.factory.shortages.prediction.monitoring.persistence.ShortagesEntity;
 import pl.com.bottega.tools.TechnicalId;
@@ -17,7 +17,7 @@ class ShortagePredictionProcessORMRepository {
 
     private final ShortagesDao dao;
     private final ShortageDiffPolicy policy = ShortageDiffPolicy.ValuesAreNotSame;
-    private final Forecasts forecasts;
+    private final ShortageForecasts forecasts;
     private final Configuration configuration = () -> 14;
     private final ShortageEvents events;
 
@@ -40,7 +40,7 @@ class ShortagePredictionProcessORMRepository {
         ShortagesEntity entity = TechnicalId.findOrDefault(
                 refNo, dao::findOne,
                 () -> dao.save(new ShortagesEntity(refNo.getRefNo())));
-        entity.setShortages(event.getShortages());
+        entity.setShortages(event.getShortage());
         events.emit(event);
     }
 

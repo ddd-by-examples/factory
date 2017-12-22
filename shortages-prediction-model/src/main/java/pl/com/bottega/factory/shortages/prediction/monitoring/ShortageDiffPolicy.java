@@ -1,10 +1,10 @@
 package pl.com.bottega.factory.shortages.prediction.monitoring;
 
-import pl.com.bottega.factory.shortages.prediction.Shortages;
+import pl.com.bottega.factory.shortages.prediction.Shortage;
 
 interface ShortageDiffPolicy {
 
-    ShortageDiffPolicy ValuesAreNotSame = Shortages::areNotSame;
+    ShortageDiffPolicy ValuesAreNotSame = Shortage::areNotSame;
 
-    boolean areDifferent(Shortages previous, Shortages found);
+    boolean areDifferent(Shortage previous, Shortage found);
 }

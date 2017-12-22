@@ -5,7 +5,7 @@ import pl.com.bottega.factory.product.management.RefNoId
 import java.time.*
 
 import static DemandedLevelsChanged.Change
-import static ReviewRequested.ReviewNeeded
+import static pl.com.bottega.factory.demand.forecasting.ReviewRequired.ToReview
 
 class ProductDemandBuilder {
 
@@ -74,15 +74,15 @@ class ProductDemandBuilder {
         new DemandedLevelsChanged(new RefNoId(refNo), results)
     }
 
-    ReviewRequested reviewRequest(ReviewNeeded... reviews) {
-        new ReviewRequested(new RefNoId(refNo), reviews as List)
+    ReviewRequired reviewRequest(ToReview... reviews) {
+        new ReviewRequired(new RefNoId(refNo), reviews as List)
     }
 
-    ReviewNeeded review(LocalDate date,
-                        long previousDocumented,
-                        long strongAdjustment,
-                        long newDocumented) {
-        new ReviewNeeded(
+    ToReview review(LocalDate date,
+                    long previousDocumented,
+                    long strongAdjustment,
+                    long newDocumented) {
+        new ToReview(
                 new DailyId(refNo, date),
                 Demand.of(previousDocumented),
                 Demand.of(strongAdjustment),
