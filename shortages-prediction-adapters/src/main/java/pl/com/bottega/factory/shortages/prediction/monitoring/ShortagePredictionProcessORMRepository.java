@@ -26,7 +26,7 @@ class ShortagePredictionProcessORMRepository {
         return new ShortagePredictionProcess(
                 entity.map(ShortagesEntity::createId)
                         .orElseGet(() -> ShortagesEntity.createId(refNo)),
-                entity.map(ShortagesEntity::getShortages).orElse(null),
+                entity.map(ShortagesEntity::getShortage).orElse(null),
                 policy, forecasts, configuration, new EventsHandler()
         );
     }
@@ -40,7 +40,7 @@ class ShortagePredictionProcessORMRepository {
         ShortagesEntity entity = TechnicalId.findOrDefault(
                 refNo, dao::findOne,
                 () -> dao.save(new ShortagesEntity(refNo.getRefNo())));
-        entity.setShortages(event.getShortage());
+        entity.setShortage(event.getShortage());
         events.emit(event);
     }
 

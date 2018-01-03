@@ -10,12 +10,12 @@ import java.util.List;
 
 @Repository
 @RepositoryRestResource(
-        path = "demand-reviews",
-        collectionResourceRel = "demand-reviews",
-        itemResourceRel = "demand-review")
-public interface DemandReviewDao extends CommandRepository<DemandReviewEntity, Long> {
+        path = "required-reviews",
+        collectionResourceRel = "required-reviews",
+        itemResourceRel = "required-review")
+public interface RequiredReviewDao extends CommandRepository<RequiredReviewEntity, Long> {
     @RestResource(path = "refNos", rel = "refNos")
-    List<DemandReviewEntity> findByRefNoAndDecisionIsNull(String refNo);
+    List<RequiredReviewEntity> findByRefNoAndDecisionIsNull(String refNo);
 
     @RestResource(exported = false)
     void deleteByCleanAfterGreaterThanEqual(LocalDate date);

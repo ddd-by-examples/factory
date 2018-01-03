@@ -44,3 +44,6 @@ CREATE TABLE demand_forecasting.demand_review (
     decision character varying(64),
     clean_after timestamp without time zone
 );
+
+--changeset michaluk.michal:2.rename.review.table
+ALTER TABLE demand_forecasting.demand_review RENAME TO required_review;

@@ -14,3 +14,6 @@ CREATE TABLE shortages_prediction.shortage (
 CREATE TABLE shortages_prediction.stock_forecast (
     ref_no character varying(64) NOT NULL PRIMARY KEY
 );
+
+--changeset michaluk.michal:2.rename.shortages.column
+ALTER TABLE shortages_prediction.shortage RENAME shortages TO shortage;

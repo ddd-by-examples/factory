@@ -24,8 +24,8 @@ public class ShortagesEntity implements Serializable {
     private Long version;
     private String refNo;
     @Setter
-    @Convert(converter = ShortagesAsJson.class)
-    private Shortage shortages;
+    @Convert(converter = ShortageAsJson.class)
+    private Shortage shortage;
 
     public ShortagesEntity(String refNo) {
         this.refNo = refNo;
@@ -39,8 +39,8 @@ public class ShortagesEntity implements Serializable {
         return id instanceof ShortagesEntityId ? id : new ShortagesEntityId(id.getRefNo());
     }
 
-    public static class ShortagesAsJson extends JsonConverter<Shortage> {
-        public ShortagesAsJson() {
+    public static class ShortageAsJson extends JsonConverter<Shortage> {
+        public ShortageAsJson() {
             super(Shortage.class);
         }
     }

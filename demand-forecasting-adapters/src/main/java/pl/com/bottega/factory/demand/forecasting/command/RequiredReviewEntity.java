@@ -12,11 +12,11 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
 
-@Entity(name = "DemandReview")
+@Entity(name = "RequiredReview")
 @Table(schema = "demand_forecasting")
 @Getter
 @NoArgsConstructor
-public class DemandReviewEntity implements Serializable {
+public class RequiredReviewEntity implements Serializable {
 
     @Id
     @GeneratedValue
@@ -32,7 +32,7 @@ public class DemandReviewEntity implements Serializable {
     @Setter
     private LocalDate cleanAfter;
 
-    public DemandReviewEntity(Instant timestamp, ToReview review) {
+    public RequiredReviewEntity(Instant timestamp, ToReview review) {
         this.timestamp = timestamp;
         this.refNo = review.getId().getRefNo();
         this.date = review.getId().getDate();

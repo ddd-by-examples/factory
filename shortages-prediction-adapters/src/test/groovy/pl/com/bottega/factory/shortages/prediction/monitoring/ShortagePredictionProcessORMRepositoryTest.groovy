@@ -90,12 +90,12 @@ class ShortagePredictionProcessORMRepositoryTest extends Specification {
 
     def persistedShortage(Shortage shortages) {
         def entity = new ShortagesEntity(refNo)
-        entity.setShortages(shortages)
+        entity.setShortage(shortages)
         dao.save(entity)
     }
 
     Shortage shortagesCurrentlyPersisted() {
-        dao.findByRefNo(refNo).get().shortages
+        dao.findByRefNo(refNo).get().shortage
     }
 
     void noShortagesPersisted() {

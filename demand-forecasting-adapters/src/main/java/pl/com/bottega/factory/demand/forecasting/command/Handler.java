@@ -21,7 +21,7 @@ public class Handler {
 
     private final DemandService service;
     private final DemandAdjustmentDao adjustments;
-    private final DemandReviewDao reviews;
+    private final RequiredReviewDao reviews;
     private final Clock clock;
 
     @HandleBeforeCreate
@@ -35,7 +35,7 @@ public class Handler {
     }
 
     @HandleBeforeSave
-    public void review(DemandReviewEntity review) {
+    public void review(RequiredReviewEntity review) {
         if (review.decisionTaken()) {
             review.setCleanAfter(LocalDate.now(clock).plusDays(7));
             service.review(review.getReview(), review.getDecision());
