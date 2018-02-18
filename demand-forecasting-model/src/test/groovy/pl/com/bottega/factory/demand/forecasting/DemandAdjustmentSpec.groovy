@@ -77,7 +77,6 @@ class DemandAdjustmentSpec extends Specification implements ProductDemandTrait {
         1 * events.emit(levelChanged([2800, 2000], [0, 3500]))
 
         when:
-        builder.clearUnitOfWork()
         demand.adjust(adjustments)
 
         then:

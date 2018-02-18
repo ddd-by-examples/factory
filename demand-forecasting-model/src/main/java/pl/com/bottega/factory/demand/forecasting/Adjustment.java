@@ -19,4 +19,8 @@ class Adjustment {
     static boolean isStrong(Adjustment adjustment) {
         return adjustment != null && adjustment.strong;
     }
+
+    static boolean isNotStrong(Adjustment adjustment) {
+        return !isStrong(adjustment);
+    }
 }

@@ -1,11 +1,12 @@
 package pl.com.bottega.factory.demand.forecasting;
 
+import lombok.Builder;
 import lombok.Value;
 import pl.com.bottega.factory.demand.forecasting.DemandedLevelsChanged.Change;
 import pl.com.bottega.factory.demand.forecasting.ReviewRequired.ToReview;
 
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 class DailyDemand {
 
@@ -13,71 +14,59 @@ class DailyDemand {
     private Demand documented;
     private Adjustment adjustment;
 
-    private final Events events;
     private final ReviewPolicy policy;
 
-    interface Events {
-        void emit(LevelChanged event);
-
-        void emit(ToReview event);
-
-        void emit(DemandUpdated event);
-    }
-
-    DailyDemand(DailyId id, Events events, ReviewPolicy policy,
+    DailyDemand(DailyId id, ReviewPolicy policy,
                 Demand documented, Adjustment adjustment) {
         this.id = id;
-        this.events = events;
         this.policy = policy;
         this.documented = Optional.ofNullable(documented)
                 .orElse(Demand.nothingDemanded());
         this.adjustment = adjustment;
     }
 
-    void adjust(Adjustment adjustment) {
+    Result adjust(Adjustment adjustment) {
+        Result.ResultBuilder result = Result.builder(id);
         State state = state();
         this.adjustment = adjustment;
 
         if (state.updated()) {
-            events.emit(new DemandUpdated(id, documented, adjustment));
+            result.updated(new DemandUpdated(id, documented, adjustment));
         }
         if (state.levelChanged()) {
-            events.emit(new LevelChanged(id, state.getLevelChange()));
+            result.levelChange(state.getLevelChange());
         }
+        return result.build();
     }
 
-    void update(Demand documented) {
+    Result update(Demand documented) {
+        Result.ResultBuilder result = Result.builder(id);
         State state = state();
         if (policy.reviewNeeded(this.documented, this.adjustment, documented)) {
-            events.emit(new ToReview(id,
+            result.toReview(new ToReview(id,
                     this.documented,
                     this.adjustment.getDemand(),
                     documented)
             );
         }
-        if (!Adjustment.isStrong(this.adjustment)) {
+        if (Adjustment.isNotStrong(this.adjustment)) {
             this.adjustment = null;
         }
         this.documented = documented;
 
         if (state.updated()) {
-            events.emit(new DemandUpdated(id, documented, adjustment));
+            result.updated(new DemandUpdated(id, documented, adjustment));
         }
         if (state.levelChanged()) {
-            events.emit(new LevelChanged(id, state.getLevelChange()));
+            result.levelChange(state.getLevelChange());
         }
+        return result.build();
     }
 
     Demand getLevel() {
         return Optional.ofNullable(adjustment)
                 .map(Adjustment::getDemand)
                 .orElse(documented);
-    }
-
-    @Value
-    static class LevelChanged {
-        DailyId id;
-        Change change;
     }
 
     @Value
@@ -113,6 +102,42 @@ class DailyDemand {
 
         boolean levelChanged() {
             return !level.equals(getLevel());
+        }
+    }
+
+    @Builder
+    @Value
+    static class Result {
+        DailyId id;
+        DemandUpdated updated;
+        DemandedLevelsChanged.Change levelChange;
+        ReviewRequired.ToReview toReview;
+
+        static ResultBuilder builder(DailyId id) {
+            return new ResultBuilder().id(id);
+        }
+
+        static List<ToReview> reviews(List<Result> results) {
+            return Collections.unmodifiableList(results.stream()
+                    .filter(result -> result.toReview != null)
+                    .map(result -> result.toReview)
+                    .collect(Collectors.toList()));
+        }
+
+        static Map<DailyId, Change> levelChanges(List<Result> results) {
+            return Collections.unmodifiableMap(results.stream()
+                    .filter(result -> result.levelChange != null)
+                    .collect(Collectors.toMap(
+                            result -> result.id,
+                            result -> result.levelChange
+                    )));
+        }
+
+        static List<DemandUpdated> updates(List<Result> results) {
+            return Collections.unmodifiableList(results.stream()
+                    .filter(result -> result.updated != null)
+                    .map(result -> result.updated)
+                    .collect(Collectors.toList()));
         }
     }
 }

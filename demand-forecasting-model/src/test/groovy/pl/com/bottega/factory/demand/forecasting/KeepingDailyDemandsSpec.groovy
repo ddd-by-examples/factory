@@ -5,7 +5,6 @@ import spock.lang.Specification
 class KeepingDailyDemandsSpec extends Specification {
 
     def builder = new DailyDemandBuilder()
-    def events = Mock(DailyDemand.Events)
 
     def "Adjusted demands should be stored"() {
         given:
@@ -14,11 +13,12 @@ class KeepingDailyDemandsSpec extends Specification {
                 .noAdjustments().build()
 
         when:
-        demand.adjust(adjustDemandTo(3500))
+        def res = demand.adjust(adjustDemandTo(3500))
 
         then:
         demand.getLevel() == Demand.of(3500)
-        1 * events.emit(levelChanged(2800, 3500))
+        res.levelChange == levelChanged(2800, 3500)
+        res.updated != null
     }
 
     def "Adjusted demands should be stored when there is no demand for product"() {
@@ -28,11 +28,12 @@ class KeepingDailyDemandsSpec extends Specification {
                 .noAdjustments().build()
 
         when:
-        demand.adjust(adjustDemandTo(3500))
+        def res = demand.adjust(adjustDemandTo(3500))
 
         then:
         demand.getLevel() == Demand.of(3500)
-        1 * events.emit(levelChanged(0, 3500))
+        res.levelChange == levelChanged(0, 3500)
+        res.updated != null
     }
 
     def "In standard case documented demands overrides adjustments"() {
@@ -42,11 +43,12 @@ class KeepingDailyDemandsSpec extends Specification {
                 .adjustedTo(3500).build()
 
         when:
-        demand.update(newCallOffDemand(4000))
+        def res = demand.update(newCallOffDemand(4000))
 
         then:
         demand.getLevel() == Demand.of(4000)
-        1 * events.emit(levelChanged(3500, 4000))
+        res.levelChange == levelChanged(3500, 4000)
+        res.updated != null
     }
 
     def "Strong adjustment is kept even after processing of document"() {
@@ -56,11 +58,12 @@ class KeepingDailyDemandsSpec extends Specification {
                 .stronglyAdjustedTo(3500).build()
 
         when:
-        demand.update(newCallOffDemand(2800))
+        def res = demand.update(newCallOffDemand(2800))
 
         then:
         demand.getLevel() == Demand.of(3500)
-        0 * events.emit(_ as DailyDemand.LevelChanged)
+        res.levelChange == null
+        res.updated == null
     }
 
     def "Document update ignored by strong adjustment should rise warning"() {
@@ -70,15 +73,16 @@ class KeepingDailyDemandsSpec extends Specification {
                 .stronglyAdjustedTo(3500).build()
 
         when:
-        demand.update(newCallOffDemand(5000))
+        def res = demand.update(newCallOffDemand(5000))
 
         then:
         demand.getLevel() == Demand.of(3500)
-        1 * events.emit(reviewRequest(2800, 3500, 5000))
+        res.toReview == reviewRequest(2800, 3500, 5000)
+        res.levelChange == null
+        res.updated != null
     }
 
     DailyDemandBuilder demand() {
-        builder.events = events
         builder
     }
 

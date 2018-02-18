@@ -11,7 +11,6 @@ import static pl.com.bottega.factory.demand.forecasting.ReviewRequired.ToReview
 class DailyDemandBuilder {
 
     Clock clock = Clock.fixed(Instant.now(), ZoneId.systemDefault())
-    DailyDemand.Events events
     ReviewPolicy policy = ReviewPolicy.BASIC
 
     String refNo = "3009000"
@@ -20,7 +19,7 @@ class DailyDemandBuilder {
     private Adjustment adjustment
 
     DailyDemand build() {
-        new DailyDemand(new DailyId(refNo, date), events, policy, base, adjustment)
+        new DailyDemand(new DailyId(refNo, date), policy, base, adjustment)
     }
 
     DailyDemandBuilder reset() {
@@ -30,11 +29,6 @@ class DailyDemandBuilder {
 
     Object asType(Class clazz) {
         clazz == DailyDemand ? build() : super.asType(clazz)
-    }
-
-    DailyDemandBuilder events(DailyDemand.Events events) {
-        this.events = events
-        this
     }
 
     DailyDemandBuilder nextDate() {
@@ -85,11 +79,8 @@ class DailyDemandBuilder {
         new Adjustment(Demand.of(level), false)
     }
 
-    DailyDemand.LevelChanged levelChanged(long previous, long current) {
-        new DailyDemand.LevelChanged(
-                new DailyId(refNo, date),
-                new Change(Demand.of(previous), Demand.of(current))
-        )
+    Change levelChanged(long previous, long current) {
+        new Change(Demand.of(previous), Demand.of(current))
     }
 
     ToReview reviewRequest(long previousDocumented, long adjustment, long newDocumented) {

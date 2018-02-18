@@ -10,8 +10,7 @@ import static pl.com.bottega.factory.demand.forecasting.ReviewRequired.ToReview
 class ProductDemandBuilder {
 
     def refNo = "3009000"
-    def unitOfWork = new UnitOfWork()
-    def demands = new DemandsFake(refNo, unitOfWork, clock)
+    def demands = new DemandsFake(refNo, clock)
     def clock = Clock.fixed(Instant.now(), ZoneId.systemDefault())
     DemandEvents events
 
@@ -39,7 +38,7 @@ class ProductDemandBuilder {
     }
 
     def build() {
-        new ProductDemand(new RefNoId(refNo), demands, unitOfWork, clock, events)
+        new ProductDemand(new RefNoId(refNo), demands, clock, events)
     }
 
     def document(LocalDate date, long ... levels) {
@@ -87,11 +86,5 @@ class ProductDemandBuilder {
                 Demand.of(previousDocumented),
                 Demand.of(strongAdjustment),
                 Demand.of(newDocumented))
-    }
-
-    void clearUnitOfWork() {
-        unitOfWork.@changes.clear()
-        unitOfWork.@reviews.clear()
-        unitOfWork.@updates.clear()
     }
 }

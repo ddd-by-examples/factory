@@ -1,19 +1,24 @@
 package pl.com.bottega.factory.demand.forecasting;
 
 import lombok.AllArgsConstructor;
+import pl.com.bottega.factory.demand.forecasting.DailyDemand.Result;
+import pl.com.bottega.factory.demand.forecasting.DemandedLevelsChanged.Change;
 import pl.com.bottega.factory.demand.forecasting.ReviewRequired.ToReview;
 import pl.com.bottega.factory.product.management.RefNoId;
 
 import java.time.Clock;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @AllArgsConstructor
 class ProductDemand {
 
     final RefNoId id;
     final Demands demands;
+    final List<DailyDemand.DemandUpdated> updates = new ArrayList<>();
 
-    final UnitOfWork unit;
     final Clock clock;
     final DemandEvents events;
 
@@ -24,23 +29,34 @@ class ProductDemand {
     void adjust(AdjustDemand adjustDemand) {
         LocalDate today = LocalDate.now(clock);
 
-        adjustDemand.forEachStartingFrom(today, this::adjustDaily);
+        List<Result> results = adjustDemand
+                .forEachStartingFrom(today, this::adjustDaily);
+        updates.addAll(Result.updates(results));
 
-        if (unit.anyChanges()) {
-            events.emit(new DemandedLevelsChanged(id, unit.changes()));
+        Map<DailyId, Change> changes = Result.levelChanges(results);
+
+        if (!changes.isEmpty()) {
+            events.emit(new DemandedLevelsChanged(id, changes));
         }
     }
 
     void process(Document document) {
         LocalDate today = LocalDate.now(clock);
 
-        document.forEachStartingFrom(today, this::updateDaily);
+        List<Result> results = document
+                .forEachStartingFrom(today, this::updateDaily);
+        updates.addAll(Result.updates(results));
 
-        if (unit.anyChanges()) {
-            events.emit(new DemandedLevelsChanged(id, unit.changes()));
+        Map<DailyId, Change> changes = Result.levelChanges(results);
+
+        if (!changes.isEmpty()) {
+            events.emit(new DemandedLevelsChanged(id, changes));
         }
-        if (unit.anyReviews()) {
-            events.emit(new ReviewRequired(id, unit.reviews()));
+
+        List<ToReview> reviews = Result.reviews(results);
+
+        if (!reviews.isEmpty()) {
+            events.emit(new ReviewRequired(id, reviews));
         }
     }
 
@@ -50,13 +66,13 @@ class ProductDemand {
         }
     }
 
-    private void adjustDaily(LocalDate date, Adjustment adjustment) {
+    private Result adjustDaily(LocalDate date, Adjustment adjustment) {
         DailyDemand demand = demands.get(date);
-        demand.adjust(adjustment);
+        return demand.adjust(adjustment);
     }
 
-    private void updateDaily(LocalDate date, Demand demand) {
+    private Result updateDaily(LocalDate date, Demand demand) {
         DailyDemand daily = demands.get(date);
-        daily.update(demand);
+        return daily.update(demand);
     }
 }

@@ -77,7 +77,6 @@ class DocumentProcessingSpec extends Specification implements ProductDemandTrait
         1 * events.emit(levelChanged([2800, 2000], [0, 3500]))
 
         when:
-        builder.clearUnitOfWork()
         demand.process(document)
 
         then:

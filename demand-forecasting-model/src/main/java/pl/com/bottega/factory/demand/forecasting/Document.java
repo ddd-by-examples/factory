@@ -5,8 +5,10 @@ import lombok.Value;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Collections;
+import java.util.List;
 import java.util.SortedMap;
-import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.stream.Collectors;
 
 @Value
 public class Document {
@@ -21,10 +23,11 @@ public class Document {
         this.demands = Collections.unmodifiableSortedMap(demands);
     }
 
-    public void forEachStartingFrom(LocalDate date, BiConsumer<LocalDate, Demand> f) {
-        demands.entrySet().stream()
+    public List<DailyDemand.Result> forEachStartingFrom(LocalDate date, BiFunction<LocalDate, Demand, DailyDemand.Result> f) {
+        return demands.entrySet().stream()
                 .filter(e -> !e.getKey().isBefore(date))
-                .forEach(e -> f.accept(e.getKey(), e.getValue()));
+                .map(e -> f.apply(e.getKey(), e.getValue()))
+                .collect(Collectors.toList());
     }
 }
 

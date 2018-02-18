@@ -7,8 +7,8 @@ class DemandsFake extends Demands {
 
     DailyDemandBuilder builder
 
-    DemandsFake(String refNo, UnitOfWork unitOfWork, Clock clock) {
-        this.builder = new DailyDemandBuilder(refNo: refNo, events: unitOfWork, clock: clock)
+    DemandsFake(String refNo, Clock clock) {
+        this.builder = new DailyDemandBuilder(refNo: refNo, clock: clock)
         fetch = { date -> nothingDemanded(date) }
     }
 
