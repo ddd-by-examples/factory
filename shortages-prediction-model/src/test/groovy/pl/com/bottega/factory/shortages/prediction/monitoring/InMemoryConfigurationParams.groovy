@@ -1,8 +1,8 @@
 package pl.com.bottega.factory.shortages.prediction.monitoring
 
-import pl.com.bottega.factory.shortages.prediction.Configuration
+import pl.com.bottega.factory.shortages.prediction.ConfigurationParams
 
-class InMemoryConfiguration implements Configuration {
+class InMemoryConfigurationParams implements ConfigurationParams {
     int daysAhead;
 
     @Override

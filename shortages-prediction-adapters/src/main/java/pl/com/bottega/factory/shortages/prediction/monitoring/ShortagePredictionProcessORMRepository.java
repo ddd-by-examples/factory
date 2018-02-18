@@ -3,7 +3,7 @@ package pl.com.bottega.factory.shortages.prediction.monitoring;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import pl.com.bottega.factory.product.management.RefNoId;
-import pl.com.bottega.factory.shortages.prediction.Configuration;
+import pl.com.bottega.factory.shortages.prediction.ConfigurationParams;
 import pl.com.bottega.factory.shortages.prediction.calculation.ShortageForecasts;
 import pl.com.bottega.factory.shortages.prediction.monitoring.persistence.ShortagesDao;
 import pl.com.bottega.factory.shortages.prediction.monitoring.persistence.ShortagesEntity;
@@ -13,15 +13,16 @@ import java.util.Optional;
 
 @Component
 @AllArgsConstructor
-class ShortagePredictionProcessORMRepository {
+class ShortagePredictionProcessORMRepository implements ShortagePredictionProcessRepository {
 
     private final ShortagesDao dao;
     private final ShortageDiffPolicy policy = ShortageDiffPolicy.ValuesAreNotSame;
     private final ShortageForecasts forecasts;
-    private final Configuration configuration = () -> 14;
+    private final ConfigurationParams configuration = () -> 14;
     private final ShortageEvents events;
 
-    ShortagePredictionProcess get(RefNoId refNo) {
+    @Override
+    public ShortagePredictionProcess get(RefNoId refNo) {
         Optional<ShortagesEntity> entity = dao.findByRefNo(refNo.getRefNo());
         return new ShortagePredictionProcess(
                 entity.map(ShortagesEntity::createId)
@@ -31,7 +32,8 @@ class ShortagePredictionProcessORMRepository {
         );
     }
 
-    void save(ShortagePredictionProcess model) {
+    @Override
+    public void save(ShortagePredictionProcess model) {
         // persisted after event
     }
 

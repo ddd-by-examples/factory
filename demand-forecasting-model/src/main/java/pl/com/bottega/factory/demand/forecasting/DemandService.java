@@ -1,17 +1,12 @@
 package pl.com.bottega.factory.demand.forecasting;
 
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
 import pl.com.bottega.factory.demand.forecasting.ReviewRequired.ToReview;
 
-import javax.transaction.Transactional;
-
-@Service
-@Transactional
 @AllArgsConstructor
 public class DemandService {
 
-    private final DemandORMRepository repository;
+    private final ProductDemandRepository repository;
 
     public void init(String refNo) {
         repository.initDemandsFor(refNo);

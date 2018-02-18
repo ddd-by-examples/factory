@@ -23,16 +23,24 @@ import static java.util.stream.Collectors.toMap;
 
 @Component
 @AllArgsConstructor
-class DemandORMRepository {
+class ProductDemandORMRepository implements ProductDemandRepository {
 
     private final Clock clock;
     private final DemandEvents events;
-    private final ReviewPolicy reviewPolicy = ReviewPolicy.BASIC;
+    private final ReviewPolicy reviewPolicy;
     private final EntityManager em;
     private final ProductDemandDao rootDao;
     private final DemandDao demandDao;
 
-    ProductDemand get(String refNo) {
+    @Override
+    public void initDemandsFor(String refNo) {
+        if (rootDao.findByRefNo(refNo) == null) {
+            rootDao.save(new ProductDemandEntity(refNo));
+        }
+    }
+
+    @Override
+    public ProductDemand get(String refNo) {
         ProductDemandEntity root = rootDao.findByRefNo(refNo);
         RefNoId id = root.createId();
 
@@ -48,23 +56,8 @@ class DemandORMRepository {
         return new ProductDemand(id, demands, clock, events);
     }
 
-    private DailyDemand map(String refNo, LocalDate date,
-                            Map<LocalDate, DemandEntity> data) {
-        return ofNullable(data.get(date))
-                .map(entity -> new DailyDemand(
-                        entity.createId(),
-                        reviewPolicy,
-                        entity.getValue().getDocumented(),
-                        entity.getValue().getAdjustment()))
-                .orElseGet(() -> new DailyDemand(
-                        new DemandEntityId(refNo, date),
-                        reviewPolicy,
-                        null,
-                        null
-                ));
-    }
-
-    void save(ProductDemand model) {
+    @Override
+    public void save(ProductDemand model) {
         ProductDemandEntity root = rootDao.findOne(TechnicalId.get(model.id));
         if (model.updates.size() > 0) {
             em.lock(root, LockModeType.OPTIMISTIC_FORCE_INCREMENT);
@@ -87,9 +80,19 @@ class DemandORMRepository {
         }
     }
 
-    void initDemandsFor(String refNo) {
-        if (rootDao.findByRefNo(refNo) == null) {
-            rootDao.save(new ProductDemandEntity(refNo));
-        }
+    private DailyDemand map(String refNo, LocalDate date,
+                            Map<LocalDate, DemandEntity> data) {
+        return ofNullable(data.get(date))
+                .map(entity -> new DailyDemand(
+                        entity.createId(),
+                        reviewPolicy,
+                        entity.getValue().getDocumented(),
+                        entity.getValue().getAdjustment()))
+                .orElseGet(() -> new DailyDemand(
+                        new DemandEntityId(refNo, date),
+                        reviewPolicy,
+                        null,
+                        null
+                ));
     }
 }

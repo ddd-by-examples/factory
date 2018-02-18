@@ -2,7 +2,7 @@ package pl.com.bottega.factory.shortages.prediction.monitoring;
 
 import lombok.AllArgsConstructor;
 import pl.com.bottega.factory.product.management.RefNoId;
-import pl.com.bottega.factory.shortages.prediction.Configuration;
+import pl.com.bottega.factory.shortages.prediction.ConfigurationParams;
 import pl.com.bottega.factory.shortages.prediction.Shortage;
 import pl.com.bottega.factory.shortages.prediction.calculation.ShortageForecast;
 import pl.com.bottega.factory.shortages.prediction.calculation.ShortageForecasts;
@@ -21,7 +21,7 @@ class ShortagePredictionProcess {
 
     private final ShortageDiffPolicy diffPolicy;
     private final ShortageForecasts forecasts;
-    private final Configuration configuration;
+    private final ConfigurationParams configuration;
     private final ShortageEvents events;
 
     void onDemandChanged() {

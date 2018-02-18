@@ -1,7 +1,7 @@
 package pl.com.bottega.factory.shortages.prediction.monitoring
 
 import pl.com.bottega.factory.product.management.RefNoId
-import pl.com.bottega.factory.shortages.prediction.Configuration
+import pl.com.bottega.factory.shortages.prediction.ConfigurationParams
 import pl.com.bottega.factory.shortages.prediction.Shortage
 import pl.com.bottega.factory.shortages.prediction.calculation.ShortageForecasts
 import pl.com.bottega.factory.shortages.prediction.calculation.ShortagesCalculationAssembler
@@ -166,8 +166,8 @@ class ShortagePredictionProcessSpec extends Specification {
         )
     }
 
-    Configuration defaultConfig() {
-        new InMemoryConfiguration(daysAhead: 14)
+    ConfigurationParams defaultConfig() {
+        new InMemoryConfigurationParams(daysAhead: 14)
     }
 
     NewShortage newShortage(After after, Map<LocalDateTime, Long> missing) {
