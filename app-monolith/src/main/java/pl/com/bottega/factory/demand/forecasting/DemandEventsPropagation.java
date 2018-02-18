@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @Lazy
 @Component
 @AllArgsConstructor
-class DemandEventsMapping implements DemandEvents {
+class DemandEventsPropagation implements DemandEvents {
 
     private final CurrentDemandProjection demandProjection;
     private final DeliveryForecastProjection deliveryProjection;
@@ -26,8 +26,8 @@ class DemandEventsMapping implements DemandEvents {
 
     @Override
     public void emit(DemandedLevelsChanged event) {
-        demandProjection.persistCurrentDemands(event);
-        deliveryProjection.persistDeliveryForecasts(event);
+        demandProjection.applyDemandedLevelsChanged(event);
+        deliveryProjection.applyDemandedLevelsChanged(event);
         shortagePrediction.predictShortages(event);
     }
 

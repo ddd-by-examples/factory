@@ -1,6 +1,6 @@
 package pl.com.bottega.factory.demand.forecasting;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
 import pl.com.bottega.factory.demand.forecasting.DailyDemand.Result;
 
 import java.time.LocalDate;
@@ -11,12 +11,12 @@ import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
-@Value
+@AllArgsConstructor
 public class AdjustDemand {
-    String refNo;
-    Map<LocalDate, Adjustment> adjustments;
+    private final String refNo;
+    private final Map<LocalDate, Adjustment> adjustments;
 
-    public List<Result> forEachStartingFrom(LocalDate date, BiFunction<LocalDate, Adjustment, Result> f) {
+    List<Result> forEachStartingFrom(LocalDate date, BiFunction<LocalDate, Adjustment, Result> f) {
         return adjustments.entrySet().stream()
                 .filter(e -> !e.getKey().isBefore(date))
                 .map(e -> f.apply(e.getKey(), e.getValue()))
@@ -24,6 +24,11 @@ public class AdjustDemand {
     }
 
     public Optional<LocalDate> latestAdjustment() {
-        return adjustments.keySet().stream().max(Comparator.naturalOrder());
+        return adjustments.keySet().stream()
+                .max(Comparator.naturalOrder());
+    }
+
+    public String getRefNo() {
+        return refNo;
     }
 }

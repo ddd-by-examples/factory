@@ -22,7 +22,7 @@ public class DeliveryForecastProjection {
     private final CurrentDemandDao demandDao;
     private final DeliveryAutoPlannerORMRepository planners;
 
-    public void persistDeliveryForecasts(DemandedLevelsChanged event) {
+    public void applyDemandedLevelsChanged(DemandedLevelsChanged event) {
         DeliveryAutoPlanner planner = planners.get(event.getRefNo().getRefNo());
         event.getResults().keySet()
                 .forEach(daily -> forecastDao.deleteByRefNoAndDate(
@@ -42,7 +42,7 @@ public class DeliveryForecastProjection {
                 );
     }
 
-    public void handleDeliveryPlannerDefinitionChange(String refNo) {
+    public void applyDeliveryPlannerDefinitionChange(String refNo) {
         List<CurrentDemandEntity> demands = demandDao.findByRefNoAndDateGreaterThanEqual(refNo, LocalDate.now(clock));
         DeliveryAutoPlanner planner = planners.get(refNo);
         forecastDao.deleteByRefNo(refNo);

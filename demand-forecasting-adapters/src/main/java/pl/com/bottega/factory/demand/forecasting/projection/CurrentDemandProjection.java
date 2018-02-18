@@ -10,7 +10,7 @@ public class CurrentDemandProjection {
 
     private final CurrentDemandDao demandDao;
 
-    public void persistCurrentDemands(DemandedLevelsChanged event) {
+    public void applyDemandedLevelsChanged(DemandedLevelsChanged event) {
         event.getResults().forEach((daily, change) -> {
                     demandDao.deleteByRefNoAndDate(
                             daily.getRefNo(),

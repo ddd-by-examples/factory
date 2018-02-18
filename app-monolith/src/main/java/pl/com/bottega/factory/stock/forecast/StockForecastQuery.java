@@ -31,7 +31,7 @@ public class StockForecastQuery {
     public StockForecast get(RefNoId refNo) {
         Stock stock = stocks.forRefNo(refNo);
         LocalDate today = LocalDate.now(clock);
-        return build(refNo, today, stock,
+        return build(today, stock,
                 this.demands
                         .findByRefNoAndDateGreaterThanEqual(refNo.getRefNo(), today).stream()
                         .collect(toMap(
@@ -47,7 +47,7 @@ public class StockForecastQuery {
         );
     }
 
-    private StockForecast build(RefNoId refNo, LocalDate today,
+    private StockForecast build(LocalDate today,
                                 Stock stock,
                                 Map<LocalDate, Long> demands,
                                 Map<LocalDate, Long> outputs) {

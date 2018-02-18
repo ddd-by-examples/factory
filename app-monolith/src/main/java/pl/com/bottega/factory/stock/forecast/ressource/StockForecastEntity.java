@@ -2,7 +2,7 @@ package pl.com.bottega.factory.stock.forecast.ressource;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.rest.core.config.Projection;
+import lombok.Setter;
 import pl.com.bottega.factory.stock.forecast.StockForecast;
 
 import javax.persistence.Entity;
@@ -18,17 +18,10 @@ public class StockForecastEntity implements Serializable {
 
     @Id
     private String refNo;
+    @Setter
+    private transient StockForecast stockForecast;
 
     public StockForecastEntity(String refNo) {
         this.refNo = refNo;
-    }
-
-    public StockForecast getStockForecast() {
-        return StaticAccess.calculateQuery(refNo);
-    }
-
-    @Projection(types = {StockForecastEntity.class})
-    interface CollectionItem {
-        String getRefNo();
     }
 }

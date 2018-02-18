@@ -10,13 +10,13 @@ import pl.com.bottega.factory.delivery.planning.projection.DeliveryForecastProje
 @Component
 @AllArgsConstructor
 @RepositoryEventHandler
-public class DeliveryPlannerDefinitionEventsMapping {
+public class DeliveryPlannerDefinitionEventsPropagation {
 
     private DeliveryForecastProjection projection;
 
     @HandleAfterSave
     @HandleAfterCreate
-    public void handle(DeliveryPlannerDefinitionEntity entity) {
-        projection.handleDeliveryPlannerDefinitionChange(entity.getRefNo());
+    public void handleCreateAndUpdate(DeliveryPlannerDefinitionEntity entity) {
+        projection.applyDeliveryPlannerDefinitionChange(entity.getRefNo());
     }
 }

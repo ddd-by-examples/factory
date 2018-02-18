@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @Component
 @AllArgsConstructor
 @RepositoryEventHandler
-public class Handler {
+public class CommandsHandler {
 
     private final DemandService service;
     private final DemandAdjustmentDao adjustments;

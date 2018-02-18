@@ -5,9 +5,10 @@ Not every piece of software is equally important...
 Not every piece will decide about company / product success or can cause not reversible
 negative business consequences like materialise brand risk or money loses.
 On the other hand scalability or non functional requirements are different for different activities in software.
+
 To accommodate to those differences, separate architectural patterns are applied:
 
-![Command Query CRUD Responsibility Segregation](https://github.com/michal-michaluk/factory/raw/master/command-query-crud.png)
+![Command Query CRUD Responsibility Segregation](command-query-crud.png)
 
 **Simple Create Read Update Delete functionality** are exposed with leverage of CRUD framework.
 
@@ -15,6 +16,11 @@ Goals of that approach:
 - fast initial development,
 - fast respond to typical changes (ex. „please add another 2 fields on UI”),
 - exposure of high quality API.
+
+Examples in code:
+- CRUD-able document [ProductDescription](product-management-adapters/src/main/java/pl/com/bottega/factory/product/management/ProductDescription.java)
+- persistence of document [ProductDescriptionEntity](product-management-adapters/src/main/java/pl/com/bottega/factory/product/management/ProductDescriptionEntity.java)
+- CRUD exposed as DAO and REST endpoint [ProductDescriptionDao](product-management-adapters/src/main/java/pl/com/bottega/factory/product/management/ProductDescriptionDao.java)
 
 **Complex Commands (business processing)** expressed in Domain Model which is embedded in hexagonal architecture.
 
@@ -25,6 +31,25 @@ caused by technological choices or transport models from external services / con
 - make the core business of application technology agnostic, enabling continues technology
 migration and keeping long living projects up to date with fast evolving frameworks and libraries.
 
+Examples of Domain Model in code:
+- aggregate [ProductDemand](demand-forecasting-model/src/main/java/pl/com/bottega/factory/demand/forecasting/ProductDemand.java)
+- entity [DailyDemand](demand-forecasting-model/src/main/java/pl/com/bottega/factory/demand/forecasting/DailyDemand.java)
+- value object [Adjustment](demand-forecasting-model/src/main/java/pl/com/bottega/factory/demand/forecasting/Adjustment.java)
+- policy [ReviewPolicy](demand-forecasting-model/src/main/java/pl/com/bottega/factory/demand/forecasting/ReviewPolicy.java)
+- domain event [DemandedLevelsChanged](shared-kernel-model/src/main/java/pl/com/bottega/factory/demand/forecasting/DemandedLevelsChanged.java)
+
+Examples of Ports in code:
+- application service (primary port) [DemandService](demand-forecasting-model/src/main/java/pl/com/bottega/factory/demand/forecasting/DemandService.java)
+- repository (secondary port) [ProductDemandRepository](demand-forecasting-model/src/main/java/pl/com/bottega/factory/demand/forecasting/ProductDemandRepository.java)
+- domain events handling (secondary port) [DemandEvents](demand-forecasting-model/src/main/java/pl/com/bottega/factory/demand/forecasting/DemandEvents.java)
+
+Examples of Adapters in code:
+- REST endpoint for complex command (driving adapter)
+  - command resource [DemandAdjustmentDao](demand-forecasting-adapters/src/main/java/pl/com/bottega/factory/demand/forecasting/command/DemandAdjustmentDao.java)
+  - command handler [CommandsHandler](demand-forecasting-adapters/src/main/java/pl/com/bottega/factory/demand/forecasting/command/CommandsHandler.java)
+- repository implementation (driven adapter) [ProductDemandORMRepository](demand-forecasting-adapters/src/main/java/pl/com/bottega/factory/demand/forecasting/ProductDemandORMRepository.java)
+- events propagation (driven adapter) [DemandEventsPropagation](app-monolith/src/main/java/pl/com/bottega/factory/demand/forecasting/DemandEventsPropagation.java)
+
 **Complex Query** implemented as direct and simple as possible by:
 - fetching persistent read model expected by consumer, the read model is a projection of past domain event,
 - read model composed at query execution time build directly from persistent form of Domain Model,
@@ -34,15 +59,20 @@ Additional complex calculations or projections can be partially delegated to the
 
 Goals of that approach:
 - encapsulation of the Domain Model complexity by providing (simpler) consumer driven or published language API,
-- freeing Domain the Model from exposing data for reads making the Domain Model simpler,
+- freeing the Domain Model from exposing data for reads making the Domain Model simpler,
 - improves reads performance and enable horizontal scalability.
 
+Examples in code:
+- projection of domain events to persistent read model [DeliveryForecastProjection](demand-forecasting-adapters/src/main/java/pl/com/bottega/factory/delivery/planning/projection/DeliveryForecastProjection.java)
+- REST endpoint for persistent read model [DeliveryForecastDao](demand-forecasting-adapters/src/main/java/pl/com/bottega/factory/delivery/planning/projection/DeliveryForecastDao.java)
+- read model composed at query execution time [StockForecastQuery](app-monolith/src/main/java/pl/com/bottega/factory/stock/forecast/StockForecastQuery.java)
+- REST resource processor for NOT persistent read model [StockForecastResourceProcessor](app-monolith/src/main/java/pl/com/bottega/factory/stock/forecast/ressource/StockForecastResourceProcessor.java)
 
 ## Hexagonal Architecture
 Only the most valuable part of that enterprise software is embedded in hexagonal architecture -
 complex business processing modeled in form of the Domain Model.
 
-![Domain Model embedded in hexagonal architecture](https://github.com/michal-michaluk/factory/raw/master/hexagon.png)
+![Domain Model embedded in hexagonal architecture](hexagon.png)
 
 **Application Services** - providing entry point to Domain Model functionality,
 Application Services are ports for Primary / Driving Adapters like RESTfull endpoints.
@@ -69,13 +99,13 @@ with **Model Exploration Whirlpool** and build **Ubiquitous Language** with your
 Adding infrastructure and technology later is easy thanks to Hexagonal Architecture.
 
 Simply starting from ZERO business knowledge through initial domain and opportunity exploration with **Big Picture Event Storming**:
-![Big Picture Event Storming](https://github.com/michal-michaluk/factory/raw/master/es-big-picture-original.jpg)
+![Big Picture Event Storming](es-big-picture-original.jpg)
 
 after cleaning and trimming initial model to most valuable and needed areas: 
-![Big Picture Event Storming](https://github.com/michal-michaluk/factory/raw/master/es-big-picture-cleaned.jpg)
+![Big Picture Event Storming](es-big-picture-cleaned.jpg)
 
 Deep dive in **Demand Forecasting** sub-domain with **Design Level Event Storming**:
-![Design Level Event Storming - Demand Forecasting](https://github.com/michal-michaluk/factory/raw/master/es-design-demand-forecasting.jpg)
+![Design Level Event Storming - Demand Forecasting](es-design-demand-forecasting.jpg)
 
 is excellent canvas to cooperative exploration of:
 - impacted and required actors,

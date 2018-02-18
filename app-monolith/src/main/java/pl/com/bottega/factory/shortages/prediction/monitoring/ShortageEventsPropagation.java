@@ -8,7 +8,7 @@ import pl.com.bottega.factory.shortages.prediction.notification.NotificationOfSh
 @Lazy
 @Component
 @AllArgsConstructor
-class ShortageEventsMapping implements ShortageEvents {
+class ShortageEventsPropagation implements ShortageEvents {
 
     private final NotificationOfShortage notification;
 
