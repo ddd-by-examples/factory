@@ -8,7 +8,6 @@ import pl.com.bottega.factory.product.management.RefNoId;
 
 import java.time.Clock;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -16,11 +15,11 @@ import java.util.Map;
 class ProductDemand {
 
     final RefNoId id;
-    final Demands demands;
-    final List<DailyDemand.DemandUpdated> updates = new ArrayList<>();
+    final List<DailyDemand.DemandUpdated> updates;
+    private final Demands demands;
 
-    final Clock clock;
-    final DemandEvents events;
+    private final Clock clock;
+    private final DemandEvents events;
 
     interface Demands {
         DailyDemand get(LocalDate date);

@@ -38,7 +38,7 @@ class ProductDemandBuilder {
     }
 
     def build() {
-        new ProductDemand(new RefNoId(refNo), demands, clock, events)
+        new ProductDemand(new RefNoId(refNo), new ArrayList<>(), demands, clock, events)
     }
 
     def document(LocalDate date, long ... levels) {

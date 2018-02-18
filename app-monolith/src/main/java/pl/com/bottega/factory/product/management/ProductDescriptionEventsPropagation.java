@@ -19,7 +19,7 @@ public class ProductDescriptionEventsPropagation {
 
     @HandleAfterCreate
     public void handleCreate(ProductDescriptionEntity entity) {
-        demandService.init(entity.getRefNo());
+        demandService.initNewProduct(entity.getRefNo());
         stockForecasts.save(new StockForecastEntity(entity.getRefNo()));
     }
 

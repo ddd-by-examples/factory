@@ -15,6 +15,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
 import java.time.Clock;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -33,7 +34,7 @@ class ProductDemandORMRepository implements ProductDemandRepository {
     private final DemandDao demandDao;
 
     @Override
-    public void initDemandsFor(String refNo) {
+    public void initNewProduct(String refNo) {
         if (rootDao.findByRefNo(refNo) == null) {
             rootDao.save(new ProductDemandEntity(refNo));
         }
@@ -53,7 +54,7 @@ class ProductDemandORMRepository implements ProductDemandRepository {
 
         Demands demands = new Demands();
         demands.fetch = date -> map(refNo, date, data);
-        return new ProductDemand(id, demands, clock, events);
+        return new ProductDemand(id, new ArrayList<>(), demands, clock, events);
     }
 
     @Override

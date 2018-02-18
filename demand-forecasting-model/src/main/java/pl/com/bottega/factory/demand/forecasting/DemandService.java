@@ -8,8 +8,8 @@ public class DemandService {
 
     private final ProductDemandRepository repository;
 
-    public void init(String refNo) {
-        repository.initDemandsFor(refNo);
+    public void initNewProduct(String refNo) {
+        repository.initNewProduct(refNo);
     }
 
     public void process(Document document) {

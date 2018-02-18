@@ -5,5 +5,5 @@ interface ProductDemandRepository {
 
     void save(ProductDemand model);
 
-    void initDemandsFor(String refNo);
+    void initNewProduct(String refNo);
 }
