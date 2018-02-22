@@ -5,11 +5,13 @@ import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import pl.com.bottega.factory.demand.forecasting.DemandService;
 import pl.com.bottega.factory.stock.forecast.ressource.StockForecastDao;
 import pl.com.bottega.factory.stock.forecast.ressource.StockForecastEntity;
 
 @Component
+@Transactional
 @AllArgsConstructor
 @RepositoryEventHandler
 public class ProductDescriptionEventsPropagation {

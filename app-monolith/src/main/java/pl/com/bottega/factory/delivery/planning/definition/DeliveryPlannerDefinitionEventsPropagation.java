@@ -5,9 +5,11 @@ import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import pl.com.bottega.factory.delivery.planning.projection.DeliveryForecastProjection;
 
 @Component
+@Transactional
 @AllArgsConstructor
 @RepositoryEventHandler
 public class DeliveryPlannerDefinitionEventsPropagation {

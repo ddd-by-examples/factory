@@ -1,19 +1,19 @@
 {
   "note": "Bo demo robie",
-  "customerRepresentative": "Kolega z logistyki",
+  "customerRepresentative": "Kolega z logistyki od klienta",
   "adjustment": {
-    "refNo": "3009001",
+    "refNo": "3009002",
     "adjustments": {
-      "2018-02-13": {
+      "2018-03-10": {
         "demand": {
-          "level": 1000,
+          "level": 2000,
           "schema": "AtDayStart"
         },
         "strong": true
       },
-      "2018-02-14": {
+      "2018-03-11": {
         "demand": {
-          "level": 1500,
+          "level": 2500,
           "schema": "TillDayEnd"
         },
         "strong": false

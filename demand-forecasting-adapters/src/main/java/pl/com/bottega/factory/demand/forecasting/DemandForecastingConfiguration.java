@@ -4,8 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.transaction.Transactional;
-
 @Configuration
 class DemandForecastingConfiguration {
 
@@ -13,7 +11,6 @@ class DemandForecastingConfiguration {
     private ProductDemandRepository repository;
 
     @Bean
-    @Transactional
     DemandService demandService() {
         return new DemandService(repository);
     }

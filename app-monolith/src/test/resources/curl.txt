@@ -1,28 +1,27 @@
 
 curl http://localhost:8080
 
+# define new product
 curl -X POST -H "Content-Type: application/json" \
  -d @app-monolith/src/test/resources/examples/product-descriptions.json \
  http://localhost:8080/product-descriptions
 
-curl http://localhost:8080/stock-forecasts
-
+# define non dummy preferred delivery hours
 curl -X POST -H "Content-Type: application/json" \
  -d @app-monolith/src/test/resources/examples/delivery-definitions.json \
  http://localhost:8080/delivery-definitions
 
+# define customer demands for our product
 curl -X POST -H "Content-Type: application/json" \
  -d @app-monolith/src/test/resources/examples/demand-adjustments.json \
  http://localhost:8080/demand-adjustments
 
+# check demands
 curl http://localhost:8080/demand-forecasts
+# check approximated deliveries
 curl http://localhost:8080/delivery-forecasts
+# check stock levels prediction
 curl http://localhost:8080/stock-forecasts
+# check potential shortages on delivery times
 curl http://localhost:8080/shortages
-
-
-curl http://localhost:8080/demand-reviews
-
-curl http://localhost:8080/production-outputs
-curl http://localhost:8080/production-outputs-daily
 

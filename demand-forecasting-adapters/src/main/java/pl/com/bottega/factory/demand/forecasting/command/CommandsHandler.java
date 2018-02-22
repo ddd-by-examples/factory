@@ -15,6 +15,7 @@ import java.time.Clock;
 import java.time.LocalDate;
 
 @Component
+@Transactional
 @AllArgsConstructor
 @RepositoryEventHandler
 public class CommandsHandler {
@@ -44,7 +45,6 @@ public class CommandsHandler {
 
     @Scheduled(cron = "0 0 12 * * ?")
     @EventListener(ApplicationReadyEvent.class)
-    @Transactional
     public void clean() {
         adjustments.deleteByCleanAfterGreaterThanEqual(LocalDate.now(clock));
         reviews.deleteByCleanAfterGreaterThanEqual(LocalDate.now(clock));

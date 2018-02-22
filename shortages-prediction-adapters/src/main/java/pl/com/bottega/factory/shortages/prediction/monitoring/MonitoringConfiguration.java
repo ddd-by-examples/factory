@@ -5,8 +5,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import pl.com.bottega.factory.shortages.prediction.ConfigurationParams;
 
-import javax.transaction.Transactional;
-
 @Configuration
 class MonitoringConfiguration {
 
@@ -14,7 +12,6 @@ class MonitoringConfiguration {
     private ShortagePredictionProcessRepository repository;
 
     @Bean
-    @Transactional
     ShortagePredictionService shortagePredictionService() {
         return new ShortagePredictionService(repository);
     }
