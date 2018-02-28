@@ -1,32 +1,29 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
-import { AppComponent } from './app.component';
-import {MatButtonModule, MatCheckboxModule, MatVerticalStepper, MatStep, MatStepperModule, MatListModule, MatCardModule, MatToolbarModule, MatSnackBarModule} from '@angular/material';
+import { HttpClientModule } from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatButtonModule, MatVerticalStepper, MatStep, MatStepperModule, MatCardModule, MatToolbarModule, MatSnackBarModule} from '@angular/material';
+import { AppComponent } from './app.component';
 import { ProductDescriptionComponent } from './product-description/product-description.component';
 import { ApiService } from './app-core/api.service';
-import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    ProductDescriptionComponent,
-    
+    ProductDescriptionComponent
   ],
   imports: [
     BrowserModule,
-    FormsModule,
+    BrowserAnimationsModule,
     MatButtonModule, 
-    MatCheckboxModule,
     MatStepperModule,
-    MatListModule,
     MatCardModule,
+    MatSnackBarModule,
     MatToolbarModule,
-    BrowserAnimationsModule, 
-    HttpClientModule, 
-    MatSnackBarModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [ApiService],
   bootstrap: [AppComponent]
