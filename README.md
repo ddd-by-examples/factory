@@ -1,5 +1,9 @@
 # The missing, complete example of Domain-Driven Design enterprise application
 
+[![Licence MIT](http://img.shields.io/badge/license-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![Build Status](https://travis-ci.org/michal-michaluk/factory.svg?branch=master)](https://travis-ci.org/michal-michaluk/factory)
+[![Code Coverage](https://codecov.io/gh/michal-michaluk/factory/branch/master/graph/badge.svg)](https://codecov.io/gh/michal-michaluk/factory)
+
 ## Command Query CRUD Responsibility Segregation
 Not every piece of software is equally important...
 Not every piece will decide about company / product success or can cause not reversible
