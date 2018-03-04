@@ -17,7 +17,7 @@ interface DeliveriesSuggestion {
                 timesAndFractions.entrySet().stream()
                         .map(e -> new Delivery(
                                 refNo,
-                                date.atTime(e.getKey()), ((long) ((double) demand.getLevel() / e.getValue())))
+                                date.atTime(e.getKey()), ((long) ((double) demand.getLevel() * e.getValue())))
                         );
     }
 

@@ -6,7 +6,7 @@ import pl.com.bottega.factory.shortages.prediction.Shortage
 import java.time.Duration
 import java.time.LocalDateTime
 
-trait ShortagesCalculationAssemblerTrait {
+trait ShortagesCalculationTrait {
 
     LocalDateTime now = LocalDateTime.now()
     String refNo = "3009000"
