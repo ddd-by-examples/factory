@@ -38,7 +38,10 @@ class ReviewProcessingSpec extends Specification implements ProductDemandTrait {
                 .build()
 
         when:
-        demand.review(review(tomorrow, 0, 3500, 2800), IGNORE)
+        demand.review(reviewDecision(
+                review(tomorrow, 0, 3500, 2800),
+                IGNORE
+        ))
 
         then:
         0 * events.emit(_ as DemandedLevelsChanged)
@@ -53,7 +56,10 @@ class ReviewProcessingSpec extends Specification implements ProductDemandTrait {
                 .build()
 
         when:
-        demand.review(review(tomorrow, 0, 3500, 2800), PICK_NEW)
+        demand.review(reviewDecision(
+                review(tomorrow, 0, 3500, 2800),
+                PICK_NEW
+        ))
 
         then:
         1 * events.emit(levelChanged([], [3500, 2800]))
@@ -68,7 +74,10 @@ class ReviewProcessingSpec extends Specification implements ProductDemandTrait {
                 .build()
 
         when:
-        demand.review(review(tomorrow, 0, 3500, 2800), PICK_PREVIOUS)
+        demand.review(reviewDecision(
+                review(tomorrow, 0, 3500, 2800),
+                PICK_PREVIOUS
+        ))
 
         then:
         1 * events.emit(levelChanged([], [3500, 0]))
@@ -83,7 +92,10 @@ class ReviewProcessingSpec extends Specification implements ProductDemandTrait {
                 .build()
 
         when:
-        demand.review(review(tomorrow, 0, 3500, 2800), MAKE_ADJUSTMENT_WEAK)
+        demand.review(reviewDecision(
+                review(tomorrow, 0, 3500, 2800),
+                MAKE_ADJUSTMENT_WEAK
+        ))
 
         then:
         0 * events.emit(_ as DemandedLevelsChanged)

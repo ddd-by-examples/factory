@@ -87,4 +87,9 @@ class ProductDemandBuilder {
                 Demand.of(strongAdjustment),
                 Demand.of(newDocumented))
     }
+
+    ApplyReviewDecision reviewDecision(ToReview review,
+                                       ReviewDecision decision) {
+        new ApplyReviewDecision(review, decision)
+    }
 }

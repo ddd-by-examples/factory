@@ -3,7 +3,6 @@ package pl.com.bottega.factory.demand.forecasting;
 import lombok.AllArgsConstructor;
 import pl.com.bottega.factory.demand.forecasting.ReviewRequired.ToReview;
 
-import java.util.Collections;
 import java.util.function.Function;
 
 @AllArgsConstructor
@@ -15,19 +14,10 @@ public enum ReviewDecision {
 
     private final Function<ToReview, Demand> pick;
 
-    public AdjustDemand toAdjustment(ToReview review) {
-        if (this == IGNORE) {
+    public Demand toAdjustment(ToReview review) {
+        if (this == ReviewDecision.IGNORE) {
             throw new IllegalStateException("can't convert " + this + " to adjustment");
         }
-        return new AdjustDemand(review.getRefNo(),
-                Collections.singletonMap(
-                        review.getDate(),
-                        Adjustment.weak(pick.apply(review))
-                )
-        );
-    }
-
-    public boolean requireAdjustment() {
-        return this != IGNORE;
+        return pick.apply(review);
     }
 }

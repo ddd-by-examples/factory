@@ -39,7 +39,7 @@ public class CommandsHandler {
     public void review(RequiredReviewEntity review) {
         if (review.decisionTaken()) {
             review.setCleanAfter(LocalDate.now(clock).plusDays(7));
-            service.review(review.getReview(), review.getDecision());
+            service.review(review.getReviewDecision());
         }
     }
 

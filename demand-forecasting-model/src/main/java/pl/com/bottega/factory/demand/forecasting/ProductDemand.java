@@ -59,9 +59,9 @@ class ProductDemand {
         }
     }
 
-    void review(ToReview review, ReviewDecision decision) {
-        if (decision.requireAdjustment()) {
-            adjust(decision.toAdjustment(review));
+    void review(ApplyReviewDecision reviewDecision) {
+        if (reviewDecision.requireAdjustment()) {
+            adjust(reviewDecision.toAdjustment());
         }
     }
 

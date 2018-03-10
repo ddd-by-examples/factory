@@ -3,6 +3,7 @@ package pl.com.bottega.factory.demand.forecasting.command;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pl.com.bottega.factory.demand.forecasting.ApplyReviewDecision;
 import pl.com.bottega.factory.demand.forecasting.ReviewDecision;
 import pl.com.bottega.factory.demand.forecasting.ReviewRequired.ToReview;
 import pl.com.bottega.tools.JsonConverter;
@@ -41,6 +42,10 @@ public class RequiredReviewEntity implements Serializable {
 
     public boolean decisionTaken() {
         return decision != null;
+    }
+
+    public ApplyReviewDecision getReviewDecision() {
+        return new ApplyReviewDecision(review, decision);
     }
 
     public static class ReviewAsJson extends JsonConverter<ToReview> {

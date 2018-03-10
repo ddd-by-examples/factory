@@ -43,4 +43,8 @@ trait ProductDemandTrait {
             long newDocumented) {
         return builder.review(date, previousDocumented, strongAdjustment, newDocumented)
     }
+
+    ApplyReviewDecision reviewDecision(ToReview review, ReviewDecision decision) {
+        builder.reviewDecision(review, decision)
+    }
 }

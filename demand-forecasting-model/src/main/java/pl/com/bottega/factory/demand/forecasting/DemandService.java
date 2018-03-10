@@ -1,7 +1,6 @@
 package pl.com.bottega.factory.demand.forecasting;
 
 import lombok.AllArgsConstructor;
-import pl.com.bottega.factory.demand.forecasting.ReviewRequired.ToReview;
 
 @AllArgsConstructor
 public class DemandService {
@@ -24,9 +23,9 @@ public class DemandService {
         repository.save(model);
     }
 
-    public void review(ToReview review, ReviewDecision decision) {
-        ProductDemand model = repository.get(review.getRefNo());
-        model.review(review, decision);
+    public void review(ApplyReviewDecision reviewDecision) {
+        ProductDemand model = repository.get(reviewDecision.getRefNo());
+        model.review(reviewDecision);
         repository.save(model);
     }
 }

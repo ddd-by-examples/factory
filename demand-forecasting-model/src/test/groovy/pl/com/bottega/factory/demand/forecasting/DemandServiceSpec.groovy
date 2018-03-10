@@ -58,14 +58,14 @@ class DemandServiceSpec extends Specification implements ProductDemandTrait {
     def "Repository interactions while review processing"() {
         given:
         def today = LocalDate.now(builder.clock)
-        def demand = demand(0, 2800)
+        def demand = demand(2800)
                 .stronglyAdjusted((today): 3500)
                 .build()
-        def review = review(today, 0, 3500, 2800)
+        def review = reviewDecision(review(today, 0, 3500, 2800), PICK_NEW)
         repo.get(review.refNo) >> demand
 
         when:
-        service.review(review, PICK_NEW)
+        service.review(review)
 
         then:
         1 * repo.save(demand)
