@@ -1,6 +1,6 @@
 package pl.com.bottega.factory.demand.forecasting;
 
-import lombok.AllArgsConstructor;
+import lombok.Value;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -9,7 +9,7 @@ import java.util.SortedMap;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
+@Value
 public class Document {
 
     private final Instant created;
