@@ -1,4 +1,4 @@
-package src.test.pl.com.bottega.factory.integration
+package pl.com.bottega.factory.integration
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -10,11 +10,12 @@ import org.springframework.hateoas.Resources
 import org.springframework.http.HttpMethod
 import org.springframework.http.ResponseEntity
 import pl.com.bottega.factory.AppConfiguration
+import pl.com.bottega.factory.ProductTrait
 import pl.com.bottega.factory.demand.forecasting.persistence.DocumentEntity
 import pl.com.bottega.factory.demand.forecasting.projection.CurrentDemandEntity
 import pl.com.bottega.factory.product.management.ProductDescriptionEntity
+import pl.com.bottega.tools.IntegrationTest
 import spock.lang.Specification
-import src.test.pl.com.bottega.factory.ProductTrait
 
 import java.time.Clock
 import java.time.LocalDate
@@ -23,11 +24,12 @@ import java.time.ZoneId
 import static java.time.Instant.from
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT
 
+@IntegrationTest
 @SpringBootTest(webEnvironment = RANDOM_PORT, classes = AppConfiguration)
 class CallOffDocumentIntegrationSpec extends Specification implements ProductTrait {
 
-    public static final String PRODUCT_REF_NO = "refNum"
-    public static final LocalDate ANY_DATE = LocalDate.of(2019, 1, 1)
+    public static final String PRODUCT_REF_NO = "3009000"
+    public static final LocalDate ANY_DATE = LocalDate.now()
 
     @Autowired TestRestTemplate restTemplate
 
@@ -44,7 +46,6 @@ class CallOffDocumentIntegrationSpec extends Specification implements ProductTra
             thereIsDemand(demands, ANY_DATE, 100)
             thereIsDemand(demands, ANY_DATE.plusDays(1), 200)
             thereIsDemand(demands, ANY_DATE.plusDays(2), 300)
-
     }
 
     void productDescriptionIsSuccessfullyCreated(String refNo) {
@@ -65,10 +66,9 @@ class CallOffDocumentIntegrationSpec extends Specification implements ProductTra
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<Resources<CurrentDemandEntity>>() {},
-                ["refNo": refNo, "date" : date])
+                ["refNo": refNo, "date": date])
         assert res.statusCode.is2xxSuccessful()
         return res.getBody().getContent()
-
     }
 
     void thereIsDemand(Collection<CurrentDemandEntity> demands, LocalDate date, long expectedLevel) {
@@ -81,9 +81,6 @@ class CallOffDocumentIntegrationSpec extends Specification implements ProductTra
         @Bean
         Clock clock() {
             return Clock.fixed(from(ANY_DATE), ZoneId.systemDefault())
-
         }
-
-
     }
 }

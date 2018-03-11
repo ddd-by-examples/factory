@@ -1,4 +1,4 @@
-package src.test.pl.com.bottega.factory
+package pl.com.bottega.factory
 
 import pl.com.bottega.factory.demand.forecasting.Demand
 import pl.com.bottega.factory.demand.forecasting.Document
@@ -12,7 +12,6 @@ import java.time.OffsetTime
 import java.time.ZoneOffset
 
 trait ProductTrait {
-
 
     DocumentEntity documentFor(String refNo, LocalDate date, long ... levels) {
         Document document = document(refNo, date, levels)
