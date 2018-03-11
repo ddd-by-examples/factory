@@ -22,14 +22,15 @@ import java.time.LocalDate
 import java.time.ZoneId
 
 import static java.time.Instant.from
+import static java.time.ZoneId.systemDefault
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT
 
 @IntegrationTest
-@SpringBootTest(webEnvironment = RANDOM_PORT, classes = AppConfiguration)
+@SpringBootTest(webEnvironment = RANDOM_PORT, classes = [AppConfiguration, TestConfiguration])
 class CallOffDocumentIntegrationSpec extends Specification implements ProductTrait {
 
     public static final String PRODUCT_REF_NO = "3009000"
-    public static final LocalDate ANY_DATE = LocalDate.now()
+    public static final LocalDate ANY_DATE = LocalDate.of(2018, 1, 1)
 
     @Autowired TestRestTemplate restTemplate
 
@@ -80,7 +81,7 @@ class CallOffDocumentIntegrationSpec extends Specification implements ProductTra
 
         @Bean
         Clock clock() {
-            return Clock.fixed(from(ANY_DATE), ZoneId.systemDefault())
+            return Clock.fixed(from(ANY_DATE.atStartOfDay().atZone(systemDefault())), systemDefault())
         }
     }
 }
