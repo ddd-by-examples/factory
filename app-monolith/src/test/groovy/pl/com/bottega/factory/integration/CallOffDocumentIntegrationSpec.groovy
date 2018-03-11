@@ -30,7 +30,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 class CallOffDocumentIntegrationSpec extends Specification implements ProductTrait {
 
     public static final String PRODUCT_REF_NO = "3009000"
-    public static final LocalDate ANY_DATE = LocalDate.of(2018, 1, 1)
+    public static final LocalDate ANY_DATE = LocalDate.now()
 
     @Autowired TestRestTemplate restTemplate
 
