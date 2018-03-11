@@ -1,7 +1,10 @@
 package pl.com.bottega.factory
 
+import pl.com.bottega.factory.demand.forecasting.AdjustDemand
+import pl.com.bottega.factory.demand.forecasting.Adjustment
 import pl.com.bottega.factory.demand.forecasting.Demand
 import pl.com.bottega.factory.demand.forecasting.Document
+import pl.com.bottega.factory.demand.forecasting.command.DemandAdjustmentEntity
 import pl.com.bottega.factory.demand.forecasting.persistence.DocumentEntity
 import pl.com.bottega.factory.product.management.ProductDescription
 import pl.com.bottega.factory.product.management.ProductDescriptionEntity
@@ -30,6 +33,11 @@ trait ProductTrait {
             results.put(date, Demand.of(level))
             date = date.plusDays(1)
         }
-        new Document(created, refNo, results)
+        return new Document(created, refNo, results)
+    }
+
+    DemandAdjustmentEntity strongAdjustment(String refNo, Map<LocalDate, Adjustment> adjustments) {
+        return new DemandAdjustmentEntity(refNo, "agent", new AdjustDemand(refNo, adjustments))
+
     }
 }

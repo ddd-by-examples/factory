@@ -3,7 +3,7 @@ package pl.com.bottega.factory.demand.forecasting;
 import lombok.Value;
 
 @Value
-class Adjustment {
+public class Adjustment {
 
     Demand demand;
     boolean strong;
