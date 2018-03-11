@@ -1,6 +1,6 @@
 package pl.com.bottega.factory.demand.forecasting;
 
-import lombok.AllArgsConstructor;
+import lombok.Value;
 import pl.com.bottega.factory.demand.forecasting.DailyDemand.Result;
 
 import java.time.LocalDate;
@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
+@Value
 public class AdjustDemand {
     private final String refNo;
     private final Map<LocalDate, Adjustment> adjustments;

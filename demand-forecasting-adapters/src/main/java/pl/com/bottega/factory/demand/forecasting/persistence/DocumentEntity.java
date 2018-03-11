@@ -34,7 +34,7 @@ public class DocumentEntity implements Serializable {
     private LocalDate cleanAfter;
 
     public DocumentEntity(String originalUri, String storedUri, Document document) {
-        saved = Instant.now();
+        this.saved = Instant.now();
         this.originalUri = originalUri;
         this.storedUri = storedUri;
         this.document = document;

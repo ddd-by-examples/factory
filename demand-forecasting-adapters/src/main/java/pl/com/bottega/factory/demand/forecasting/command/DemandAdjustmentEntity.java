@@ -24,6 +24,12 @@ public class DemandAdjustmentEntity implements Serializable {
     @Convert(converter = AdjustDemandAsJson.class)
     private AdjustDemand adjustment;
 
+    DemandAdjustmentEntity(String note, String customerRepresentative, AdjustDemand adjustment) {
+        this.note = note;
+        this.customerRepresentative = customerRepresentative;
+        this.adjustment = adjustment;
+    }
+
     @Setter
     private LocalDate cleanAfter;
 
