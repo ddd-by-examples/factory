@@ -2,10 +2,10 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
-    <include file="/schema/commons.xml"/>
-    <include file="/schema/delivery-planning.xml"/>
-    <include file="/schema/demand-forecasting.xml"/>
-    <include file="/schema/product-management.xml"/>
-    <include file="/schema/production-planning.xml"/>
-    <include file="/schema/shortages-prediction.xml"/>
+    <changeSet author="jakubpilimon" id="1.init">
+       <createSequence sequenceName="hibernate_sequence" startValue="1" incrementBy="1" cacheSize="1"/>
+    </changeSet>
+    <changeSet author="jakubpilimon" id="2.postgres.json" dbms="postgresql">
+        <sql>CREATE CAST (character varying AS jsonb) WITH INOUT AS ASSIGNMENT</sql>
+    </changeSet>
 </databaseChangeLog>
