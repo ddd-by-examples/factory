@@ -1,19 +1,27 @@
-package pl.com.bottega.factory.integration
+package src.test.groovy.pl.com.bottega.factory.integration
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Primary
 import org.springframework.core.ParameterizedTypeReference
+import org.springframework.hateoas.Resource
 import org.springframework.hateoas.Resources
 import org.springframework.http.HttpMethod
 import org.springframework.http.ResponseEntity
 import pl.com.bottega.factory.AppConfiguration
 import pl.com.bottega.factory.ProductTrait
+import pl.com.bottega.factory.demand.forecasting.Adjustment
+import pl.com.bottega.factory.demand.forecasting.Demand
+import pl.com.bottega.factory.demand.forecasting.command.DemandAdjustmentEntity
 import pl.com.bottega.factory.demand.forecasting.persistence.DocumentEntity
 import pl.com.bottega.factory.demand.forecasting.projection.CurrentDemandEntity
 import pl.com.bottega.factory.product.management.ProductDescriptionEntity
+import pl.com.bottega.factory.shortages.prediction.calculation.Stock
+import pl.com.bottega.factory.shortages.prediction.monitoring.persistence.ShortagesEntity
+import pl.com.bottega.factory.warehouse.WarehouseService
 import pl.com.bottega.tools.IntegrationTest
 import spock.lang.Specification
 
@@ -27,26 +35,24 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 
 @IntegrationTest
 @SpringBootTest(webEnvironment = RANDOM_PORT, classes = [AppConfiguration, TestConfiguration])
-class CallOffDocumentIntegrationSpec extends Specification implements ProductTrait {
+class ShortageIntegrationSpec extends Specification implements ProductTrait {
 
-    public static final String PRODUCT_REF_NO = "3009000"
+    public static final String PRODUCT_REF_NO = "3009003"
     public static final LocalDate ANY_DATE = LocalDate.now()
+    public static final int PRODUCT_STOCK_LEVEL = 100
 
     @Autowired TestRestTemplate restTemplate
 
-    def 'receiving call off document should create new product demands for subsequent days'() {
+    def 'adjustment that exceeds current stock level should result in shortage'() {
         given:
             productDescriptionIsSuccessfullyCreated(PRODUCT_REF_NO)
         when:
-            callOffDocumentIsSuccessfullyRequested(PRODUCT_REF_NO, ANY_DATE, 100, 200, 300)
+            callOffDocumentIsSuccessfullyRequested(PRODUCT_REF_NO, ANY_DATE, PRODUCT_STOCK_LEVEL)
         and:
-            Collection<CurrentDemandEntity> demands =
-                    demandsForProductStartingFromDateAreRequested(PRODUCT_REF_NO, ANY_DATE.minusDays(1))
+            adjustmentIsSuccessfullyRequested(ANY_DATE.plusDays(1), 200)
         then:
-            demands.size() == 3
-            thereIsDemand(demands, ANY_DATE, 100)
-            thereIsDemand(demands, ANY_DATE.plusDays(1), 200)
-            thereIsDemand(demands, ANY_DATE.plusDays(2), 300)
+            thereIsShortage(PRODUCT_REF_NO, ANY_DATE.plusDays(1), 200)
+
     }
 
     void productDescriptionIsSuccessfullyCreated(String refNo) {
@@ -61,20 +67,24 @@ class CallOffDocumentIntegrationSpec extends Specification implements ProductTra
         assert response.statusCode.is2xxSuccessful()
     }
 
-    Collection<CurrentDemandEntity> demandsForProductStartingFromDateAreRequested(String refNo, LocalDate date) {
-        ResponseEntity<Resources<CurrentDemandEntity>> res = restTemplate
-                .exchange("/demand-forecasts/search/refNos?refNo={refNo}&date={date}",
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<Resources<CurrentDemandEntity>>() {},
-                ["refNo": refNo, "date": date])
-        assert res.statusCode.is2xxSuccessful()
-        return res.getBody().getContent()
+    void adjustmentIsSuccessfullyRequested(LocalDate date, long levelExpected) {
+        Map<LocalDate, Adjustment> adjustments = [:]
+        adjustments.put(date, new Adjustment(Demand.of(levelExpected), true))
+        ResponseEntity response = restTemplate
+                .postForEntity("/demand-adjustments", strongAdjustment(PRODUCT_REF_NO, adjustments), DemandAdjustmentEntity)
+        assert response.statusCode.is2xxSuccessful()
     }
 
-    void thereIsDemand(Collection<CurrentDemandEntity> demands, LocalDate date, long expectedLevel) {
-        assert demands.find { it.date == date && it.level == expectedLevel }
+    void thereIsShortage(String refNo, LocalDate forDate, long expectedShortage) {
+        ResponseEntity<Resource<ShortagesEntity>> res = restTemplate
+                .exchange("/shortages/search/refNos?refNo={refNo}",
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<Resource<ShortagesEntity>>() {},
+                ["refNo": refNo])
+        assert res.statusCode.is2xxSuccessful()
     }
+
 
     @Configuration
     static class TestConfiguration {
@@ -82,6 +92,11 @@ class CallOffDocumentIntegrationSpec extends Specification implements ProductTra
         @Bean
         Clock clock() {
             return Clock.fixed(from(ANY_DATE.atStartOfDay().atZone(systemDefault())), systemDefault())
+        }
+
+        @Bean
+        WarehouseService warehouseService() {
+            return { refNo -> new Stock(PRODUCT_STOCK_LEVEL, 0) }
         }
     }
 }

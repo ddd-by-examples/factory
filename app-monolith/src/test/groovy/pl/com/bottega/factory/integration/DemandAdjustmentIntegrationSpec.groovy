@@ -2,6 +2,7 @@ package pl.com.bottega.factory.integration
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -25,10 +26,11 @@ import java.time.LocalDate
 import java.time.ZoneId
 
 import static java.time.Instant.from
+import static java.time.ZoneId.systemDefault
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT
 
 @IntegrationTest
-@SpringBootTest(webEnvironment = RANDOM_PORT, classes = AppConfiguration)
+@SpringBootTest(webEnvironment = RANDOM_PORT, classes = [AppConfiguration, TestConfiguration])
 class DemandAdjustmentIntegrationSpec extends Specification implements ProductTrait {
 
     public static final String PRODUCT_REF_NO = "3009001"
@@ -93,7 +95,7 @@ class DemandAdjustmentIntegrationSpec extends Specification implements ProductTr
 
         @Bean
         Clock clock() {
-            return Clock.fixed(from(ANY_DATE), ZoneId.systemDefault())
+            return Clock.fixed(from(ANY_DATE.atStartOfDay().atZone(systemDefault())), systemDefault())
         }
     }
 }
