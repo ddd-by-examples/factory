@@ -18,7 +18,7 @@ import pl.com.dddbyexamples.tools.IntegrationTest
 import spock.lang.Specification
 
 import java.time.Clock
-import java.time.LocalDateF
+import java.time.LocalDate
 
 import static java.time.Instant.from
 import static java.time.ZoneId.systemDefault
