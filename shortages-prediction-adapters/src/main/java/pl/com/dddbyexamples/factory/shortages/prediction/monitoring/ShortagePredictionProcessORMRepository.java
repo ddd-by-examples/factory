@@ -10,6 +10,7 @@ import pl.com.dddbyexamples.factory.shortages.prediction.monitoring.persistence.
 import pl.com.dddbyexamples.tools.TechnicalId;
 
 import java.util.Optional;
+import java.util.function.Function;
 
 @Component
 @AllArgsConstructor
@@ -39,15 +40,16 @@ class ShortagePredictionProcessORMRepository implements ShortagePredictionProces
 
     private void save(NewShortage event) {
         RefNoId refNo = event.getRefNo();
+        Function<Long, Optional<ShortagesEntity>> findById = dao::findById;
         ShortagesEntity entity = TechnicalId.findOrDefault(
-                refNo, dao::findOne,
+                refNo, findById.andThen(Optional::get),
                 () -> dao.save(new ShortagesEntity(refNo.getRefNo())));
         entity.setShortage(event.getShortage());
         events.emit(event);
     }
 
     private void delete(ShortageSolved event) {
-        dao.delete(TechnicalId.get(event.getRefNo()));
+        dao.deleteById(TechnicalId.get(event.getRefNo()));
         events.emit(event);
     }
 

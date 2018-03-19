@@ -9,6 +9,7 @@ import pl.com.dddbyexamples.tools.ProjectionRepository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RepositoryRestResource(path = "demand-forecasts",
@@ -19,5 +20,5 @@ public interface CurrentDemandDao extends ProjectionRepository<CurrentDemandEnti
     List<CurrentDemandEntity> findByRefNoAndDateGreaterThanEqual(@Param("refNo") String refNo, @Param("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  LocalDate date);
 
     @RestResource(exported = false)
-    void deleteByRefNoAndDate(String refNo, LocalDate date);
+    Optional<CurrentDemandEntity> findByRefNoAndDate(String refNo, LocalDate date);
 }

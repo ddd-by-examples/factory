@@ -34,7 +34,7 @@ class DemandEventsPropagation implements DemandEvents {
     @Override
     public void emit(ReviewRequired event) {
         Instant timestamp = Instant.now(clock);
-        demandReviews.save(event.getReviews().stream()
+        demandReviews.saveAll(event.getReviews().stream()
                 .map(r -> new RequiredReviewEntity(timestamp, r))
                 .collect(Collectors.toList())
         );

@@ -9,7 +9,7 @@ public interface CommandRepository<T, ID extends Serializable> extends CrudRepos
 
     @Override
     @RestResource(exported = false)
-    void delete(ID id);
+    void deleteById(ID id);
 
     @Override
     @RestResource(exported = false)
@@ -17,7 +17,7 @@ public interface CommandRepository<T, ID extends Serializable> extends CrudRepos
 
     @Override
     @RestResource(exported = false)
-    void delete(Iterable<? extends T> entities);
+    void deleteAll(Iterable<? extends T> entities);
 
     @Override
     @RestResource(exported = false)
