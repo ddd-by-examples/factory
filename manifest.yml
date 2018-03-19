@@ -1,0 +1,3 @@
+applications:
+- name: factory
+  memory: 800M
