@@ -13,11 +13,11 @@ public interface ProjectionRepository<T, ID extends Serializable> extends CrudRe
 
     @Override
     @RestResource(exported = false)
-    <S extends T> Iterable<S> save(Iterable<S> entities);
+    <S extends T> Iterable<S> saveAll(Iterable<S> entities);
 
     @Override
     @RestResource(exported = false)
-    void delete(ID id);
+    void deleteById(ID id);
 
     @Override
     @RestResource(exported = false)
@@ -25,7 +25,7 @@ public interface ProjectionRepository<T, ID extends Serializable> extends CrudRe
 
     @Override
     @RestResource(exported = false)
-    void delete(Iterable<? extends T> entities);
+    void deleteAll(Iterable<? extends T> entities);
 
     @Override
     @RestResource(exported = false)

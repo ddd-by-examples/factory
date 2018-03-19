@@ -27,6 +27,6 @@ public class ProductDescriptionEventsPropagation {
 
     @HandleAfterDelete
     public void handleDelete(ProductDescriptionEntity entity) {
-        stockForecasts.delete(entity.getRefNo());
+        stockForecasts.deleteById(entity.getRefNo());
     }
 }

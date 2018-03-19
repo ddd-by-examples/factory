@@ -1,4 +1,4 @@
-package pl.com.bottega.factory.demand.forecasting;
+ package pl.com.bottega.factory.demand.forecasting;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -59,7 +59,7 @@ class ProductDemandORMRepository implements ProductDemandRepository {
 
     @Override
     public void save(ProductDemand model) {
-        ProductDemandEntity root = rootDao.findOne(TechnicalId.get(model.id));
+        ProductDemandEntity root = rootDao.getOne(TechnicalId.get(model.id));
         if (model.updates.size() > 0) {
             em.lock(root, LockModeType.OPTIMISTIC_FORCE_INCREMENT);
         }

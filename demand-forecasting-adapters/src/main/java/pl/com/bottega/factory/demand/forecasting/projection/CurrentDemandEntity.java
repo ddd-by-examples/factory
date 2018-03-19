@@ -29,4 +29,9 @@ public class CurrentDemandEntity implements Serializable {
         this.level = level;
         this.schema = schema;
     }
+
+    void changeLevelTo(long level, Demand.Schema schema) {
+        this.level = level;
+        this.schema = schema;
+    }
 }
