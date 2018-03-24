@@ -4,8 +4,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 @RestResource(exported = false)
 public interface ProductDemandDao extends JpaRepository<ProductDemandEntity, Long> {
-    ProductDemandEntity findByRefNo(String refNo);
+    Optional<ProductDemandEntity> findByRefNo(String refNo);
 }

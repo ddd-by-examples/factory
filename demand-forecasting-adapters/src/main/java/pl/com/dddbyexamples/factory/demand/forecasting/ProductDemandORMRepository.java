@@ -33,14 +33,15 @@ class ProductDemandORMRepository implements ProductDemandRepository {
 
     @Override
     public void initNewProduct(String refNo) {
-        if (rootDao.findByRefNo(refNo) == null) {
+        if (!rootDao.findByRefNo(refNo).isPresent()) {
             rootDao.save(new ProductDemandEntity(refNo));
         }
     }
 
     @Override
     public ProductDemand get(String refNo) {
-        ProductDemandEntity root = rootDao.findByRefNo(refNo);
+        ProductDemandEntity root = rootDao.findByRefNo(refNo)
+                .orElseThrow(() -> new IllegalArgumentException("ProductDemand not initialized for refNo: " + refNo));
         RefNoId id = root.createId();
 
         Map<LocalDate, DemandEntity> data =
@@ -57,21 +58,22 @@ class ProductDemandORMRepository implements ProductDemandRepository {
 
     @Override
     public void save(ProductDemand model) {
-        ProductDemandEntity root = rootDao.getOne(TechnicalId.get(model.id));
+        ProductDemandEntity root = TechnicalId.get(model.id)
+                .map(rootDao::getOne)
+                .orElseThrow(IllegalStateException::new);
+
         if (model.updates.size() > 0) {
             em.lock(root, LockModeType.OPTIMISTIC_FORCE_INCREMENT);
         }
         for (DailyDemand.DemandUpdated updated : model.updates) {
-            DemandEntity entity;
-            if (TechnicalId.isPersisted(updated.getId())) {
-                entity = demandDao.getOne(TechnicalId.get(updated.getId()));
-            } else {
-                entity = new DemandEntity(
-                        updated.getId().getRefNo(),
-                        updated.getId().getDate()
-                );
-                demandDao.save(entity);
-            }
+            DemandEntity entity = TechnicalId.get(updated.getId())
+                    .map(demandDao::getOne)
+                    .orElseGet(() -> demandDao.save(
+                            new DemandEntity(
+                                    updated.getId().getRefNo(),
+                                    updated.getId().getDate()
+                            ))
+                    );
             entity.setValue(new DemandValue(
                     updated.getDocumented().nullIfNone(),
                     updated.getAdjustment()

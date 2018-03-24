@@ -21,7 +21,7 @@ public class ProductDescriptionEntity implements Serializable {
     @Convert(converter = DescriptionAsJson.class)
     private ProductDescription description;
 
-    ProductDescriptionEntity(String refNo, ProductDescription description) {
+    public ProductDescriptionEntity(String refNo, ProductDescription description) {
         this.refNo = refNo;
         this.description = description;
     }
