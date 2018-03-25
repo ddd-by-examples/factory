@@ -1,8 +1,8 @@
 # The missing, complete example of Domain-Driven Design enterprise application
 
 [![Licence MIT](http://img.shields.io/badge/license-MIT-green.svg)](https://opensource.org/licenses/MIT)
-[![Build Status](https://travis-ci.org/michal-michaluk/factory.svg?branch=master)](https://travis-ci.org/michal-michaluk/factory)
-[![Code Coverage](https://codecov.io/gh/michal-michaluk/factory/branch/master/graph/badge.svg)](https://codecov.io/gh/michal-michaluk/factory)
+[![Build Status](https://travis-ci.org/ddd-by-examples/factory.svg?branch=master)](https://travis-ci.org/ddd-by-examples/factory)
+[![Code Coverage](https://codecov.io/gh/ddd-by-examples/factory/branch/master/graph/badge.svg)](https://codecov.io/gh/ddd-by-examples/factory)
 
 ## Command Query CRUD Responsibility Segregation
 Not every piece of software is equally important...
