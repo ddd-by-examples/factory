@@ -27,7 +27,7 @@ public class DemandAdjustmentEntity implements Serializable {
     @Setter
     private LocalDate cleanAfter;
 
-    DemandAdjustmentEntity(String note, String customerRepresentative, AdjustDemand adjustment) {
+    public DemandAdjustmentEntity(String note, String customerRepresentative, AdjustDemand adjustment) {
         this.note = note;
         this.customerRepresentative = customerRepresentative;
         this.adjustment = adjustment;
