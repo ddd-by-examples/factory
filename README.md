@@ -22,9 +22,9 @@ Goals of that approach:
 - exposure of high quality API.
 
 Examples in code:
-- CRUD-able document [ProductDescription](product-management-adapters/src/main/java/pl/com/dddbyexamples/factory/product/management/ProductDescription.java)
-- persistence of document [ProductDescriptionEntity](product-management-adapters/src/main/java/pl/com/dddbyexamples/factory/product/management/ProductDescriptionEntity.java)
-- CRUD exposed as DAO and REST endpoint [ProductDescriptionDao](product-management-adapters/src/main/java/pl/com/dddbyexamples/factory/product/management/ProductDescriptionDao.java)
+- CRUD-able document [ProductDescription](product-management-adapters/src/main/java/io/dddbyexamples/factory/product/management/ProductDescription.java)
+- persistence of document [ProductDescriptionEntity](product-management-adapters/src/main/java/io/dddbyexamples/factory/product/management/ProductDescriptionEntity.java)
+- CRUD exposed as DAO and REST endpoint [ProductDescriptionDao](product-management-adapters/src/main/java/io/dddbyexamples/factory/product/management/ProductDescriptionDao.java)
 
 **Complex Commands (business processing)** expressed in Domain Model which is embedded in hexagonal architecture.
 
@@ -36,23 +36,23 @@ caused by technological choices or transport models from external services / con
 migration and keeping long living projects up to date with fast evolving frameworks and libraries.
 
 Examples of Domain Model in code:
-- aggregate [ProductDemand](demand-forecasting-model/src/main/java/pl/com/dddbyexamples/factory/demand/forecasting/ProductDemand.java)
-- entity [DailyDemand](demand-forecasting-model/src/main/java/pl/com/dddbyexamples/factory/demand/forecasting/DailyDemand.java)
-- value object [Adjustment](demand-forecasting-model/src/main/java/pl/com/dddbyexamples/factory/demand/forecasting/Adjustment.java)
-- policy [ReviewPolicy](demand-forecasting-model/src/main/java/pl/com/dddbyexamples/factory/demand/forecasting/ReviewPolicy.java)
-- domain event [DemandedLevelsChanged](shared-kernel-model/src/main/java/pl/com/dddbyexamples/factory/demand/forecasting/DemandedLevelsChanged.java)
+- aggregate [ProductDemand](demand-forecasting-model/src/main/java/io/dddbyexamples/factory/demand/forecasting/ProductDemand.java)
+- entity [DailyDemand](demand-forecasting-model/src/main/java/io/dddbyexamples/factory/demand/forecasting/DailyDemand.java)
+- value object [Adjustment](demand-forecasting-model/src/main/java/io/dddbyexamples/factory/demand/forecasting/Adjustment.java)
+- policy [ReviewPolicy](demand-forecasting-model/src/main/java/io/dddbyexamples/factory/demand/forecasting/ReviewPolicy.java)
+- domain event [DemandedLevelsChanged](shared-kernel-model/src/main/java/io/dddbyexamples/factory/demand/forecasting/DemandedLevelsChanged.java)
 
 Examples of Ports in code:
-- application service (primary port) [DemandService](demand-forecasting-model/src/main/java/pl/com/dddbyexamples/factory/demand/forecasting/DemandService.java)
-- repository (secondary port) [ProductDemandRepository](demand-forecasting-model/src/main/java/pl/com/dddbyexamples/factory/demand/forecasting/ProductDemandRepository.java)
-- domain events handling (secondary port) [DemandEvents](demand-forecasting-model/src/main/java/pl/com/dddbyexamples/factory/demand/forecasting/DemandEvents.java)
+- application service (primary port) [DemandService](demand-forecasting-model/src/main/java/io/dddbyexamples/factory/demand/forecasting/DemandService.java)
+- repository (secondary port) [ProductDemandRepository](demand-forecasting-model/src/main/java/io/dddbyexamples/factory/demand/forecasting/ProductDemandRepository.java)
+- domain events handling (secondary port) [DemandEvents](demand-forecasting-model/src/main/java/io/dddbyexamples/factory/demand/forecasting/DemandEvents.java)
 
 Examples of Adapters in code:
 - REST endpoint for complex command (driving adapter)
-  - command resource [DemandAdjustmentDao](demand-forecasting-adapters/src/main/java/pl/com/dddbyexamples/factory/demand/forecasting/command/DemandAdjustmentDao.java)
-  - command handler [CommandsHandler](demand-forecasting-adapters/src/main/java/pl/com/dddbyexamples/factory/demand/forecasting/command/CommandsHandler.java)
-- repository implementation (driven adapter) [ProductDemandORMRepository](demand-forecasting-adapters/src/main/java/pl/com/dddbyexamples/factory/demand/forecasting/ProductDemandORMRepository.java)
-- events propagation (driven adapter) [DemandEventsPropagation](app-monolith/src/main/java/pl/com/dddbyexamples/factory/demand/forecasting/DemandEventsPropagation.java)
+  - command resource [DemandAdjustmentDao](demand-forecasting-adapters/src/main/java/io/dddbyexamples/factory/demand/forecasting/command/DemandAdjustmentDao.java)
+  - command handler [CommandsHandler](demand-forecasting-adapters/src/main/java/io/dddbyexamples/factory/demand/forecasting/command/CommandsHandler.java)
+- repository implementation (driven adapter) [ProductDemandORMRepository](demand-forecasting-adapters/src/main/java/io/dddbyexamples/factory/demand/forecasting/ProductDemandORMRepository.java)
+- events propagation (driven adapter) [DemandEventsPropagation](app-monolith/src/main/java/io/dddbyexamples/factory/demand/forecasting/DemandEventsPropagation.java)
 
 **Complex Query** implemented as direct and simple as possible by:
 - fetching persistent read model expected by consumer, the read model is a projection of past domain event,
@@ -67,10 +67,10 @@ Goals of that approach:
 - improves reads performance and enable horizontal scalability.
 
 Examples in code:
-- projection of domain events to persistent read model [DeliveryForecastProjection](demand-forecasting-adapters/src/main/java/pl/com/dddbyexamples/factory/delivery/planning/projection/DeliveryForecastProjection.java)
-- REST endpoint for persistent read model [DeliveryForecastDao](demand-forecasting-adapters/src/main/java/pl/com/dddbyexamples/factory/delivery/planning/projection/DeliveryForecastDao.java)
-- read model composed at query execution time [StockForecastQuery](app-monolith/src/main/java/pl/com/dddbyexamples/factory/stock/forecast/StockForecastQuery.java)
-- REST resource processor for NOT persistent read model [StockForecastResourceProcessor](app-monolith/src/main/java/pl/com/dddbyexamples/factory/stock/forecast/ressource/StockForecastResourceProcessor.java)
+- projection of domain events to persistent read model [DeliveryForecastProjection](demand-forecasting-adapters/src/main/java/io/dddbyexamples/factory/delivery/planning/projection/DeliveryForecastProjection.java)
+- REST endpoint for persistent read model [DeliveryForecastDao](demand-forecasting-adapters/src/main/java/io/dddbyexamples/factory/delivery/planning/projection/DeliveryForecastDao.java)
+- read model composed at query execution time [StockForecastQuery](app-monolith/src/main/java/io/dddbyexamples/factory/stock/forecast/StockForecastQuery.java)
+- REST resource processor for NOT persistent read model [StockForecastResourceProcessor](app-monolith/src/main/java/io/dddbyexamples/factory/stock/forecast/ressource/StockForecastResourceProcessor.java)
 
 ## Hexagonal Architecture
 Only the most valuable part of that enterprise software is embedded in hexagonal architecture -
