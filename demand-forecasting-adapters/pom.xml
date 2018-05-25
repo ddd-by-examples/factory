@@ -68,6 +68,12 @@
             <version>1.7.9</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>pl.com.dddbyexamples</groupId>
+            <artifactId>db-commons</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <properties>

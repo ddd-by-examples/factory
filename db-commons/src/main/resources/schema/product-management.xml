@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <property name="json" value="clob" dbms="h2"/>
+    <property name="json" value="jsonb" dbms="postgresql"/>
+
+    <changeSet author="jakubpilimon" id="1.product_management-init">
+        <sql>
+            CREATE SCHEMA product_management
+        </sql>
+
+        <createTable tableName="product_description" schemaName="product_management">
+            <column name="ref_no" type="varchar(64)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="description" type="${json}">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

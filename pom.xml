@@ -19,6 +19,7 @@
         <module>shortages-prediction-adapters</module>
         <module>product-management-adapters</module>
         <module>production-planning-adapters</module>
+        <module>db-commons</module>
     </modules>
 
 </project>
