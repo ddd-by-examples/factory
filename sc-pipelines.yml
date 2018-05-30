@@ -1,0 +1,10 @@
+build:
+  main-module: app-monolith
+test:
+  # list of required services
+  services:
+    - name: fortune-db
+      type: broker
+      broker: cleardb
+      plan: spark
+      useExisting: true

@@ -14,6 +14,14 @@
         <version>2.0.0.RELEASE</version>
     </parent>
 
+    <properties>
+        <java.version>1.8</java.version>
+        <!-- SPRING CLOUD PIPELINES -->
+        <distribution.management.release.id>artifactory-local</distribution.management.release.id>
+        <distribution.management.release.url>http://localhost:8081/artifactory/libs-release-local</distribution.management.release.url>
+        <repo.with.binaries>http://localhost:8081/artifactory/libs-release-local</repo.with.binaries>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>pl.com.dddbyexamples</groupId>
@@ -129,10 +137,6 @@
         </repository>
     </repositories>
 
-    <properties>
-        <java.version>1.8</java.version>
-    </properties>
-
     <build>
         <plugins>
             <plugin>
@@ -155,6 +159,7 @@
                 <executions>
                     <execution>
                         <goals>
+                            <goal>addTestSources</goal>
                             <goal>compileTests</goal>
                         </goals>
                     </execution>
@@ -170,6 +175,26 @@
                         <include>**/*Test.java</include>
                     </includes>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>stub</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <inherited>false</inherited>
+                        <configuration>
+                            <attach>true</attach>
+                            <descriptors>
+                                ${basedir}/src/assembly/stub.xml
+                            </descriptors>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
