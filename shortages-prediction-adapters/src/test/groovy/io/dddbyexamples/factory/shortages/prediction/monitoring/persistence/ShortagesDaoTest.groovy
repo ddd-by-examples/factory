@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 /**
  * @author Marcin Grzejszczak
  */
-@SpringBootTest(webEnvironment = MOCK, classes = ShortagesDaoTest.Config)
+@SpringBootTest(webEnvironment = MOCK, classes = Config)
 @AutoConfigureMockMvc
 // would love to get rid of this
 @AutoConfigureTestDatabase
@@ -38,35 +38,11 @@ class ShortagesDaoTest extends Specification {
 
 	def "should find ref by no"() {
 		given:
-			ShortagesEntity entity = new ShortagesEntity("1")
-			entity.id = 1L
-			entity.version = 1L
-			Mockito.doReturn([entity]).when(shortagesDao).findAll()
+			Config.defaultStubbing(shortagesDao)
 		expect:
 			mockMvc.perform(get("/shortages?refNo=1"))
 					.andExpect(MockMvcResultMatchers.status().isOk())
 					.andDo(MockMvcRestDocumentation.document("find_ref_by_no",
 						SpringCloudContractRestDocs.dslContract()))
-	}
-
-	@Configuration
-	@EnableAutoConfiguration
-	@ComponentScan("io.dddbyexamples.factory.shortages.prediction.persistence")
-	@CompileStatic
-	static class Config {
-
-		// https://github.com/spring-projects/spring-boot/issues/7033
-		@Bean
-		BeanPostProcessor shortagesBeanPostProcessor() {
-			return new BeanPostProcessor() {
-				@Override
-				Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-					if (bean instanceof ShortagesDao) {
-						return Mockito.mock(ShortagesDao)
-					}
-					return bean
-				}
-			}
-		}
 	}
 }

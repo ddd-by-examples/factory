@@ -22,8 +22,10 @@ $ cf create-space sc-pipelines-stage-dddbyexamples-factory
 $ cf create-space sc-pipelines-prod
 ```
 
+- Added `<distributionManagement>` section
 - Added contract tests (`shortages-prediction-adapters/src/test/groovy/io/dddbyexamples/factory/shortages/prediction/monitoring/persistence/ShortagesDaoTest.groovy`)
 - Added stub jar generation in `app-monolith` (in the output stubs jar each module has its own folder)
+- Added `<profiles>` for all types of tests
 - Added base class for rollback tests 
 
 
