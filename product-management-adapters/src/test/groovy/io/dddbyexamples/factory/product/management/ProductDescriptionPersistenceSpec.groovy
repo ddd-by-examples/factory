@@ -7,7 +7,7 @@ import spock.lang.Specification
 import static java.util.Collections.singletonList
 
 @SpringBootTest
-class ProductDescriptionPersistenceTest extends Specification {
+class ProductDescriptionPersistenceSpec extends Specification {
 
     @Autowired
     ProductDescriptionDao dao
