@@ -1,5 +1,5 @@
 build:
-  main-module: app-monolith
+  main_module: app-monolith
 test:
   # list of required services
   services:
