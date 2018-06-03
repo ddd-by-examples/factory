@@ -12,6 +12,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.0.0.RELEASE</version>
+        <relativePath/>
     </parent>
 
     <dependencies>
@@ -89,6 +90,12 @@
             <version>1.4.197</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.awaitility</groupId>
+            <artifactId>awaitility</artifactId>
+            <version>3.0.0</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
@@ -107,6 +114,7 @@
         <java.version>1.8</java.version>
         <spring-cloud.version>Finchley.BUILD-SNAPSHOT</spring-cloud.version>
         <spring-cloud-contract.version>2.0.0.BUILD-SNAPSHOT</spring-cloud-contract.version>
+        <maven-surefire.version>2.21.0</maven-surefire.version>
     </properties>
 
     <build>
@@ -170,12 +178,11 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
-                        <version>2.20</version>
+                        <version>${maven-surefire.version}</version>
                         <configuration>
                             <includes>
-                                <include>**/*Tests.java</include>
-                                <include>**/*Test.java</include>
-                                <include>**/*Spec.groovy</include>
+                                <include>**/*Test*.*</include>>
+                                <include>**/*Spec*.*</include>
                             </includes>
                             <excludes>
                                 <exclude>**/smoke/**</exclude>
@@ -197,12 +204,11 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
-                        <version>2.20</version>
+                        <version>${maven-surefire.version}</version>
                         <configuration>
                             <includes>
-                                <include>**/contracttests/**/*Tests.java</include>
-                                <include>**/contracttests/**/*Test.java</include>
-                                <include>**/contracttests/**/*Spec.groovy</include>
+                                <include>contracttests/**/*Test*.*</include>
+                                <include>contracttests/**/*Spec*.*</include>
                             </includes>
                         </configuration>
                     </plugin>
@@ -213,10 +219,10 @@
                         <extensions>true</extensions>
                         <configuration>
                             <!-- Will be injected by the pipeline -->
-                            <!--<contractsRepositoryUrl>${repo.with.binaries}</contractsRepositoryUrl>-->
-                            <!--<contractsMode>REMOTE</contractsMode>-->
-                            <contractsMode>LOCAL</contractsMode>
-                            <deleteStubsAfterTest>false</deleteStubsAfterTest>
+                            <contractsRepositoryUrl>${repo.with.binaries}</contractsRepositoryUrl>
+                            <contractsMode>REMOTE</contractsMode>
+                            <!--<contractsMode>LOCAL</contractsMode>-->
+                            <!--<deleteStubsAfterTest>false</deleteStubsAfterTest>-->
                             <contractDependency>
                                 <groupId>${project.groupId}</groupId>
                                 <artifactId>app-monolith</artifactId>
@@ -229,6 +235,25 @@
                             <basePackageForTests>io.dddbyexamples.contracttests</basePackageForTests>
                             <contractsPath>META-INF/${project.groupId}/app-monolith/${latest.production.version}/shortages-prediction-adapters/contracts</contractsPath>
                         </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>build-helper-maven-plugin</artifactId>
+                        <version>3.0.0</version>
+                        <executions>
+                            <execution>
+                                <id>add-test-source</id>
+                                <phase>generate-test-sources</phase>
+                                <goals>
+                                    <goal>add-test-source</goal>
+                                </goals>
+                                <configuration>
+                                    <sources>
+                                        <source>${project.build.directory}/generated-test-sources/contracts</source>
+                                    </sources>
+                                </configuration>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
             </build>
@@ -244,7 +269,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
-                        <version>2.20</version>
+                        <version>${maven-surefire.version}</version>
                         <configuration>
                             <includes>
                                 <include>smoke/**/*Tests.java</include>
@@ -266,7 +291,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
-                        <version>2.20</version>
+                        <version>${maven-surefire.version}</version>
                         <configuration>
                             <includes>
                                 <include>e2e/**/*Tests.java</include>
