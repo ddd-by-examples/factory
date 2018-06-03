@@ -6,7 +6,7 @@ test:
     - name: app-monolith-db
       type: broker
       broker: elephantsql
-      plan: spark
+      plan: turtle
       useExisting: true
 stage:
   # list of required services
