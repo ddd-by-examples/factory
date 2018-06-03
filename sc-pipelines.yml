@@ -3,8 +3,16 @@ build:
 test:
   # list of required services
   services:
-    - name: fortune-db
+    - name: app-monolith-db
       type: broker
-      broker: cleardb
+      broker: elephantsql
       plan: spark
+      useExisting: true
+stage:
+  # list of required services
+  services:
+    - name: app-monolith-db
+      type: broker
+      broker: elephantsql
+      plan: turtle
       useExisting: true
