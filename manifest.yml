@@ -2,7 +2,7 @@ applications:
 - name: dddbyexamples-app-monolith
   timeout: 120
   services:
-  - fortune-db
+  - app-monolith-db
   env:
     JAVA_OPTS: -Djava.security.egd=file:///dev/urandom
     TRUST_CERTS: api.run.pivotal.io
