@@ -5,8 +5,7 @@
     <changeSet author="jakubpilimon" id="1.init">
        <createSequence sequenceName="hibernate_sequence" startValue="1" incrementBy="1" cacheSize="1"/>
     </changeSet>
-    <changeSet author="jakubpilimon" id="2.postgres.json" dbms="postgresql">
-        <sql>GRANT character varying TO PUBLIC</sql>
-        <sql>CREATE CAST (character varying AS jsonb) WITH INOUT AS ASSIGNMENT</sql>
-    </changeSet>
+    <!--<changeSet author="jakubpilimon" id="2.postgres.json" dbms="postgresql">-->
+        <!--<sql>CREATE CAST (VARCHAR AS jsonb) WITH INOUT AS ASSIGNMENT</sql>-->
+    <!--</changeSet>-->
 </databaseChangeLog>

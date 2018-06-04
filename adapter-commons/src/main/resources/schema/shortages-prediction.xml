@@ -5,7 +5,7 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
     <property name="json" value="clob" dbms="h2"/>
-    <property name="json" value="jsonb" dbms="postgresql"/>
+    <property name="json" value="text" dbms="postgresql"/>
 
     <changeSet author="jakubpilimon" id="1.shortages_prediction-init">
         <sql>
