@@ -17,8 +17,8 @@ $ git commit -m "Added maven wrapper"
 
 ```bash
 $ cf login -o ... -a ...
-$ cf create-space sc-pipelines-test-dddbyexamples-factory
-$ cf create-space sc-pipelines-stage-dddbyexamples-factory
+$ cf create-space sc-pipelines-test-app-monolith
+$ cf create-space sc-pipelines-stage-app-monolith
 $ cf create-space sc-pipelines-prod
 ```
 
@@ -31,6 +31,10 @@ $ cf create-space sc-pipelines-prod
 - Configured rollback tests via `sc-contract` plugin under `apicompatibility` profile (for `shortages-prediction-adapters`)
 - Added `smoke` tests (just pining health initially) (initially only for `shortages-prediction-adapters` but could be added for more)
 - Added `e2e` tests (just pining health initially) (initially only for `shortages-prediction-adapters` but could be added for more)
-- Added `ServiceConfiguration` for `cloud` profile 
+- Added `ServiceConfiguration` for `cloud` profile (TODO: Verify why that's needed)
+- Created the `app-monolith-db` database service for production
+- The repo name is `app-monolith`
+  - it matches the name of the artifact id of module that produces the fat jar
+  
 
 

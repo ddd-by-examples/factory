@@ -161,27 +161,23 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.codehaus.gmavenplus</groupId>
-                <artifactId>gmavenplus-plugin</artifactId>
-                <version>1.6</version>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.0.0</version>
                 <executions>
                     <execution>
+                        <id>add-test-source</id>
+                        <phase>generate-test-sources</phase>
                         <goals>
-                            <goal>compileTests</goal>
+                            <goal>add-test-source</goal>
                         </goals>
+                        <configuration>
+                            <sources>
+                                <source>${project.build.directory}/generated-test-sources/contracts</source>
+                            </sources>
+                        </configuration>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.20.1</version>
-                <configuration>
-                    <useFile>false</useFile>
-                    <includes>
-                        <include>**/*Spec.java</include>
-                        <include>**/*Test.java</include>
-                    </includes>
-                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -221,6 +217,30 @@
             <build>
                 <plugins>
                     <plugin>
+                        <groupId>org.codehaus.gmavenplus</groupId>
+                        <artifactId>gmavenplus-plugin</artifactId>
+                        <version>1.6</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>addTestSources</goal>
+                                    <goal>compileTests</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <!-- THIS IS CRITICAL CAUSE BY DEFAULT GMAVEN IGNORES WHATEVER SETUP YOU HAVE -->
+                        <configuration>
+                            <testSources>
+                                <testSource>
+                                    <directory>${project.build.directory}/generated-test-sources/contracts/</directory>
+                                    <includes>
+                                        <include>**/*.groovy</include>
+                                    </includes>
+                                </testSource>
+                            </testSources>
+                        </configuration>
+                    </plugin>
+                    <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
                         <version>${maven-surefire.version}</version>
@@ -229,6 +249,7 @@
                                 <include>contracttests/**/*Test*.*</include>
                                 <include>contracttests/**/*Spec*.*</include>
                             </includes>
+                            <failIfNoTests>true</failIfNoTests>
                         </configuration>
                     </plugin>
                     <plugin>
@@ -254,25 +275,6 @@
                             <basePackageForTests>io.dddbyexamples.contracttests</basePackageForTests>
                             <contractsPath>META-INF/${project.groupId}/app-monolith/${latest.production.version}/shortages-prediction-adapters/contracts</contractsPath>
                         </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>build-helper-maven-plugin</artifactId>
-                        <version>3.0.0</version>
-                        <executions>
-                            <execution>
-                                <id>add-test-source</id>
-                                <phase>generate-test-sources</phase>
-                                <goals>
-                                    <goal>add-test-source</goal>
-                                </goals>
-                                <configuration>
-                                    <sources>
-                                        <source>${project.build.directory}/generated-test-sources/contracts</source>
-                                    </sources>
-                                </configuration>
-                            </execution>
-                        </executions>
                     </plugin>
                 </plugins>
             </build>
