@@ -31,11 +31,12 @@ class E2eSpec extends Specification {
 	TestRestTemplate testRestTemplate = new TestRestTemplate();
 
 	def 'should work'() {
-		Awaitility.await().atMost(this.timeout, TimeUnit.SECONDS).untilAsserted({
-			ResponseEntity<String> entity = this.testRestTemplate
-					.getForEntity("http://" + this.applicationUrl + "/health", String.class);
+		expect:
+			Awaitility.await().atMost(this.timeout, TimeUnit.SECONDS).untilAsserted({
+				ResponseEntity<String> entity = this.testRestTemplate
+						.getForEntity("http://" + this.applicationUrl + "/health", String.class);
 
-			then(entity.getStatusCode().is2xxSuccessful()).isTrue();
-		})
+				then(entity.getStatusCode().is2xxSuccessful()).isTrue();
+			})
 	}
 }
