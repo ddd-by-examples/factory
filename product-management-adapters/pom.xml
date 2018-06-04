@@ -209,6 +209,7 @@
                             <includes>
                                 <include>smoke/**/*Tests.java</include>
                                 <include>smoke/**/*Test.java</include>
+                                <include>smoke/**/*Spec.*</include>
                             </includes>
                         </configuration>
                     </plugin>
@@ -231,6 +232,7 @@
                             <includes>
                                 <include>e2e/**/*Tests.java</include>
                                 <include>e2e/**/*Test.java</include>
+                                <include>e2e/**/*Spec.*</include>
                             </includes>
                         </configuration>
                     </plugin>
