@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit
 
 import org.awaitility.Awaitility
 import org.junit.runner.RunWith
+import spock.lang.Specification
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration
@@ -22,7 +23,7 @@ import static org.assertj.core.api.BDDAssertions.then
 @SpringBootTest(classes = SmokeSpec.class,
 		webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @ImportAutoConfiguration(PropertyPlaceholderAutoConfiguration)
-class SmokeSpec {
+class SmokeSpec extends Specification {
 
 	//@Value('${stubrunner.url}') String stubRunnerUrl
 	@Value('${application.url}') String applicationUrl

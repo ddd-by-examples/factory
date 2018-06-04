@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit
 
 import org.awaitility.Awaitility
 import org.junit.runner.RunWith
+import spock.lang.Specification
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration
@@ -22,7 +23,7 @@ import static org.assertj.core.api.BDDAssertions.then
 @SpringBootTest(classes = E2eSpec.class,
 		webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @ImportAutoConfiguration(PropertyPlaceholderAutoConfiguration)
-class E2eSpec {
+class E2eSpec extends Specification {
 
 	@Value('${application.url}') String applicationUrl
 	@Value('${test.timeout:60}') Long timeout
