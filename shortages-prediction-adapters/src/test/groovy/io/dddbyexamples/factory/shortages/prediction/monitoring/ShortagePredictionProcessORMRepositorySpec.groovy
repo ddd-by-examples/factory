@@ -18,7 +18,7 @@ import static io.dddbyexamples.factory.shortages.prediction.monitoring.NewShorta
 @SpringBootTest
 @Transactional
 @Commit
-class ShortagePredictionProcessORMRepositoryTest extends Specification {
+class ShortagePredictionProcessORMRepositorySpec extends Specification {
 
     def now = LocalDateTime.now()
     def refNo = "3009000"

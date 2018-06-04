@@ -12,7 +12,7 @@ import static DeliveryPlannerDefinition.of
 import static io.dddbyexamples.factory.demand.forecasting.Demand.Schema.*
 
 @SpringBootTest
-class DeliveryPlannerDefinitionTest extends Specification {
+class DeliveryPlannerDefinitionSpec extends Specification {
 
     @Autowired
     DeliveryPlannerDefinitionDao dao
