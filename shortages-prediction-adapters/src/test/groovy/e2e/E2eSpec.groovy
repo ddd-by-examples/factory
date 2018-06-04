@@ -19,7 +19,6 @@ import static org.assertj.core.api.BDDAssertions.then
 /**
  * @author Marcin Grzejszczak
  */
-@RunWith(SpringRunner)
 @SpringBootTest(classes = E2eSpec.class,
 		webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @ImportAutoConfiguration(PropertyPlaceholderAutoConfiguration)
