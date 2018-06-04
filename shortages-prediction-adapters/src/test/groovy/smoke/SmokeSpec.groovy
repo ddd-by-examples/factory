@@ -34,7 +34,7 @@ class SmokeSpec extends Specification {
 		expect:
 			Awaitility.await().atMost(this.timeout, TimeUnit.SECONDS).untilAsserted({
 				ResponseEntity<String> entity = this.testRestTemplate
-						.getForEntity("http://" + this.applicationUrl + "/health", String.class);
+						.getForEntity("http://" + this.applicationUrl + "/shortages", String.class);
 
 				then(entity.getStatusCode().is2xxSuccessful()).isTrue();
 			})
