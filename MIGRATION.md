@@ -31,6 +31,6 @@ $ cf create-space sc-pipelines-prod
 - Configured rollback tests via `sc-contract` plugin under `apicompatibility` profile (for `shortages-prediction-adapters`)
 - Added `smoke` tests (just pining health initially) (initially only for `shortages-prediction-adapters` but could be added for more)
 - Added `e2e` tests (just pining health initially) (initially only for `shortages-prediction-adapters` but could be added for more)
-
+- Added `ServiceConfiguration` for `cloud` profile 
 
 
