@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <property name="json" value="clob" dbms="h2"/>
+    <property name="json" value="jsonb" dbms="postgresql"/>
+
+    <changeSet author="jakubpilimon" id="1.demand_forecasting-init">
+        <sql>
+            CREATE SCHEMA demand_forecasting
+        </sql>
+
+        <createTable tableName="product_demand" schemaName="demand_forecasting">
+            <column name="id" type="serial">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="version" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ref_no" type="varchar(64)">
+                <constraints unique="true"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="demand" schemaName="demand_forecasting">
+            <column name="id" type="serial">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ref_no" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="value" type="${json}">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint
+                columnNames="ref_no, date"
+                constraintName="demand_refno_date_unique"
+                schemaName="demand_forecasting"
+                tableName="demand"/>
+
+        <createTable tableName="current_demand" schemaName="demand_forecasting">
+            <column name="id" type="serial">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ref_no" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="level" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="schema" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint
+                columnNames="ref_no, date"
+                constraintName="cr_demand_refno_date_unique"
+                schemaName="demand_forecasting"
+                tableName="current_demand"/>
+
+        <createTable tableName="demand_adjustment" schemaName="demand_forecasting">
+            <column name="id" type="serial">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="customer_representative" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="note" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="adjustment" type="${json}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="clean_after" type="timestamp"/>
+        </createTable>
+
+        <createTable tableName="demand_review" schemaName="demand_forecasting">
+            <column name="id" type="serial">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ref_no" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="timestamp" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="review" type="${json}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="decision" type="varchar(64)"/>
+            <column name="clean_after" type="timestamp"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="jakubpilimon" id="2.rename.review.table">
+        <renameTable oldTableName="demand_review" newTableName="required_review" schemaName="demand_forecasting"/>
+    </changeSet>
+
+    <changeSet author="jakubpilimon" id="3.create.document.table">
+        <createTable tableName="document" schemaName="demand_forecasting">
+            <column name="id" type="serial">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ref_no" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="original_uri" type="varchar(1024)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="stored_uri" type="varchar(1024)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="saved" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="document" type="${json}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="clean_after" type="timestamp"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
