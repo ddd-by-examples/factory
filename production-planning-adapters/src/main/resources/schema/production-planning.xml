@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <property name="json" value="clob" dbms="h2"/>
+    <property name="json" value="jsonb" dbms="postgresql"/>
+
+    <changeSet author="jakubpilimon" id="1.production_planning-init">
+        <sql>
+            CREATE SCHEMA production_planning
+        </sql>
+
+
+        <createTable tableName="production_daily_output" schemaName="production_planning">
+            <column name="id" type="serial">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ref_no" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="output" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint
+                columnNames="ref_no, date"
+                constraintName="pp_output_refno_date_unique"
+                schemaName="production_planning"
+                tableName="production_daily_output"/>
+
+        <createTable tableName="production_output" schemaName="production_planning">
+            <column name="id" type="serial">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ref_no" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="end" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="duration" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="parts_per_minute" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="total" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
