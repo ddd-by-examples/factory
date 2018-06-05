@@ -24,5 +24,13 @@
 				<include>**/*.groovy</include>
 			</includes>
 		</fileSet>
+		<!-- This fileset is only added so as the build passes when tests are skipped -->
+		<fileSet>
+			<directory>${project.basedir}/src/assembly</directory>
+			<outputDirectory>META-INF/</outputDirectory>
+			<includes>
+				<include>**/*</include>
+			</includes>
+		</fileSet>
 	</fileSets>
 </assembly>
