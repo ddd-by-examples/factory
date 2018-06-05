@@ -19,7 +19,7 @@ import java.time.ZoneId
 @SpringBootTest
 @Transactional
 @Commit
-class ProductDemandORMRepositoryTest extends Specification {
+class ProductDemandORMRepositorySpec extends Specification {
 
     def clock = Clock.fixed(Instant.now(), ZoneId.systemDefault())
     def events = Mock(DemandEvents)

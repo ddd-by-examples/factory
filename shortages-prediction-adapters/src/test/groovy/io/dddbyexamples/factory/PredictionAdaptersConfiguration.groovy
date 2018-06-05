@@ -17,9 +17,9 @@ import java.time.Clock;
 @SpringBootApplication
 @EnableScheduling
 @EntityScan(
-        basePackageClasses = {Configuration.class, Jsr310JpaConverters.class}
+        basePackageClasses = [PredictionAdaptersConfiguration.class, Jsr310JpaConverters.class]
 )
-public class Configuration {
+public class PredictionAdaptersConfiguration {
     @Bean
     public Clock clock() {
         return Clock.systemDefaultZone();
