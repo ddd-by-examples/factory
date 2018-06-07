@@ -326,7 +326,7 @@
             </build>
         </profile>
         <profile>
-            <id>spring</id>
+            <id>allow-snapshot</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
@@ -338,22 +338,9 @@
                     <snapshots>
                         <enabled>true</enabled>
                     </snapshots>
-                </repository>
-                <repository>
-                    <id>spring-milestones</id>
-                    <name>Spring Milestones</name>
-                    <url>https://repo.spring.io/milestone</url>
-                    <snapshots>
-                        <enabled>false</enabled>
-                    </snapshots>
-                </repository>
-                <repository>
-                    <id>spring-releases</id>
-                    <name>Spring Releases</name>
-                    <url>https://repo.spring.io/release</url>
-                    <snapshots>
-                        <enabled>false</enabled>
-                    </snapshots>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
                 </repository>
             </repositories>
             <pluginRepositories>
@@ -364,22 +351,9 @@
                     <snapshots>
                         <enabled>true</enabled>
                     </snapshots>
-                </pluginRepository>
-                <pluginRepository>
-                    <id>spring-milestones</id>
-                    <name>Spring Milestones</name>
-                    <url>https://repo.spring.io/milestone</url>
-                    <snapshots>
-                        <enabled>false</enabled>
-                    </snapshots>
-                </pluginRepository>
-                <pluginRepository>
-                    <id>spring-releases</id>
-                    <name>Spring Releases</name>
-                    <url>https://repo.spring.io/release</url>
-                    <snapshots>
-                        <enabled>false</enabled>
-                    </snapshots>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
                 </pluginRepository>
             </pluginRepositories>
         </profile>
