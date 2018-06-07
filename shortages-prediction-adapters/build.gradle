@@ -15,7 +15,6 @@ dependencies {
 	testCompile("org.springframework.cloud:spring-cloud-starter-contract-verifier")
 	testCompile("org.springframework.restdocs:spring-restdocs-mockmvc")
 	testCompile("com.h2database:h2:1.4.194")
-	testCompile("org.awaitility:awaitility:3.0.0")
 	testCompile(project(":adapter-commons").sourceSets.test.output)
 }
 

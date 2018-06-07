@@ -1,10 +1,7 @@
 package smoke
 
-import java.util.concurrent.TimeUnit
-
-import org.awaitility.Awaitility
-import org.junit.runner.RunWith
 import spock.lang.Specification
+import spock.util.concurrent.PollingConditions
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration
@@ -12,9 +9,6 @@ import org.springframework.boot.autoconfigure.context.PropertyPlaceholderAutoCon
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.http.ResponseEntity
-import org.springframework.test.context.junit4.SpringRunner
-
-import static org.assertj.core.api.BDDAssertions.then
 
 /**
  * @author Marcin Grzejszczak
@@ -31,12 +25,14 @@ class SmokeSpec extends Specification {
 	TestRestTemplate testRestTemplate = new TestRestTemplate();
 
 	def 'should work'() {
+		given:
+			def conditions = new PollingConditions(timeout: this.timeout)
 		expect:
-			Awaitility.await().atMost(this.timeout, TimeUnit.SECONDS).untilAsserted({
+			conditions.eventually {
 				ResponseEntity<String> entity = this.testRestTemplate
 						.getForEntity("http://" + this.applicationUrl + "/shortages", String.class);
 
-				then(entity.getStatusCode().is2xxSuccessful()).isTrue();
-			})
+				assert entity.getStatusCode().is2xxSuccessful()
+			}
 	}
 }
