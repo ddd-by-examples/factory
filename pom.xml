@@ -22,7 +22,7 @@
     </modules>
 
     <properties>
-		<main.basedir>${project.basedir}</main.basedir>
+        <main.basedir>${project.basedir}</main.basedir>
         <!-- [PIPELINE] -->
         <distribution.management.release.id>artifactory-local</distribution.management.release.id>
         <distribution.management.release.url>http://localhost:8081/artifactory/libs-release-local</distribution.management.release.url>

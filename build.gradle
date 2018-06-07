@@ -1,0 +1,94 @@
+buildscript {
+	repositories {
+		mavenCentral()
+		mavenLocal()
+		maven { url "http://repo.spring.io/snapshot" }
+		maven { url "http://repo.spring.io/milestone" }
+		maven { url "http://repo.spring.io/release" }
+	}
+	dependencies {
+		classpath "org.springframework.boot:spring-boot-gradle-plugin:2.0.2.RELEASE"
+		// TODO: Snapshots are used only for testing purposes
+		classpath "org.springframework.cloud:spring-cloud-contract-gradle-plugin:2.0.0.BUILD-SNAPSHOT"
+	}
+}
+
+allprojects {
+	apply plugin: 'java'
+	apply plugin: 'org.springframework.boot'
+	apply plugin: 'io.spring.dependency-management'
+	apply plugin: 'maven-publish'
+
+	group = 'pl.com.dddbyexamples'
+	version = getProp('newVersion') ?: '1.0-SNAPSHOT'
+
+	apply from: project.rootDir.absolutePath + '/gradle/pipeline.gradle'
+
+	bootJar.enabled = false
+	jar.enabled = true
+	bootRun.enabled = false
+
+	dependencyManagement {
+		imports {
+			mavenBom "org.springframework.cloud:spring-cloud-dependencies:${BOM_VERSION}"
+		}
+	}
+
+	repositories {
+		mavenCentral()
+		mavenLocal()
+		if (getProp("M2_LOCAL")) {
+			maven {
+				url getProp("M2_LOCAL")
+			}
+		}
+		maven { url "http://repo.spring.io/snapshot" }
+		maven { url "http://repo.spring.io/milestone" }
+		maven { url "http://repo.spring.io/release" }
+	}
+
+	publishing {
+		repositories {
+			maven {
+				url getProp('REPO_WITH_BINARIES_FOR_UPLOAD') ?:
+						getProp('REPO_WITH_BINARIES') ?: 'http://localhost:8081/artifactory/libs-release-local'
+				credentials {
+					username getProp('M2_SETTINGS_REPO_USERNAME') ?: 'admin'
+					password getProp('M2_SETTINGS_REPO_PASSWORD') ?: 'password'
+				}
+			}
+		}
+		publications {
+			mavenJava(MavenPublication) {
+				artifactId project.name
+				from components.java
+			}
+		}
+	}
+
+	tasks.withType(Test) {
+		testLogging {
+			events "started", "passed", "skipped", "failed"
+		}
+	}
+}
+
+ext {
+	projectGroupId = project.group
+	// In a multi-module env we can specify which project is the one that produces the fat-jar
+	projectArtifactId = "app-monolith"
+	projectVersion = project.version
+}
+
+apply plugin: "java"
+[bootJar, bootRun]*.enabled = false
+
+task wrapper(type: Wrapper) {
+	gradleVersion = '4.8'
+}
+
+String getProp(String propName) {
+	return hasProperty(propName) ?
+			(getProperty(propName) ?: System.properties[propName]) : System.properties[propName] ?:
+			System.getenv(propName)
+}

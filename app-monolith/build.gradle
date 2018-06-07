@@ -1,0 +1,62 @@
+apply plugin: 'groovy'
+
+dependencies {
+	compile(project(":demand-forecasting-adapters"))
+	compile(project(":shortages-prediction-adapters"))
+	compile(project(":product-management-adapters"))
+	compile(project(":production-planning-adapters"))
+	compile(project(":adapter-commons"))
+
+	compile("org.projectlombok:lombok:1.16.18")
+	compile("org.springframework.boot:spring-boot-starter-data-jpa")
+	compile("org.springframework.boot:spring-boot-starter-web")
+	compile("org.springframework.boot:spring-boot-starter-data-rest")
+	compile("org.springframework.data:spring-data-rest-hal-browser")
+	compile("org.springframework.boot:spring-boot-starter-cloud-connectors")
+	compile("org.liquibase:liquibase-core:3.5.5")
+	compile("net.bytebuddy:byte-buddy:1.7.9")
+
+	runtime("org.cloudfoundry:auto-reconfiguration:1.12.0.RELEASE")
+	runtime("org.postgresql:postgresql:42.1.4")
+
+	testCompile("org.springframework.boot:spring-boot-starter-test")
+	testCompile("org.spockframework:spock-core:1.1-groovy-2.4")
+	testCompile("org.spockframework:spock-spring:1.1-groovy-2.4")
+	testCompile("com.h2database:h2:1.4.194")
+	// TODO: Because of this there's no up to date check from Gradle
+	testCompile(project(":adapter-commons").sourceSets.test.output)
+}
+
+[bootJar, bootRun]*.enabled = true
+jar.enabled = false
+
+task stubsJar(type: Jar) {
+	classifier = "stubs"
+	into("META-INF/${project.rootProject.ext.projectGroupId}/${project.rootProject.ext.projectArtifactId}/${project.rootProject.ext.projectVersion}/shortages-prediction-adapters/mappings") {
+		include('**/*.*')
+		from(project(":shortages-prediction-adapters").projectDir.absolutePath + "/target/generated-snippets/stubs")
+	}
+	into("META-INF/${project.rootProject.ext.projectGroupId}/${project.rootProject.ext.projectArtifactId}/${project.rootProject.ext.projectVersion}/shortages-prediction-adapters/contracts") {
+		include('**/*.groovy')
+		from(project(":shortages-prediction-adapters").projectDir.absolutePath + "/target/generated-snippets/contracts")
+	}
+}
+
+// we need the tests to pass to build the stub jar
+stubsJar.dependsOn(test)
+stubsJar.dependsOn(project(":shortages-prediction-adapters").test)
+
+artifacts {
+	archives stubsJar
+}
+
+jar.dependsOn(stubsJar)
+
+publishing {
+	publications {
+		stubs(MavenPublication) {
+			artifactId project.name
+			artifact stubsJar
+		}
+	}
+}
