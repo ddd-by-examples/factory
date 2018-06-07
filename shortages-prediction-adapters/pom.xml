@@ -106,8 +106,8 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <spring-cloud.version>Finchley.BUILD-SNAPSHOT</spring-cloud.version>
-        <spring-cloud-contract.version>2.0.0.BUILD-SNAPSHOT</spring-cloud-contract.version>
+        <spring-cloud.version>Finchley.RC2</spring-cloud.version>
+        <spring-cloud-contract.version>2.0.0.RC2</spring-cloud-contract.version>
         <!-- [PIPELINE] -->
         <distribution.management.release.id>artifactory-local</distribution.management.release.id>
         <distribution.management.release.url>http://localhost:8081/artifactory/libs-release-local</distribution.management.release.url>
