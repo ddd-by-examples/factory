@@ -1,0 +1,76 @@
+test {
+	description = "Task to run unit and integration tests"
+	testLogging {
+		exceptionFormat = 'full'
+	}
+	jvmArgs = systemPropsFromGradle()
+	exclude 'smoke/**'
+	exclude 'e2e/**'
+}
+
+task smoke(type: Test) {
+	description = "Task to run smoke tests"
+	testLogging {
+		exceptionFormat = 'full'
+	}
+	jvmArgs = systemPropsFromGradle()
+	include 'smoke/**'
+}
+
+task apiCompatibility(type: Test) {
+	description = "Task to run api compatbility tests"
+	testLogging {
+		exceptionFormat = 'full'
+	}
+	jvmArgs = systemPropsFromGradle()
+	include '**/contracttests/**'
+}
+
+task e2e(type: Test) {
+	description = "Task to run end to end tests"
+	testLogging {
+		exceptionFormat = 'full'
+	}
+	jvmArgs = systemPropsFromGradle()
+	include 'e2e/**'
+}
+
+task deploy(dependsOn: 'publish') {
+	description = "Abstraction over publishing artifacts to Artifactory / Nexus"
+}
+
+task groupId {
+	doLast {
+		println projectGroupId
+	}
+}
+groupId.description = "Task to retrieve Group ID"
+
+task artifactId {
+	doLast {
+		println projectArtifactId
+	}
+}
+artifactId.description = "Task to retrieve Artifact ID"
+
+task currentVersion {
+	doLast {
+		println projectVersion
+	}
+}
+currentVersion.description = "Task to retrieve version"
+
+task stubIds {
+	doLast {
+		println stubrunnerIds
+	}
+}
+stubIds.description = "Task to retrieve Stub Runner IDS"
+
+[test, apiCompatibility, smoke, e2e, deploy, groupId, artifactId, currentVersion, stubIds].each {
+	it.group = "Pipeline"
+}
+
+private List<String> systemPropsFromGradle() {
+	return project.gradle.startParameter.systemPropertiesArgs.entrySet().collect { "-D${it.key}=${it.value}" }
+}
