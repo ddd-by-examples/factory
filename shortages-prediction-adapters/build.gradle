@@ -1,0 +1,53 @@
+apply plugin: 'groovy'
+
+dependencies {
+	compile(project(":shortages-prediction-model"))
+	compile(project(":adapter-commons"))
+
+	compile("org.projectlombok:lombok:1.16.18")
+
+	runtime("org.postgresql:postgresql:42.1.4")
+
+	testCompile("org.springframework.boot:spring-boot-starter-test")
+	testCompile("org.spockframework:spock-core:1.1-groovy-2.4")
+	testCompile("org.spockframework:spock-spring:1.1-groovy-2.4")
+	testCompile("org.springframework.cloud:spring-cloud-starter-contract-stub-runner")
+	testCompile("org.springframework.cloud:spring-cloud-starter-contract-verifier")
+	testCompile("org.springframework.restdocs:spring-restdocs-mockmvc")
+	testCompile("com.h2database:h2:1.4.194")
+	testCompile(project(":adapter-commons").sourceSets.test.output)
+}
+
+if (gradle.startParameter.taskRequests.any { it.args.any { it.contains("apiCompatibility") } }) {
+
+	apply plugin: 'spring-cloud-contract'
+
+	contracts {
+		baseClassForTests = 'io.dddbyexamples.factory.shortages.prediction.monitoring.persistence.BaseClass'
+		basePackageForTests = 'io.dddbyexamples.contracttests'
+		contractsPath = "META-INF/${project.rootProject.ext.projectGroupId}/${project.rootProject.ext.projectArtifactId}/${getProp("latestProductionVersion")}/${project.name}/contracts"
+		contractRepository {
+			repositoryUrl(getProp('REPO_WITH_BINARIES') ?: 'http://localhost:8081/artifactory/libs-release-local')
+		}
+		testMode("EXPLICIT")
+		contractsMode("REMOTE")
+//		contractsMode("LOCAL")
+		targetFramework("SPOCK")
+//		deleteStubsAfterTest(false)
+		contractDependency {
+			groupId = "${project.rootProject.ext.projectGroupId}"
+			artifactId = "${project.rootProject.ext.projectArtifactId}"
+			delegate.classifier = "stubs"
+			delegate.version = getProp("latestProductionVersion")
+		}
+	}
+
+	tasks.withType(Test) {
+		afterSuite { desc, result ->
+			if (result.testCount == 0) {
+				throw new IllegalStateException("No tests were found. Failing the build")
+			}
+		}
+	}
+
+}

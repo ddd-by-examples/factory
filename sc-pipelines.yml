@@ -1,0 +1,18 @@
+build:
+  main_module: app-monolith
+test:
+  # list of required services
+  services:
+    - name: app-monolith-db
+      type: broker
+      broker: elephantsql
+      plan: turtle
+      useExisting: true
+stage:
+  # list of required services
+  services:
+    - name: app-monolith-db
+      type: broker
+      broker: elephantsql
+      plan: turtle
+      useExisting: true

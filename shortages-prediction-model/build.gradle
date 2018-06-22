@@ -1,0 +1,8 @@
+apply plugin: 'groovy'
+
+dependencies {
+	compile(project(":shared-kernel-model"))
+	compile("org.projectlombok:lombok:1.16.18")
+
+	testCompile("org.spockframework:spock-core:1.1-groovy-2.4")
+}

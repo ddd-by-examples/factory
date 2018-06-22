@@ -86,3 +86,8 @@ tramp
 Session.vim
 .netrwhist
 *~
+
+build
+.gradle
+*.log
+out

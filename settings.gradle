@@ -1,0 +1,10 @@
+rootProject.name = 'factory'
+include "app-monolith"
+include "adapter-commons"
+include "shared-kernel-model"
+include "demand-forecasting-model"
+include "demand-forecasting-adapters"
+include "shortages-prediction-model"
+include "shortages-prediction-adapters"
+include "product-management-adapters"
+include "production-planning-adapters"

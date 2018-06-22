@@ -1,3 +1,8 @@
 applications:
-- name: factory
-  memory: 800M
+- name: dddbyexamples-app-monolith
+  timeout: 120
+  services:
+  - app-monolith-db
+  env:
+    JAVA_OPTS: -Djava.security.egd=file:///dev/urandom
+    TRUST_CERTS: api.run.pivotal.io
