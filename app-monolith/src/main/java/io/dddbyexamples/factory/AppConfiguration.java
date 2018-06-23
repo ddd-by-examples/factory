@@ -3,7 +3,10 @@ package io.dddbyexamples.factory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.cloud.config.java.ServiceScan;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import io.dddbyexamples.factory.shortages.prediction.calculation.Stock;
@@ -31,5 +34,11 @@ public class AppConfiguration {
     @Bean
     public Clock clock() {
         return Clock.systemDefaultZone();
+    }
+
+    @Configuration
+    @ServiceScan
+    @Profile("cloud")
+    public class ServiceConfiguration {
     }
 }
