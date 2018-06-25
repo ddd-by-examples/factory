@@ -1,0 +1,72 @@
+databaseChangeLog:
+- property:
+    name: json
+    value: clob
+    dbms: h2
+- property:
+    name: json
+    value: jsonb
+    dbms: postgresql
+
+- changeSet:
+    id: 0.delivery-planning.schema
+    author: Michal Michaluk
+
+    changes:
+    - sql: CREATE SCHEMA delivery_planning
+    rolback:
+    - sql: DROP SCHEMA delivery_planning
+
+- changeSet:
+    id: 1.delivery-planning.init
+    author: Michal Michaluk
+
+    changes:
+    - createTable:
+        schemaName: delivery_planning
+        tableName: delivery_forecast
+        columns:
+        - column:
+            name: id
+            type: serial
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              primaryKeyName: delivery_forecast_pkey
+        - column:
+            name: ref_no
+            type: varchar(64)
+            constraints:
+              nullable: false
+        - column:
+            name: time
+            type: timestamp
+            constraints:
+              nullable: false
+        - column:
+            name: date
+            type: timestamp
+            constraints:
+              nullable: false
+        - column:
+            name: level
+            type: bigint
+            constraints:
+              nullable: false
+
+    - createTable:
+        schemaName: delivery_planning
+        tableName: delivery_planner_definition
+        columns:
+        - column:
+            name: ref_no
+            type: varchar(64)
+            constraints:
+              primaryKey: true
+              primaryKeyName: delivery_planner_definition_pkey
+        - column:
+            name: definition
+            type: ${json}
+            constraints:
+              nullable: false
+

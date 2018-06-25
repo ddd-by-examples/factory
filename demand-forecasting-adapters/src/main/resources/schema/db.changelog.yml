@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: /schema/commons.yml
+  - include:
+      file: /schema/delivery-planning.yml
+  - include:
+      file: /schema/demand-forecasting.yml

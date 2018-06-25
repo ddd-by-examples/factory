@@ -1,0 +1,40 @@
+databaseChangeLog:
+- property:
+    name: json
+    value: clob
+    dbms: h2
+- property:
+    name: json
+    value: jsonb
+    dbms: postgresql
+
+
+- changeSet:
+    id: 0.product-management.schema
+    author: Michal Michaluk
+
+    changes:
+    - sql: CREATE SCHEMA product_management
+    rolback:
+    - sql: DROP SCHEMA product_management
+
+- changeSet:
+    id: 1.product-management.init
+    author: Michal Michaluk
+
+    changes:
+    - createTable:
+        schemaName: product_management
+        tableName: product_description
+        columns:
+        - column:
+            name: ref_no
+            type: varchar(64)
+            constraints:
+              primaryKey: true
+              primaryKeyName: product_description_pkey
+        - column:
+            name: description
+            type: ${json}
+            constraints:
+              nullable: false

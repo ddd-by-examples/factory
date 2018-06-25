@@ -1,0 +1,78 @@
+databaseChangeLog:
+- property:
+    name: json
+    value: clob
+    dbms: h2
+- property:
+    name: json
+    value: jsonb
+    dbms: postgresql
+
+- changeSet:
+    id: 0.shortages-prediction.schema
+    author: Michal Michaluk
+
+    changes:
+    - sql: CREATE SCHEMA shortages_prediction
+    rolback:
+    - sql: DROP SCHEMA shortages_prediction
+
+- changeSet:
+    id: 1.shortages-prediction.init
+    author: Michal Michaluk
+
+    changes:
+    - createTable:
+        schemaName: shortages_prediction
+        tableName: shortage
+        columns:
+        - column:
+            name: id
+            type: serial
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              primaryKeyName: shortage_pkey
+        - column:
+            name: version
+            type: bigint
+            constraints:
+              nullable: false
+        - column:
+            name: ref_no
+            type: varchar(64)
+            constraints:
+              nullable: false
+        - column:
+            name: shortages
+            type: ${json}
+            constraints:
+              nullable: false
+
+    - addUniqueConstraint:
+        schemaName: shortages_prediction
+        tableName: shortage
+        columnNames: ref_no
+        constraintName: shortage_ref_no_key
+
+    - createTable:
+        schemaName: shortages_prediction
+        tableName: stock_forecast
+        columns:
+        - column:
+            name: ref_no
+            type: varchar(64)
+            constraints:
+              primaryKey: true
+              primaryKeyName: stock_forecast_pkey
+
+- changeSet:
+    id: 2.rename.shortages.column
+    author: Michal Michaluk
+
+    changes:
+    - renameColumn:
+        schemaName: shortages_prediction
+        tableName: shortage
+        oldColumnName: shortages
+        newColumnName: shortage

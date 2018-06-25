@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - include:
+      file: /schema/commons.yml
+  - include:
+      file: /schema/delivery-planning.yml
+  - include:
+      file: /schema/demand-forecasting.yml
+  - include:
+      file: /schema/product-management.yml
+  - include:
+      file: /schema/production-planning.yml
+  - include:
+      file: /schema/shortages-prediction.yml

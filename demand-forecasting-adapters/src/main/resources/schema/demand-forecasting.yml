@@ -1,0 +1,242 @@
+databaseChangeLog:
+- property:
+    name: json
+    value: clob
+    dbms: h2
+- property:
+    name: json
+    value: jsonb
+    dbms: postgresql
+
+- changeSet:
+    id: 0.demand-forecasting.schema
+    author: Michal Michaluk
+
+    changes:
+    - sql: CREATE SCHEMA demand_forecasting
+    rolback:
+    - sql: DROP SCHEMA demand_forecasting
+
+- changeSet:
+    id: 1.demand_forecasting.init
+    author: Michal Michaluk
+
+    changes:
+    - createTable:
+        schemaName: demand_forecasting
+        tableName: current_demand
+        columns:
+        - column:
+            name: id
+            type: serial
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              primaryKeyName: current_demand_pkey
+        - column:
+            name: ref_no
+            type: varchar(64)
+            constraints:
+              nullable: false
+        - column:
+            name: date
+            type: timestamp
+            constraints:
+              nullable: false
+        - column:
+            name: level
+            type: bigint
+            constraints:
+              nullable: false
+        - column:
+            name: schema
+            type: varchar(64)
+            constraints:
+              nullable: false
+
+    - addUniqueConstraint:
+        schemaName: demand_forecasting
+        tableName: current_demand
+        columnNames: ref_no, date
+        constraintName: current_demand_ref_no_date_key
+
+    - createTable:
+        schemaName: demand_forecasting
+        tableName: demand
+        columns:
+        - column:
+            name: id
+            type: serial
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              primaryKeyName: demand_pkey
+        - column:
+            name: ref_no
+            type: varchar(64)
+            constraints:
+              nullable: false
+        - column:
+            name: date
+            type: timestamp
+            constraints:
+              nullable: false
+        - column:
+            name: value
+            type: ${json}
+            constraints:
+              nullable: false
+
+    - addUniqueConstraint:
+        schemaName: demand_forecasting
+        tableName: demand
+        columnNames: ref_no, date
+        constraintName: demand_ref_no_date_key
+
+    - createTable:
+        schemaName: demand_forecasting
+        tableName: demand_adjustment
+        columns:
+        - column:
+            name: id
+            type: serial
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              primaryKeyName: demand_adjustment_pkey
+        - column:
+            name: customer_representative
+            type: varchar(255)
+            constraints:
+              nullable: false
+        - column:
+            name: note
+            type: varchar(255)
+            constraints:
+              nullable: false
+        - column:
+            name: adjustment
+            type: ${json}
+            constraints:
+              nullable: false
+        - column:
+            name: clean_after
+            type: timestamp
+
+    - createTable:
+        schemaName: demand_forecasting
+        tableName: product_demand
+        columns:
+        - column:
+            name: id
+            type: serial
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              primaryKeyName: product_demand_pkey
+        - column:
+            name: version
+            type: bigint
+            constraints:
+              nullable: false
+        - column:
+            name: ref_no
+            type: varchar(64)
+            constraints:
+              nullable: false
+
+    - addUniqueConstraint:
+        schemaName: demand_forecasting
+        tableName: product_demand
+        columnNames: ref_no
+        constraintName: product_demand_ref_no_key
+
+    - createTable:
+        schemaName: demand_forecasting
+        tableName: demand_review
+        columns:
+        - column:
+            name: id
+            type: serial
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              primaryKeyName: demand_review_pkey
+        - column:
+            name: ref_no
+            type: varchar(64)
+            constraints:
+              nullable: false
+        - column:
+            name: date
+            type: timestamp
+            constraints:
+              nullable: false
+        - column:
+            name: timestamp
+            type: timestamp
+            constraints:
+              nullable: false
+        - column:
+            name: review
+            type: ${json}
+            constraints:
+              nullable: false
+        - column:
+            name: decision
+            type: varchar(64)
+        - column:
+            name: clean_after
+            type: timestamp
+
+- changeSet:
+    id: 2.rename.review.table
+    author: Michal Michaluk
+
+    changes:
+    - renameTable:
+        schemaName: demand_forecasting
+        oldTableName: demand_review
+        newTableName: required_review
+
+- changeSet:
+    id: 3.create.document.table
+    author: Jakub Pilimon
+
+    changes:
+    - createTable:
+        schemaName: demand_forecasting
+        tableName: document
+        columns:
+        - column:
+            name: id
+            type: serial
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+        - column:
+            name: ref_no
+            type: varchar(64)
+            constraints:
+              nullable: false
+        - column:
+            name: original_uri
+            type: varchar(1024)
+            constraints:
+              nullable: false
+        - column:
+            name: stored_uri
+            type: varchar(1024)
+            constraints:
+              nullable: false
+        - column:
+            name: saved
+            type: timestamp
+        - column:
+            name: document
+            type: ${json}
+            constraints:
+              nullable: false
+        - column:
+            name: clean_after
+            type: timestamp
