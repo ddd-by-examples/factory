@@ -1,0 +1,98 @@
+databaseChangeLog:
+- property:
+    name: json
+    value: clob
+    dbms: h2
+- property:
+    name: json
+    value: jsonb
+    dbms: postgresql
+
+- changeSet:
+    id: 0.production-planning.schema
+    author: Michal Michaluk
+
+    changes:
+    - sql: CREATE SCHEMA production_planning
+    rolback:
+    - sql: DROP SCHEMA production_planning
+
+- changeSet:
+    id: 1.production-planning.init
+    author: Michal Michaluk
+
+    changes:
+    - createTable:
+        schemaName: production_planning
+        tableName: production_daily_output
+        columns:
+        - column:
+            name: id
+            type: serial
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              primaryKeyName: production_daily_output_pkey
+        - column:
+            name: ref_no
+            type: varchar(64)
+            constraints:
+              nullable: false
+        - column:
+            name: date
+            type: timestamp
+            constraints:
+              nullable: false
+        - column:
+            name: output
+            type: bigint
+            constraints:
+              nullable: false
+
+    - addUniqueConstraint:
+        schemaName: production_planning
+        tableName: production_daily_output
+        columnNames: ref_no, date
+        constraintName: production_daily_output_ref_no_date_key
+
+    - createTable:
+        schemaName: production_planning
+        tableName: production_output
+        columns:
+        - column:
+            name: id
+            type: serial
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              primaryKeyName: production_output_pkey
+        - column:
+            name: ref_no
+            type: varchar(64)
+            constraints:
+              nullable: false
+        - column:
+            name: start
+            type: timestamp
+            constraints:
+              nullable: false
+        - column:
+            name: end
+            type: timestamp
+            constraints:
+              nullable: false
+        - column:
+            name: duration
+            type: bigint
+            constraints:
+              nullable: false
+        - column:
+            name: parts_per_minute
+            type: integer
+            constraints:
+              nullable: false
+        - column:
+            name: total
+            type: bigint
+            constraints:
+              nullable: false

@@ -1,0 +1,21 @@
+databaseChangeLog:
+
+- changeSet:
+    id: 1.hibernate.init
+    author: Michal Michaluk
+    changes:
+    - createSequence:
+        sequenceName: hibernate_sequence
+        startValue: 1
+        incrementBy: 1
+        cacheSize: 1
+
+- changeSet:
+    id: 2.postgres.json
+    author: Michal Michaluk
+    dbms: postgresql
+    failOnError: false
+    changes:
+    - sql: CREATE CAST (VARCHAR AS JSONB) WITH INOUT AS ASSIGNMENT
+    rollback:
+    - sql: DROP CAST (VARCHAR AS JSONB)

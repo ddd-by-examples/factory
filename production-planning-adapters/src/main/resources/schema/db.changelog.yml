@@ -1,0 +1,5 @@
+databaseChangeLog:
+  - include:
+      file: /schema/commons.yml
+  - include:
+      file: /schema/production-planning.yml
