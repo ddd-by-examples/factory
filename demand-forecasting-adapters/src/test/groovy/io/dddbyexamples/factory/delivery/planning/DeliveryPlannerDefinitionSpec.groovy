@@ -5,12 +5,15 @@ import org.springframework.boot.test.context.SpringBootTest
 import io.dddbyexamples.factory.delivery.planning.definition.DeliveryPlannerDefinition
 import io.dddbyexamples.factory.delivery.planning.definition.DeliveryPlannerDefinitionDao
 import io.dddbyexamples.factory.delivery.planning.definition.DeliveryPlannerDefinitionEntity
+import org.springframework.test.context.ActiveProfiles
+import org.springframework.test.context.TestPropertySource
 import spock.lang.Specification
 
 import static java.time.LocalTime.of as time
 import static io.dddbyexamples.factory.delivery.planning.definition.DeliveryPlannerDefinition.of
 import static io.dddbyexamples.factory.demand.forecasting.Demand.Schema.*
 
+@ActiveProfiles("test")
 @SpringBootTest
 class DeliveryPlannerDefinitionSpec extends Specification {
 

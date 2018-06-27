@@ -16,7 +16,7 @@
         <distribution.management.release.url>http://localhost:8081/artifactory/libs-release-local</distribution.management.release.url>
         <distribution.management.snapshot.url>http://localhost:8081/artifactory/libs-snapshot-local</distribution.management.snapshot.url>
         <repo.with.binaries>http://localhost:8081/artifactory/libs-release-local</repo.with.binaries>
-        <maven-surefire.version>2.21.0</maven-surefire.version>
+        <maven-surefire.version>2.22.0</maven-surefire.version>
     </properties>
 
     <!-- [PIPELINE] -->
@@ -42,7 +42,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.16.18</version>
+            <version>1.18.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -72,6 +72,7 @@
                 <executions>
                     <execution>
                         <goals>
+                            <goal>addTestSources</goal>
                             <goal>compileTests</goal>
                         </goals>
                     </execution>
@@ -79,7 +80,7 @@
             </plugin>
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.20.1</version>
+                <version>2.22.0</version>
                 <configuration>
                     <useFile>false</useFile>
                     <includes>
@@ -91,7 +92,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.0</version>
+                <version>0.8.1</version>
                 <executions>
                     <execution>
                         <goals>

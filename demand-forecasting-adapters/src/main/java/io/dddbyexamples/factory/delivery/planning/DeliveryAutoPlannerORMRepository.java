@@ -1,5 +1,6 @@
 package io.dddbyexamples.factory.delivery.planning;
 
+import io.dddbyexamples.factory.delivery.planning.definition.DeliveryPlannerDefinition;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import io.dddbyexamples.factory.delivery.planning.definition.DeliveryPlannerDefinitionDao;
@@ -17,6 +18,7 @@ public class DeliveryAutoPlannerORMRepository {
         return new DeliveryAutoPlanner(refNo,
                 dao.findById(refNo)
                         .map(DeliveryPlannerDefinitionEntity::getDefinition)
+                        .filter(def -> !def.isDisabled())
                         .map(x -> x.map(DeliveriesSuggestion::timesAndFractions))
                         .orElse(Collections.emptyMap()));
     }

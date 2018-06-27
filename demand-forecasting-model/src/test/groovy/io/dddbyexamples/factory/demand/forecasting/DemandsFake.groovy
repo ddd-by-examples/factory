@@ -12,14 +12,6 @@ class DemandsFake extends Demands {
         fetch = { date -> nothingDemanded(date) }
     }
 
-    DailyDemand nothingDemanded(LocalDate date) {
-        def demand = builder.reset()
-                .date(date)
-                .build()
-        fetched.put(date, demand)
-        demand
-    }
-
     DailyDemand demanded(LocalDate date, long level) {
         def demand = builder.date(date)
                 .demandedLevels(level)
@@ -46,6 +38,13 @@ class DemandsFake extends Demands {
                 .build()
 
         fetched.put(date, demand)
+        demand
+    }
+
+    private DailyDemand nothingDemanded(LocalDate date) {
+        def demand = builder.reset()
+                .date(date)
+                .build()
         demand
     }
 }

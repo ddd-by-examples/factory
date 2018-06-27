@@ -1,7 +1,12 @@
 dependencies {
-	compile("org.springframework.boot:spring-boot-starter-data-jpa")
-	compile("org.springframework.boot:spring-boot-starter-data-rest")
-	compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.8.5")
-	compile("org.liquibase:liquibase-core:3.5.5")
-	testCompile("org.springframework.boot:spring-boot-starter-test")
+    compile("org.springframework.boot:spring-boot-starter-data-jpa")
+    compile("org.springframework.boot:spring-boot-starter-data-rest")
+    compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.6")
+    compile("com.fasterxml.jackson.module:jackson-module-parameter-names:2.9.6")
+    compile("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.9.6")
+    compile("org.liquibase:liquibase-core:3.6.1")
+    compile("javax.xml.bind:jaxb-api:2.3.0")
+    runtime("org.postgresql:postgresql:42.2.2")
+
+    testCompile("org.springframework.boot:spring-boot-starter-test")
 }

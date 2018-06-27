@@ -3,14 +3,7 @@ apply plugin: 'groovy'
 dependencies {
 	compile(project(":adapter-commons"))
 
-	compile("org.projectlombok:lombok:1.16.18")
-	compile("net.bytebuddy:byte-buddy:1.7.9")
-
-	runtime("org.postgresql:postgresql:42.1.4")
-
 	testCompile("org.springframework.boot:spring-boot-starter-test")
-	testCompile("org.spockframework:spock-core:1.1-groovy-2.4")
 	testCompile("org.spockframework:spock-spring:1.1-groovy-2.4")
 	testCompile("com.h2database:h2:1.4.194")
-	testCompile(project(":adapter-commons").sourceSets.test.output)
 }

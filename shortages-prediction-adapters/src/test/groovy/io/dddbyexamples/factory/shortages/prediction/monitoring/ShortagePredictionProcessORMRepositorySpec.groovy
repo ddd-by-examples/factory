@@ -1,27 +1,21 @@
 package io.dddbyexamples.factory.shortages.prediction.monitoring
 
-import spock.lang.Ignore
-
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.annotation.Commit
 import io.dddbyexamples.factory.product.management.RefNoId
 import io.dddbyexamples.factory.shortages.prediction.Shortage
 import io.dddbyexamples.factory.shortages.prediction.calculation.ShortageForecasts
 import io.dddbyexamples.factory.shortages.prediction.monitoring.persistence.ShortagesDao
 import io.dddbyexamples.factory.shortages.prediction.monitoring.persistence.ShortagesEntity
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
+import org.springframework.test.context.ActiveProfiles
 import spock.lang.Specification
 
-import javax.transaction.Transactional
 import java.time.LocalDateTime
 
 import static io.dddbyexamples.factory.shortages.prediction.monitoring.NewShortage.After.DemandChanged
 
-@SpringBootTest
-@Transactional
-@Commit
-//TODO: Unignore
-@Ignore
+@DataJpaTest
+@ActiveProfiles("test")
 class ShortagePredictionProcessORMRepositorySpec extends Specification {
 
     def now = LocalDateTime.now()
@@ -42,54 +36,54 @@ class ShortagePredictionProcessORMRepositorySpec extends Specification {
 
     def "provides process instance when no shortage persisted"() {
         when:
-            def process = fetchProcess()
+        def process = fetchProcess()
 
         then:
-            shortagesCurrentlyKnownBy(process) == noShortages()
+        shortagesCurrentlyKnownBy(process) == noShortages()
     }
 
     def "provides process instance with last known shortage"() {
         given:
-            persistedShortage(someShortages())
+        persistedShortage(someShortages())
 
         when:
-            def process = fetchProcess()
+        def process = fetchProcess()
 
         then:
-            shortagesCurrentlyKnownBy(process) == someShortages()
+        shortagesCurrentlyKnownBy(process) == someShortages()
     }
 
     def "persists first shortage"() {
         when:
-            def process = fetchProcess()
-            processEmitsNewShortage(process, someShortages())
+        def process = fetchProcess()
+        processEmitsNewShortage(process, someShortages())
 
         then:
-            shortagesCurrentlyPersisted() == someShortages()
+        shortagesCurrentlyPersisted() == someShortages()
     }
 
     def "updates previous shortage"() {
         given:
-            persistedShortage(someOldShortages())
+        persistedShortage(someOldShortages())
 
         when:
-            def process = fetchProcess()
-            processEmitsNewShortage(process, someShortages())
+        def process = fetchProcess()
+        processEmitsNewShortage(process, someShortages())
 
         then:
-            shortagesCurrentlyPersisted() == someShortages()
+        shortagesCurrentlyPersisted() == someShortages()
     }
 
     def "deletes solved shortage"() {
         given:
-            persistedShortage(someShortages())
+        persistedShortage(someShortages())
 
         when:
-            def process = fetchProcess()
-            processEmitsShortageSolved(process)
+        def process = fetchProcess()
+        processEmitsShortageSolved(process)
 
         then:
-            noShortagesPersisted()
+        noShortagesPersisted()
     }
 
     def persistedShortage(Shortage shortages) {
