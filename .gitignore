@@ -1,13 +1,17 @@
 
+## travis-ci
+!.travis.yml
+!.codecov.yml
+
 ## maven
 target/
 target-test/
+!.mvn
 
 
 ## linux
 .*
 !.git*
-*~
 
 
 ## windows
@@ -20,7 +24,7 @@ Desktop.ini
 $RECYCLE.BIN/
 
 
-## osx
+## macOS
 .DS_Store
 .AppleDouble
 .LSOverride
@@ -85,9 +89,9 @@ tramp
 *.un~
 Session.vim
 .netrwhist
-*~
 
 build
+out/
+build/
 .gradle
 *.log
-out

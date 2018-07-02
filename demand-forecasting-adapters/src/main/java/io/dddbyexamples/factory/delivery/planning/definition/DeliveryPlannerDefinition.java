@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 public class DeliveryPlannerDefinition {
     @Singular
     private final Map<Demand.Schema, Map<LocalTime, Double>> definitions;
+    private final boolean disabled;
 
     public static Map<LocalTime, Double> of(LocalTime time, Double fraction) {
         return Collections.singletonMap(time, fraction);

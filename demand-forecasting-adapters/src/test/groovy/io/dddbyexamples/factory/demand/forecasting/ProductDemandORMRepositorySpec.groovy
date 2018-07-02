@@ -1,24 +1,22 @@
 package io.dddbyexamples.factory.demand.forecasting
 
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.annotation.Commit
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import io.dddbyexamples.factory.demand.forecasting.persistence.DemandDao
 import io.dddbyexamples.factory.demand.forecasting.persistence.DemandEntity
 import io.dddbyexamples.factory.demand.forecasting.persistence.ProductDemandDao
 import io.dddbyexamples.factory.demand.forecasting.persistence.ProductDemandEntity
+import org.springframework.test.context.ActiveProfiles
 import spock.lang.Specification
 
 import javax.persistence.EntityManager
-import javax.transaction.Transactional
 import java.time.Clock
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
 
-@SpringBootTest
-@Transactional
-@Commit
+@ActiveProfiles("test")
+@DataJpaTest
 class ProductDemandORMRepositorySpec extends Specification {
 
     def clock = Clock.fixed(Instant.now(), ZoneId.systemDefault())

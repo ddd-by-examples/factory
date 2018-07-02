@@ -1,5 +1,6 @@
 package io.dddbyexamples.factory.product.management
 
+import org.springframework.test.context.ActiveProfiles
 import spock.lang.Ignore
 
 import org.springframework.beans.factory.annotation.Autowired
@@ -8,9 +9,8 @@ import spock.lang.Specification
 
 import static java.util.Collections.singletonList
 
-// TODO: Unignore
-@Ignore
 @SpringBootTest
+@ActiveProfiles("test")
 class ProductDescriptionPersistenceSpec extends Specification {
 
     @Autowired

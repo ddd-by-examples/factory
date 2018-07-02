@@ -5,6 +5,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Profile
 import org.springframework.core.ParameterizedTypeReference
 import org.springframework.hateoas.Resources
 import org.springframework.http.HttpMethod
@@ -17,7 +18,7 @@ import io.dddbyexamples.factory.demand.forecasting.command.DemandAdjustmentEntit
 import io.dddbyexamples.factory.demand.forecasting.persistence.DocumentEntity
 import io.dddbyexamples.factory.demand.forecasting.projection.CurrentDemandEntity
 import io.dddbyexamples.factory.product.management.ProductDescriptionEntity
-import io.dddbyexamples.tools.IntegrationTest
+import org.springframework.test.context.ActiveProfiles
 import spock.lang.Specification
 
 import java.time.Clock
@@ -27,7 +28,7 @@ import static java.time.Instant.from
 import static java.time.ZoneId.systemDefault
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT
 
-@IntegrationTest
+@ActiveProfiles("test")
 @SpringBootTest(webEnvironment = RANDOM_PORT, classes = [AppConfiguration, TestConfiguration])
 class DemandAdjustmentIntegrationSpec extends Specification implements ProductTrait {
 

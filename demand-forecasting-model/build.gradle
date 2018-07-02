@@ -1,10 +1,6 @@
 apply plugin: 'groovy'
+apply plugin: "jacoco"
 
 dependencies {
 	compile(project(":shared-kernel-model"))
-	compile(project(":adapter-commons"))
-
-	compile("org.projectlombok:lombok:1.16.18")
-
-	testCompile("org.spockframework:spock-core:1.1-groovy-2.4")
 }

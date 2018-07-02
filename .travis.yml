@@ -1,7 +1,9 @@
 language: java
 
 jdk:
-  - oraclejdk8
+  - openjdk8
+  - openjdk9
+  - openjdk10
 
 after_success:
   - bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"

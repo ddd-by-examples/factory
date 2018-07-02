@@ -1,14 +1,5 @@
 package io.dddbyexamples.factory.integration
 
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.web.client.TestRestTemplate
-import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
-import org.springframework.core.ParameterizedTypeReference
-import org.springframework.hateoas.Resource
-import org.springframework.http.HttpMethod
-import org.springframework.http.ResponseEntity
 import io.dddbyexamples.factory.AppConfiguration
 import io.dddbyexamples.factory.ProductTrait
 import io.dddbyexamples.factory.demand.forecasting.Adjustment
@@ -19,7 +10,16 @@ import io.dddbyexamples.factory.product.management.ProductDescriptionEntity
 import io.dddbyexamples.factory.shortages.prediction.calculation.Stock
 import io.dddbyexamples.factory.shortages.prediction.monitoring.persistence.ShortagesEntity
 import io.dddbyexamples.factory.warehouse.WarehouseService
-import io.dddbyexamples.tools.IntegrationTest
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.web.client.TestRestTemplate
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
+import org.springframework.core.ParameterizedTypeReference
+import org.springframework.hateoas.Resource
+import org.springframework.http.HttpMethod
+import org.springframework.http.ResponseEntity
+import org.springframework.test.context.ActiveProfiles
 import spock.lang.Specification
 
 import java.time.Clock
@@ -29,7 +29,7 @@ import static java.time.Instant.from
 import static java.time.ZoneId.systemDefault
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT
 
-@IntegrationTest
+@ActiveProfiles("test")
 @SpringBootTest(webEnvironment = RANDOM_PORT, classes = [AppConfiguration, TestConfiguration])
 class ShortageIntegrationSpec extends Specification implements ProductTrait {
 
@@ -37,17 +37,18 @@ class ShortageIntegrationSpec extends Specification implements ProductTrait {
     public static final LocalDate ANY_DATE = LocalDate.now()
     public static final int PRODUCT_STOCK_LEVEL = 100
 
-    @Autowired TestRestTemplate restTemplate
+    @Autowired
+    TestRestTemplate restTemplate
 
     def 'adjustment that exceeds current stock level should result in shortage'() {
         given:
-            productDescriptionIsSuccessfullyCreated(PRODUCT_REF_NO)
+        productDescriptionIsSuccessfullyCreated(PRODUCT_REF_NO)
         when:
-            callOffDocumentIsSuccessfullyRequested(PRODUCT_REF_NO, ANY_DATE, PRODUCT_STOCK_LEVEL)
+        callOffDocumentIsSuccessfullyRequested(PRODUCT_REF_NO, ANY_DATE, PRODUCT_STOCK_LEVEL)
         and:
-            adjustmentIsSuccessfullyRequested(ANY_DATE.plusDays(1), 200)
+        adjustmentIsSuccessfullyRequested(ANY_DATE.plusDays(1), 200)
         then:
-            thereIsShortage(PRODUCT_REF_NO, ANY_DATE.plusDays(1), 200)
+        thereIsShortage(PRODUCT_REF_NO, ANY_DATE.plusDays(1), 200)
 
     }
 
