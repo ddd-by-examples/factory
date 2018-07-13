@@ -12,7 +12,7 @@ On the other hand scalability or non functional requirements are different for d
 
 To accommodate to those differences, separate architectural patterns are applied:
 
-![Command Query CRUD Responsibility Segregation](command-query-crud.png)
+![Command Query CRUD Responsibility Segregation](doc/command-query-crud.png)
 
 **Simple Create Read Update Delete functionality** are exposed with leverage of CRUD framework.
 
@@ -76,7 +76,7 @@ Examples in code:
 Only the most valuable part of that enterprise software is embedded in hexagonal architecture -
 complex business processing modeled in form of the Domain Model.
 
-![Domain Model embedded in hexagonal architecture](hexagon.png)
+![Domain Model embedded in hexagonal architecture](doc/hexagon.png)
 
 **Application Services** - providing entry point to Domain Model functionality,
 Application Services are ports for Primary / Driving Adapters like RESTfull endpoints.
@@ -103,13 +103,13 @@ with **Model Exploration Whirlpool** and build **Ubiquitous Language** with your
 Adding infrastructure and technology later is easy thanks to Hexagonal Architecture.
 
 Simply starting from ZERO business knowledge through initial domain and opportunity exploration with **Big Picture Event Storming**:
-![Big Picture Event Storming](es-big-picture-original.jpg)
+![Big Picture Event Storming](doc/es-big-picture-original.jpg)
 
 after cleaning and trimming initial model to most valuable and needed areas: 
-![Big Picture Event Storming](es-big-picture-cleaned.jpg)
+![Big Picture Event Storming](doc/es-big-picture-cleaned.jpg)
 
 Deep dive in **Demand Forecasting** sub-domain with **Design Level Event Storming**:
-![Design Level Event Storming - Demand Forecasting](es-design-demand-forecasting.jpg)
+![Design Level Event Storming - Demand Forecasting](doc/es-design-demand-forecasting.jpg)
 
 is excellent canvas to cooperative exploration of:
 - impacted and required actors,
