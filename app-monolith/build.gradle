@@ -22,6 +22,7 @@ dependencies {
 
 [bootJar, bootRun]*.enabled = true
 jar.enabled = false
+bootJar.archiveName='app.jar'
 
 task stubsJar(type: Jar) {
     classifier = "stubs"
