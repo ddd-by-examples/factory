@@ -7,7 +7,7 @@
 ## Command Query CRUD Responsibility Segregation
 Not every piece of software is equally important...
 Not every piece will decide about company / product success or can cause not reversible
-negative business consequences like materialise brand risk or money loses.
+negative business consequences like materialise brand risk or monetary losses.
 On the other hand scalability or non functional requirements are different for different activities in software.
 
 To accommodate to those differences, separate architectural patterns are applied:
